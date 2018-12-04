@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "bootstrap-material-design": "^4.1.1",
+    "faucet-pipeline-js": "^1.1.0",
+    "faucet-pipeline-sass": "^1.0.0",
+    "faucet-pipeline-static": "^1.0.0",
+    "innoq-bootstrap-theme": "0.0.9",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3",
+    "rails-ujs": "^5.2.0",
+    "turbolinks": "^5.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^3.9.3",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-minify": "^2.1.0",
+    "gulp-sass": "^4.0.1",
+    "node-sass-tilde-importer": "^1.0.2"
+  },
+  "scripts": {
+    "compile": "faucet --fingerprint --compact",
+    "watch": "faucet --no-fingerprint --watch"
+  }
+}

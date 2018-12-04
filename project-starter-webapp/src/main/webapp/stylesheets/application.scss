@@ -1,0 +1,92 @@
+// Customizations
+
+$indigo: #3f51b5;
+
+$theme-colors: (
+        primary: $indigo
+);
+
+// Bootstrap and its default variables
+@import "bootstrap-material-design/scss/bootstrap-material-design";
+
+
+body {
+  min-height: 75rem;
+  padding-top: 4.5rem;
+}
+
+.navbar {
+  height: 3.5rem;
+  padding-top: 0;
+}
+
+.navbar-brand-label {
+  padding-left: .5rem;
+}
+
+/* Make the toggle icon white instead of gray */
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.9)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.navbar-side {
+  height: 100%;
+  width: 20%;
+  position: fixed;
+  top: 3.6rem;
+  left: 0;
+  padding: 0;
+  list-style: none;
+  border-right: 2px solid #ccc;
+  background-color: #f7f7f9;
+  overflow-y: scroll;
+  display: block;
+  z-index: 1000;
+  -webkit-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-transition: 300ms ease;
+  transition: 300ms ease;
+  @include media-breakpoint-up(xs) { width: 60%; } // Small
+  @include media-breakpoint-up(sm) { width: 40%; } // Medium
+  @include media-breakpoint-up(md) { width: 20%; } // Large
+}
+
+.navbar-side-item {
+  padding: 1rem 0;
+  margin: 0;
+  height: 2.5rem;
+}
+
+.navbar-side-link {
+  padding-left: 2rem;
+  color: #333;
+}
+
+.navbar-side-link:hover {
+  color: inherit;
+}
+
+.navbar-side-link.active {
+  color: #007bff;
+}
+
+.navbar-side-reveal {
+  -webkit-transform: translateX(0%);
+  -ms-transform: translateX(0%);
+  transform: translateX(0%);
+  -webkit-transition: 300ms ease;
+  transition: 300ms ease;
+}
+
+/* Make the left margin of main equal to the width of the side nav, add this class when reveal is added to side nav */
+.push-main {
+  @include media-breakpoint-up(xs) { margin-left: 0%; } // Small
+  @include media-breakpoint-up(sm) { margin-left: 40%; } // Medium
+  @include media-breakpoint-up(md) { margin-left: 20%; } // Large
+}
+
+main {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}

@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" data-turbolinks-track="reload" />
+    <script th:src="@{/javascripts/application.js}" data-turbolinks-track="reload"></script>
+    <title>Project Starter</title>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-primary fixed-top" role="navigation">
+    <div class="navbar-brand">
+        <button class="navbar-toggler" id="navbarSideButton" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand navbar-brand-label" href="#">Project Starter</a>
+    </div>
+
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Sign Out</a>
+        </li>
+    </ul>
+
+    <!-- navbar-side will go here -->
+    <ul class="navbar-side" id="navbarSide">
+        <li class="navbar-side-item">
+            <a href="#" class="side-link active">Nav Item 1</a>
+        </li>
+        <li class="navbar-side-item">
+            <a href="#" class="side-link">Nav Item 2</a>
+        </li>
+        <li class="navbar-side-item">
+            <a href="#" class="side-link">Nav Item 3</a>
+        </li>
+        <li class="navbar-side-item">
+            <a href="#" class="side-link">Nav Item 4</a>
+        </li>
+    </ul>
+
+    <!--
+    <div class="overlay"></div>
+    -->
+</nav>
+
+<main>
+    <p>Hello</p>
+</main>
+
+<script>
+    $(document).ready(function() {
+
+        // Open navbarSide when button is clicked
+        $('#navbarSideButton').on('click', function() {
+
+            if ( $('#navbarSide').hasClass('reveal') ) {
+                $('#navbarSide').removeClass('reveal');
+                $('main').removeClass('push-main');
+            } else {
+                $('#navbarSide').addClass('reveal');
+                $('main').addClass('push-main');
+            }
+
+            //$('.overlay').show();
+        });
+
+        // Close navbarSide when the outside of menu is clicked
+        //$('.overlay').on('click', function(){
+        //    $('#navbarSide').removeClass('reveal');
+        //    $('.overlay').hide();
+        //});
+
+    });
+</script>
+</body>
+</html>
