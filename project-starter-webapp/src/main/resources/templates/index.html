@@ -2,8 +2,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" data-turbolinks-track="reload" />
-    <script th:src="@{/javascripts/application.js}" data-turbolinks-track="reload"></script>
+    <link href="stylesheets/application.css" rel="stylesheet" data-turbolinks-track="reload" />
+    <script src="javascript/application.js" data-turbolinks-track="reload"></script>
     <title>Project Starter</title>
 </head>
 <body>
@@ -48,29 +48,7 @@
 </main>
 
 <script>
-    $(document).ready(function() {
 
-        // Open navbarSide when button is clicked
-        $('#navbarSideButton').on('click', function() {
-
-            if ( $('#navbarSide').hasClass('reveal') ) {
-                $('#navbarSide').removeClass('reveal');
-                $('main').removeClass('push-main');
-            } else {
-                $('#navbarSide').addClass('reveal');
-                $('main').addClass('push-main');
-            }
-
-            //$('.overlay').show();
-        });
-
-        // Close navbarSide when the outside of menu is clicked
-        //$('.overlay').on('click', function(){
-        //    $('#navbarSide').removeClass('reveal');
-        //    $('.overlay').hide();
-        //});
-
-    });
 </script>
 </body>
 </html>

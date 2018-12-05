@@ -5,22 +5,12 @@ spring:
     chain:
       enabled: true
 
-faucet-pipeline:
-  path-patterns: /javascripts/**, /stylesheets/**, /images/**
-
 ---
 
 spring:
   profiles: dev
   thymeleaf:
     cache: false
-
-faucet-pipeline:
-  cache-manifest: false
-
-logging:
-  level:
-    org.faucet_pipeline.spring.autoconfigure: debug
 
 ---
 
