@@ -10,6 +10,7 @@ var tildeImporter = require('node-sass-tilde-importer');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var babelify = require('babelify');
 
 var srcDir = util.env.srcDir;
 var buildDir = util.env.buildDir;
@@ -49,8 +50,10 @@ gulp.task('pack-css', ['compile-sass'] , function () {
 
 // Creates a bundle for application.js and conditionally calls minify based on dev or prod
 gulp.task('bundle-javascript', ['copy-javascript'], function() {
-    return browserify({ entries: [buildDir + '/javascript/application.js'] })
+    return browserify({debug: true, entries: [buildDir + '/javascript/application.js']})
+        .transform(babelify, { presets: ['env'] })
         .bundle()
+        .on('error', function(e) { console.log(e) })
         .pipe(source('application.js'))
         .pipe(buffer())
         .pipe(gulpif(minifyFlag, uglify()))

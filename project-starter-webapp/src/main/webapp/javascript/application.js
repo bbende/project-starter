@@ -1,20 +1,12 @@
-require('bootstrap');
-require("rails-ujs");
+import 'jquery';
+import 'bootstrap';
+import 'rails-ujs';
 
-let Turbolinks = require("turbolinks");
+import Turbolinks from "turbolinks";
 Turbolinks.start();
 
-let $ = require('jquery')
+import { Application } from "stimulus";
+import NavController from "./controllers/nav_controller";
 
-$(document).ready(function() {
-    // Toggle navbarSide when button is clicked
-    $('#navbarSideButton').on('click', function() {
-        if ( $('#navbarSide').hasClass('navbar-side-reveal') ) {
-            $('#navbarSide').removeClass('navbar-side-reveal');
-            $('main').removeClass('push-main');
-        } else {
-            $('#navbarSide').addClass('navbar-side-reveal');
-            $('main').addClass('push-main');
-        }
-    });
-});
+const application = Application.start();
+application.register("nav", NavController);
