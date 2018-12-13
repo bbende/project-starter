@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" data-turbolinks-track="reload" />
+    <script th:src="@{/javascript/application.js}" data-turbolinks-track="reload"></script>
+    <title>Project Starter</title>
+</head>
+<body>
+    <div data-controller="nav">
+        <nav class="navbar navbar-dark bg-primary fixed-top" role="navigation">
+            <div class="navbar-brand">
+                <button data-action="click->nav#toggle" class="navbar-toggler" id="navbarSideButton" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand navbar-brand-label" href="#">Project Starter</a>
+            </div>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sign Out</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-side" id="navbarSide">
+                <li class="navbar-side-item">
+                    <a href="#" th:href="@{/}" class="side-link active">Home</a>
+                </li>
+                <li class="navbar-side-item">
+                    <a href="#" th:href="@{/people}" class="side-link">People</a>
+                </li>
+                <li class="navbar-side-item">
+                    <a href="#" th:href="@{/people/new}" class="side-link">New Person</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <main role="main" class="container">
+        <div layout:fragment="content"></div>
+    </main>
+</body>
+</html>
