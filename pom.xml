@@ -32,13 +32,15 @@
         <server.port>8080</server.port>
 
         <!-- Dependency Versions -->
-	    <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
+        <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
+        <javax.validation.api.version>2.0.1.Final</javax.validation.api.version>
         <node.version>v10.14.1</node.version>
         <npm.version>6.4.1</npm.version>
     </properties>
 
     <modules>
       <module>project-starter-webapp</module>
+      <module>project-starter-dto</module>
     </modules>
 
     <profiles>

@@ -6,6 +6,25 @@
     <title></title>
 </head>
 <body layout:fragment="content">
-    <p>New Person</p>
+    <div class="row">
+        <div class="col-6">
+            <h3>New Person</h3>
+            <form action="#" th:action="@{/people}" th:object="${person}" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" th:errorclass="is-invalid" id="firstName" th:field="*{firstName}" placeholder="First Name">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" th:errorclass="is-invalid" id="lastName" th:field="*{lastName}" placeholder="Last Name">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" th:errorclass="is-invalid" id="age" th:field="*{age}" placeholder="Age">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">Create</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

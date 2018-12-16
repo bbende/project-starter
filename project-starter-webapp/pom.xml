@@ -67,6 +67,11 @@
             <version>${spring.boot.version}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.bbende</groupId>
+            <artifactId>project-starter-dto</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

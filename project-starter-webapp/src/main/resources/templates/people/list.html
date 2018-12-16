@@ -7,6 +7,28 @@
     <title></title>
 </head>
 <body layout:fragment="content">
-    <p>List People</p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Age</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="person: ${people}">
+            <td th:text="${person.firstName}">First</td>
+            <td th:text="${person.lastName}">Last</td>
+            <td th:text="${person.age}">Age</td>
+            <td class="align-middle">
+                <form th:action="@{/people/{id}(id=${person.id})}" th:method="DELETE">
+                    <button type="submit" data-confirm="Are you sure?" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
