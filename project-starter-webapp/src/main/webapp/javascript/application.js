@@ -1,5 +1,4 @@
-import 'jquery';
-import 'bootstrap';
+import './load-jquery';
 import 'rails-ujs';
 
 import Turbolinks from "turbolinks";
@@ -10,3 +9,5 @@ import NavController from "./controllers/nav_controller";
 
 const application = Application.start();
 application.register("nav", NavController);
+
+import 'bootstrap-material-design'
