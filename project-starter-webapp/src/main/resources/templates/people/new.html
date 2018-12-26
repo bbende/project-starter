@@ -7,7 +7,7 @@
 </head>
 <body layout:fragment="content">
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <h3>New Person</h3>
             <hr/>
             <form action="#" th:action="@{/people}" th:object="${person}" method="post">
@@ -27,6 +27,8 @@
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
                 </div>
                 <button type="submit" class="btn btn-outline-primary">Create</button>
+                <a href="#" th:href="@{/people}" class="btn btn-outline-danger" role="button">Cancel</a>
+                </div>
             </form>
         </div>
     </div>

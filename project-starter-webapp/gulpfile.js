@@ -19,7 +19,10 @@ var minifyFlag = util.env.envName === 'prod';
 
 // Copy stylesheets to the buildDir and use that as the source for other tasks
 gulp.task('copy-stylesheets', function () {
-    return gulp.src(srcDir + '/stylesheets/**/*')
+    return gulp.src([
+            srcDir + '/stylesheets/**/*',
+            'node_modules/bootstrap-material-design-icons/css/material-icons.css'
+        ])
         .pipe(gulp.dest(buildDir + '/stylesheets'));
 });
 
@@ -27,6 +30,14 @@ gulp.task('copy-stylesheets', function () {
 gulp.task('copy-javascript', function () {
     return gulp.src(srcDir + '/javascript/**/*')
         .pipe(gulp.dest(buildDir + '/javascript'));
+});
+
+// Copy fonts to the outDir, we skip buildDir since there is nothing to do to the fonts
+gulp.task('copy-fonts', function () {
+    return gulp.src([
+        'node_modules/bootstrap-material-design-icons/fonts/*'
+    ])
+        .pipe(gulp.dest(outDir + '/fonts'));
 });
 
 // The tilde-importer is required to resolve imports like ~bootstrap/scss/...
@@ -41,7 +52,7 @@ gulp.task('compile-sass', ['copy-stylesheets'], function() {
 });
 
 // Pack any .css files in the buildDir into application.css in outDir/stylesheets
-gulp.task('pack-css', ['compile-sass'] , function () {
+gulp.task('bundle-css', ['compile-sass'] , function () {
     return gulp.src(buildDir + '/stylesheets/**/*.css')
         .pipe(concat('application.css'))
         .pipe(gulpif(minifyFlag, cleanCss()))
@@ -60,12 +71,18 @@ gulp.task('bundle-javascript', ['copy-javascript'], function() {
         .pipe(gulp.dest(outDir + '/javascript'));
 });
 
-gulp.task('default', ['pack-css', 'bundle-javascript']);
+gulp.task('default',
+    [
+        'bundle-css',
+        'bundle-javascript',
+        'copy-fonts'
+    ]);
 
 // Watches for changes and executes appropriate targets so we don't have to rebuild during development
 gulp.task('watch', function() {
     gulp.watch([
         srcDir + '/stylesheets/**/*',
         srcDir + '/javascript/**/*'
-    ], ['pack-css', 'bundle-javascript']);
+    ], ['bundle-css', 'bundle-javascript']
+    );
 });

@@ -23,12 +23,18 @@
             <td th:text="${person.age}">Age</td>
             <td class="align-middle">
                 <form th:action="@{/people/{id}(id=${person.id})}" th:method="DELETE">
-                    <button type="submit" data-confirm="Are you sure?" class="btn btn-danger btn-sm">Delete</button>
+                    <button type="submit" data-confirm="Are you sure?" class="btn btn-raised btn-danger btn-sm">Delete</button>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
-</div>
+    <div class="fixed-bottom">
+        <a href="#" th:href="@{/people/new}" class="float-right p-2">
+            <button type="button" class="btn btn-primary bmd-btn-fab">
+                <i class="material-icons">add</i>
+            </button>
+        </a>
+    </div>
 </body>
 </html>
