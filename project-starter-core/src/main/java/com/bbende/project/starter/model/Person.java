@@ -1,24 +1,29 @@
-package com.bbende.project.starter.dto;
+package com.bbende.project.starter.model;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
 
-public class PersonDTO {
+@Entity
+@Table(name = "PERSON")
+public class Person {
 
+    @Id
     private String id;
 
-    @NotBlank
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @NotBlank
+    @Column(name = "LAST_NAME")
     private String lastName;
 
-    @NotNull
-    @Min(1)
+    @Column(name = "AGE")
     private Integer age;
 
-    private Long created;
+    @Column(name = "CREATED")
+    private Date created;
 
     public String getId() {
         return id;
@@ -52,11 +57,11 @@ public class PersonDTO {
         this.age = age;
     }
 
-    public Long getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Long created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 }

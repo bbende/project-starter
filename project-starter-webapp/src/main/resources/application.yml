@@ -1,6 +1,10 @@
 spring:
+  application:
+    name: project-starter
   profiles:
     active: dev
+  jpa:
+    open-in-view: false
   resources:
     chain:
       enabled: true
@@ -9,10 +13,41 @@ spring:
 
 spring:
   profiles: dev
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
   thymeleaf:
     cache: false
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:file:./target/h2/project-starter;DB_CLOSE_DELAY=-1
+    username: pstarter
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database: H2
+    show-sql: true
 
 ---
 
 spring:
   profiles: prod
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+  thymeleaf:
+    cache: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/project-starter
+    username: pstarter
+    password:
+  jpa:
+    database: POSTGRESQL
+    show-sql: false

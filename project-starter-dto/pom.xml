@@ -23,11 +23,7 @@
     </parent>
 
     <artifactId>project-starter-dto</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
     <name>Project Starter DTOs</name>
-
 
     <dependencies>
         <dependency>
