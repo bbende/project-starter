@@ -12,6 +12,7 @@ public class ModelMapper {
         dto.setLastName(person.getLastName());
         dto.setAge(person.getAge());
         dto.setCreated(person.getCreated().getTime());
+        dto.setUpdated(person.getUpdated().getTime());
         return dto;
     }
 

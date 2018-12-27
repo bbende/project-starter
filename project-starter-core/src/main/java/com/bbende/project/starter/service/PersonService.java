@@ -1,15 +1,16 @@
 package com.bbende.project.starter.service;
 
+import com.bbende.project.starter.dto.PersonDTO;
 import com.bbende.project.starter.mapper.ModelMapper;
 import com.bbende.project.starter.model.Person;
 import com.bbende.project.starter.repository.PersonRepository;
-import com.bbende.project.starter.dto.PersonDTO;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,13 +34,16 @@ public class PersonService {
     public PersonDTO create(final PersonDTO personDTO) {
         final Person person = ModelMapper.map(personDTO);
         person.setId(UUID.randomUUID().toString());
-        person.setCreated(new Date());
 
         final Person createdPerson = personRepository.save(person);
         return ModelMapper.map(createdPerson);
     }
 
     public void delete(final String personId) {
+        if (StringUtils.isBlank(personId)) {
+            throw new IllegalArgumentException("Person id is required");
+        }
+
         personRepository.deleteById(personId);
     }
 

@@ -20,6 +20,8 @@ public class PersonDTO {
 
     private Long created;
 
+    private Long updated;
+
     public String getId() {
         return id;
     }
@@ -58,5 +60,13 @@ public class PersonDTO {
 
     public void setCreated(Long created) {
         this.created = created;
+    }
+
+    public Long getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Long updated) {
+        this.updated = updated;
     }
 }
