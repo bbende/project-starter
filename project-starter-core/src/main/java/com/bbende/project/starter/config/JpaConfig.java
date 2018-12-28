@@ -4,11 +4,13 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.eclipse.persistence.logging.SessionLog;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
@@ -21,14 +23,14 @@ import java.util.Map;
 @Configuration
 public class JpaConfig extends JpaBaseConfiguration {
 
-    @Value("${spring.jpa.show-sql}")
-    private boolean showSql;
-
     @Autowired
-    public JpaConfig(final DataSource dataSource,
-                     final ObjectProvider<JtaTransactionManager> jtaTransactionManager,
-                     final ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
-        super(dataSource, new JpaProperties(), jtaTransactionManager, transactionManagerCustomizers);
+    public JpaConfig(
+            @Qualifier("dataSource")
+            final DataSource dataSource,
+            final JpaProperties jpaProperties,
+            final ObjectProvider<JtaTransactionManager> jtaTransactionManager,
+            final ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
+        super(dataSource, jpaProperties, jtaTransactionManager, transactionManagerCustomizers);
     }
 
     @Override
@@ -38,15 +40,13 @@ public class JpaConfig extends JpaBaseConfiguration {
 
     @Override
     protected Map<String, Object> getVendorProperties() {
+        // Start the properties with everything from "spring.jpa.properties.*"
+        final JpaProperties jpaProperties = getProperties();
+        final Map<String, Object> vendorProperties = new HashMap<>(jpaProperties.getProperties());
+
+        // Explicitly set the weaving mode based on whether instrumentation is available
         final String weavingMode = InstrumentationLoadTimeWeaver.isInstrumentationAvailable() ? "true" : "static";
-
-        final HashMap<String, Object> vendorProperties = new HashMap<>();
         vendorProperties.put(PersistenceUnitProperties.WEAVING, weavingMode);
-
-        if (showSql) {
-            vendorProperties.put(PersistenceUnitProperties.CATEGORY_LOGGING_LEVEL_ + SessionLog.SQL, SessionLog.FINE_LABEL);
-            vendorProperties.put(PersistenceUnitProperties.LOGGING_PARAMETERS, "true");
-        }
 
         return vendorProperties;
     }

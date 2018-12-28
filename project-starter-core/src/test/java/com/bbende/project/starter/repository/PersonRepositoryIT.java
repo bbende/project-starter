@@ -43,6 +43,17 @@ public class PersonRepositoryIT extends DatabaseIT {
     }
 
     @Test
+    public void testFindById() {
+        final Optional<Person> person = repository.findById("P1");
+        assertTrue(person.isPresent());
+        assertEquals("P1", person.get().getId());
+
+        // Verify the one-to-many relationship
+        assertNotNull(person.get().getEvents());
+        assertEquals(2, person.get().getEvents().size());
+    }
+
+    @Test
     public void testFindAll() {
         final Iterable<Person> people = repository.findAll();
 
