@@ -13,25 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "PERSON")
+@Table(name = "person")
 public class Person extends AuditableEntity<String> {
 
     @NotBlank
-    @Column(name = "FIRST_NAME")
+    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank
-    @Column(name = "LAST_NAME")
+    @Column(name = "last_name")
     private String lastName;
 
     @NotNull
     @Min(1)
-    @Column(name = "AGE")
+    @Column(name = "age")
     private Integer age;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy(value = "created ASC")
     private List<Event> events;
+
 
     public String getFirstName() {
         return firstName;

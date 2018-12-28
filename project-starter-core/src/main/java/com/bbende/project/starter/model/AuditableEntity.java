@@ -11,11 +11,11 @@ import java.util.Date;
 public abstract class AuditableEntity<T> extends AbstractEntity<T> {
 
     @NotNull
-    @Column(name = "CREATED")
+    @Column(name = "created")
     private Date created;
 
     @NotNull
-    @Column(name = "UPDATED")
+    @Column(name = "updated")
     private Date updated;
 
     public Date getCreated() {

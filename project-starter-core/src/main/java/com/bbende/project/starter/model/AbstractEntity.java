@@ -1,5 +1,6 @@
 package com.bbende.project.starter.model;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ public abstract class AbstractEntity<T> {
 
     @Id
     @NotNull
+    @Column(name = "id")
     private T id;
 
     public T getId() {

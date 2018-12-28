@@ -11,21 +11,22 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "EVENT")
+@Table(name = "event")
 public class Event extends AbstractEntity<String> {
 
     @NotBlank
-    @Column(name = "TITLE")
+    @Column(name = "title")
     private String title;
 
     @NotBlank
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
 
     @NotNull
-    @Column(name = "CREATED")
+    @Column(name = "created")
     private Date created;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
