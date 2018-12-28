@@ -22,7 +22,7 @@
         <!-- Dependency Versions -->
         <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
         <flyway.version>5.2.1</flyway.version>
-        <flyway.tests.version>5.1.0</flyway.tests.version>
+        <flyway.tests.version>5.2.0</flyway.tests.version>
         <eclipse.link.version>2.7.2</eclipse.link.version>
         <javax.validation.api.version>2.0.1.Final</javax.validation.api.version>
         <node.version>v10.14.1</node.version>
