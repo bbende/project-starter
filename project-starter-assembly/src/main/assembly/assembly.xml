@@ -1,0 +1,47 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>bin</id>
+    <formats>
+        <format>dir</format>
+        <format>zip</format>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>project-starter-${project.version}</baseDirectory>
+
+    <!-- Create the lib directory with the executable jar for project-starter-webapp -->
+    <moduleSets>
+        <moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
+            <includes>
+                <include>com.bbende:project-starter-webapp</include>
+            </includes>
+            <binaries>
+                <outputDirectory>lib</outputDirectory>
+                <outputFileNameMapping>project-starter.${module.extension}</outputFileNameMapping>
+                <unpack>false</unpack>
+                <includeDependencies>false</includeDependencies>
+            </binaries>
+        </moduleSet>
+    </moduleSets>
+
+    <!-- Create the conf directory with the application.yml from project-starter-webapp -->
+    <files>
+        <file>
+            <source>../project-starter-webapp/src/main/resources/config/application.yml</source>
+            <outputDirectory>conf</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+    </files>
+
+    <!-- Create the bin directory with everything from src/main/resources/bin in this module -->
+    <fileSets>
+        <fileSet>
+            <directory>./src/main/resources/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0770</fileMode>
+        </fileSet>
+    </fileSets>
+
+</assembly>
