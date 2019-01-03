@@ -54,6 +54,8 @@
     </dependencies>
 
     <profiles>
+        <!-- Dev & Prod profiles to control the env.name property, primarily used to pass in to Gulp from the
+                Maven frontend plugin so Gulp tasks can minify/uglify for prod, but leave readable for dev -->
         <profile>
             <id>dev</id>
             <activation>
@@ -69,11 +71,12 @@
                 <env.name>prod</env.name>
             </properties>
         </profile>
+        <!-- Profile to control running integration tests, specify -DskipIntegrationTests to skip them -->
         <profile>
             <id>integration-tests</id>
             <activation>
                 <property>
-                    <name>!skipIntegrationTests</name>
+                    <name>!skipITs</name>
                 </property>
             </activation>
             <build>

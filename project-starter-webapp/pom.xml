@@ -103,6 +103,7 @@
                 <version>${spring.boot.version}</version>
                 <configuration>
                     <jvmArguments>-Dserver.port=${server.port}</jvmArguments>
+                    <layout>ZIP</layout>
                 </configuration>
                 <executions>
                     <execution>
