@@ -4,18 +4,18 @@ var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 var cleanCss = require('gulp-clean-css');
 var sass = require('gulp-sass');
-var util = require('gulp-util');
 var uglify = require('gulp-uglify');
 var tildeImporter = require('node-sass-tilde-importer');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var babelify = require('babelify');
+var argv = require('minimist')(process.argv.slice(2));
 
-var srcDir = util.env.srcDir;
-var buildDir = util.env.buildDir;
-var outDir = util.env.outDir;
-var minifyFlag = util.env.envName === 'prod';
+var srcDir = argv.srcDir;
+var buildDir = argv.buildDir;
+var outDir = argv.outDir;
+var minifyFlag = argv.envName === 'prod';
 
 // Copy stylesheets to the buildDir and use that as the source for other tasks
 gulp.task('copy-stylesheets', function () {
@@ -42,25 +42,25 @@ gulp.task('copy-fonts', function () {
 
 // The tilde-importer is required to resolve imports like ~bootstrap/scss/...
 // The includePaths avoids the need to prefix all imports with the path to node_modules
-gulp.task('compile-sass', ['copy-stylesheets'], function() {
+gulp.task('compile-sass', gulp.series('copy-stylesheets', function() {
     return gulp.src(buildDir + '/stylesheets/**/*.scss')
         .pipe(sass({
             includePaths: [ './node_modules' ],
             importer: tildeImporter
         }).on('error', sass.logError))
         .pipe(gulp.dest(buildDir + '/stylesheets/'));
-});
+}));
 
 // Pack any .css files in the buildDir into application.css in outDir/stylesheets
-gulp.task('bundle-css', ['compile-sass'] , function () {
+gulp.task('bundle-css', gulp.series('compile-sass' , function () {
     return gulp.src(buildDir + '/stylesheets/**/*.css')
         .pipe(concat('application.css'))
         .pipe(gulpif(minifyFlag, cleanCss()))
         .pipe(gulp.dest(outDir + '/stylesheets'));
-});
+}));
 
 // Creates a bundle for application.js and conditionally calls minify based on dev or prod
-gulp.task('bundle-javascript', ['copy-javascript'], function() {
+gulp.task('bundle-javascript', gulp.series('copy-javascript', function() {
     return browserify({debug: true, entries: [buildDir + '/javascript/application.js']})
         .transform(babelify, { presets: ['env'] })
         .bundle()
@@ -69,20 +69,12 @@ gulp.task('bundle-javascript', ['copy-javascript'], function() {
         .pipe(buffer())
         .pipe(gulpif(minifyFlag, uglify()))
         .pipe(gulp.dest(outDir + '/javascript'));
-});
+}));
 
-gulp.task('default',
-    [
-        'bundle-css',
-        'bundle-javascript',
-        'copy-fonts'
-    ]);
+gulp.task('default', gulp.parallel('bundle-css', 'bundle-javascript', 'copy-fonts'));
 
 // Watches for changes and executes appropriate targets so we don't have to rebuild during development
 gulp.task('watch', function() {
-    gulp.watch([
-        srcDir + '/stylesheets/**/*',
-        srcDir + '/javascript/**/*'
-    ], ['bundle-css', 'bundle-javascript']
-    );
+    gulp.watch(srcDir + '/stylesheets/**/*', gulp.series('bundle-css'));
+    gulp.watch(srcDir + '/javascript/**/*', gulp.series('bundle-javascript'));
 });

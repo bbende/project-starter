@@ -11,7 +11,12 @@
     "stimulus": "^1.1.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "acorn": "^6.0.4",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.3",
+    "gulp": "^4.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-clean-css": "^3.9.3",
     "gulp-concat": "^2.6.1",
@@ -19,13 +24,9 @@
     "gulp-minify": "^2.1.0",
     "gulp-sass": "^4.0.1",
     "gulp-uglify": "^3.0.1",
+    "minimist": "^1.2.0",
     "node-sass-tilde-importer": "^1.0.2",
-    "browserify": "^16.2.3",
-    "vinyl-source-stream": "^2.0.0",
     "vinyl-buffer": "^1.0.1",
-    "acorn": "^6.0.4",
-    "babel-core": "^6.26.3",
-    "babelify": "^8.0.0",
-    "babel-preset-env": "^1.7.0"
+    "vinyl-source-stream": "^2.0.0"
   }
 }
