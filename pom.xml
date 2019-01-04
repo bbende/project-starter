@@ -15,6 +15,8 @@
         <!-- Project/Plugin related properties -->
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.resources.plugin.version>3.0.1</maven.resources.plugin.version>
+        <maven.failsafe.plugin.version>2.22.0</maven.failsafe.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <server.port>8080</server.port>
@@ -34,7 +36,7 @@
       <module>project-starter-webapp</module>
       <module>project-starter-dto</module>
       <module>project-starter-core</module>
-        <module>project-starter-assembly</module>
+      <module>project-starter-assembly</module>
     </modules>
 
     <dependencies>
@@ -53,9 +55,69 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!--
+              Enables resource filtering for property files in src/main/resources/config and src/test/resources/config
+              using # as the delimiter. For example #project.version# would be replaced with the appropriate value.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes</outputDirectory>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                            <delimiters>
+                                <delimiter>#</delimiter>
+                            </delimiters>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>config/*.properties</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>config/*.properties</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/test/resources/</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>config/*.properties</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>src/test/resources/</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>config/*.properties</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <!-- Dev & Dist profiles to control the env.name property, primarily used to pass in to Gulp from the
-                Maven frontend plugin so Gulp tasks can minify/uglify for prod, but leave readable for dev -->
+             Maven frontend plugin so Gulp tasks can minify/uglify for dist, but leave readable for dev -->
         <profile>
             <id>dev</id>
             <properties>
@@ -68,7 +130,7 @@
                 <env.name>dist</env.name>
             </properties>
         </profile>
-        <!-- Profile to control running integration tests, specify -DskipIntegrationTests to skip them -->
+        <!-- Controls running integration tests, they are enabled by default, specify -DskipITs to skip -->
         <profile>
             <id>integration-tests</id>
             <activation>
@@ -81,7 +143,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.22.0</version>
+                        <version>${maven.failsafe.plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>

@@ -18,10 +18,15 @@
                 <a class="navbar-brand navbar-brand-label" href="#">Project Starter</a>
             </div>
 
-            <ul class="navbar-nav">
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <li class="nav-item">
+                    <span class="navbar-text small" th:text="${projectDetails.version}"></span>
+                </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="#">Sign Out</a>
                 </li>
+                -->
             </ul>
 
             <ul class="navbar-side" id="navbarSide">

@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.controller;
 
-import com.bbende.project.starter.service.PersonService;
 import com.bbende.project.starter.dto.PersonDTO;
+import com.bbende.project.starter.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

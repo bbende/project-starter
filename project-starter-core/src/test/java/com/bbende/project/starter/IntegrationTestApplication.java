@@ -1,7 +1,9 @@
 package com.bbende.project.starter;
 
+import com.bbende.project.starter.config.ProjectStarterProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * Spring Boot Application for running integration tests within project-starter-core.
@@ -10,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * find beans in all sub-packages.
  */
 @SpringBootApplication
+@EnableConfigurationProperties({ProjectStarterProperties.class})
 public class IntegrationTestApplication {
 
     public static void main(String[] args) {
