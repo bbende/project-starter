@@ -15,7 +15,7 @@ var argv = require('minimist')(process.argv.slice(2));
 var srcDir = argv.srcDir;
 var buildDir = argv.buildDir;
 var outDir = argv.outDir;
-var minifyFlag = argv.envName === 'prod';
+var minifyFlag = argv.envName === 'dist';
 
 // Copy stylesheets to the buildDir and use that as the source for other tasks
 gulp.task('copy-stylesheets', function () {

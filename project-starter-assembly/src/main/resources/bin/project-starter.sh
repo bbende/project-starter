@@ -42,9 +42,10 @@ LOG_FOLDER=${APP_LOG_FOLDER}
 ! [[ -x "$PID_FOLDER" ]] && mkdir ${PID_FOLDER}
 ! [[ -x "$LOG_FOLDER" ]] && mkdir ${LOG_FOLDER}
 
-# Specify the name of the spring config and where to load it from
-# NOTE: Any config locations must end with a trailing slash
-export SPRING_CONFIG_NAME=application
+# Specify the name of the spring config and where to load it from. If the application name is "foo" then there is
+# expected to be a config file like "foo.properties" or "foo.yaml" in the app conf folder. Any config locations
+# must end with a trailing slash.
+export SPRING_CONFIG_NAME="${APP_NAME}"
 export SPRING_CONFIG_LOCATION="${APP_CONF_FOLDER}/"
 
 # Utility functions
@@ -130,7 +131,7 @@ start() {
 }
 
 do_start() {
-  working_dir=$(dirname "$APP_HOME")
+  working_dir="$APP_HOME"
   pushd "$working_dir" > /dev/null
   if [[ ! -e "$PID_FOLDER" ]]; then
     mkdir -p "$PID_FOLDER" &> /dev/null
@@ -172,7 +173,7 @@ do_start() {
 }
 
 stop() {
-  working_dir=$(dirname "$APP_HOME")
+  working_dir="$APP_HOME"
   pushd "$working_dir" > /dev/null
   [[ -f $pid_file ]] || { echoYellow "Not running (pidfile not found)"; return 0; }
   pid=$(cat "$pid_file")
@@ -216,7 +217,7 @@ restart() {
 }
 
 force_reload() {
-  working_dir=$(dirname "$APP_HOME")
+  working_dir="$APP_HOME"
   pushd "$working_dir" > /dev/null
   [[ -f $pid_file ]] || { echoRed "Not running (pidfile not found)"; return 7; }
   pid=$(cat "$pid_file")
@@ -227,7 +228,7 @@ force_reload() {
 }
 
 status() {
-  working_dir=$(dirname "$APP_HOME")
+  working_dir="$APP_HOME"
   pushd "$working_dir" > /dev/null
   [[ -f "$pid_file" ]] || { echoRed "Not running"; return 3; }
   pid=$(cat "$pid_file")

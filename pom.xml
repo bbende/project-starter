@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <server.port>8080</server.port>
-        <env.name>dev</env.name>
+        <env.name>dist</env.name>
 
         <!-- Dependency Versions -->
         <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
@@ -54,21 +54,18 @@
     </dependencies>
 
     <profiles>
-        <!-- Dev & Prod profiles to control the env.name property, primarily used to pass in to Gulp from the
+        <!-- Dev & Dist profiles to control the env.name property, primarily used to pass in to Gulp from the
                 Maven frontend plugin so Gulp tasks can minify/uglify for prod, but leave readable for dev -->
         <profile>
             <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <env.name>dev</env.name>
             </properties>
         </profile>
         <profile>
-            <id>prod</id>
+            <id>dist</id>
             <properties>
-                <env.name>prod</env.name>
+                <env.name>dist</env.name>
             </properties>
         </profile>
         <!-- Profile to control running integration tests, specify -DskipIntegrationTests to skip them -->
