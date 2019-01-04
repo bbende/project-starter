@@ -7,6 +7,11 @@
 #
 #################################################################################################################
 
+# ANSI Colors
+echoRed() { echo $'\e[0;31m'"$1"$'\e[0m'; }
+echoGreen() { echo $'\e[0;32m'"$1"$'\e[0m'; }
+echoYellow() { echo $'\e[0;33m'"$1"$'\e[0m'; }
+
 [[ -n "$DEBUG" ]] && set -x
 
 # Determine the location of the current script
@@ -18,33 +23,29 @@ BIN_FOLDER="$( cd "$( dirname "$0" )" && pwd )"
 [[ -z "$ENV_FILENAME" ]] && ENV_FILENAME="${BIN_FILE%.*}-env.sh"
 [[ -r "${ENV_FOLDER}/${ENV_FILENAME}" ]] && source "${ENV_FOLDER}/${ENV_FILENAME}"
 
-# Determine the JAR file to launch and the folder it is located in
+# Set up defaults for anything not set in env file
+[[ -z "$APP_NAME" ]] && APP_NAME="${BIN_FILE%.*}"
+[[ -z "$APP_HOME" ]] && APP_HOME="$( cd "${BIN_FOLDER}" && cd .. && pwd )"
+[[ -z "$APP_CONF_FOLDER" ]] && APP_CONF_FOLDER="${APP_HOME}/conf"
+[[ -z "$APP_LIB_FOLDER" ]] && APP_LIB_FOLDER="${APP_HOME}/lib"
+[[ -z "$APP_PID_FOLDER" ]] && APP_PID_FOLDER="${APP_HOME}/run"
+[[ -z "$APP_LOG_FOLDER" ]] && APP_LOG_FOLDER="${APP_HOME}/logs"
+[[ -z "$STOP_WAIT_TIME" ]] && STOP_WAIT_TIME=20
+[[ -z "$USE_START_STOP_DAEMON" ]] && USE_START_STOP_DAEMON=true
+
+# Set the jar file to launch based on the lib folder and app name
 JAR_FILE="${APP_LIB_FOLDER}/${APP_NAME}.jar"
-JAR_FOLDER="$( (cd "$(dirname "$JAR_FILE")" && pwd -P) )"
 
-# Specify the name of the spring config and where to load it from
-export SPRING_CONFIG_NAME=application
-export SPRING_CONFIG_LOCATION="${APP_CONF_FOLDER}/"
-
-# ANSI Colors
-echoRed() { echo $'\e[0;31m'"$1"$'\e[0m'; }
-echoGreen() { echo $'\e[0;32m'"$1"$'\e[0m'; }
-echoYellow() { echo $'\e[0;33m'"$1"$'\e[0m'; }
-
-# Initialize PID/LOG locations if they weren't provided by the config file
+# Initialize pid/log locations
 PID_FOLDER=${APP_PID_FOLDER}
 LOG_FOLDER=${APP_LOG_FOLDER}
-[[ -z "$PID_FOLDER" ]] && PID_FOLDER="{{pidFolder:${BIN_FOLDER}/run}}"
-[[ -z "$LOG_FOLDER" ]] && LOG_FOLDER="{{logFolder:${BIN_FOLDER}/logs}}"
 ! [[ -x "$PID_FOLDER" ]] && mkdir ${PID_FOLDER}
 ! [[ -x "$LOG_FOLDER" ]] && mkdir ${LOG_FOLDER}
 
-# Set up defaults
-[ -n "$STOP_WAIT_TIME" ] && stopWaitTime="$STOP_WAIT_TIME"
-[ -z "$stopWaitTime" ] && stopWaitTime=30
-
-[ -n "$USE_START_STOP_DAEMON" ] && useStartStopDaemon="$USE_START_STOP_DAEMON"
-[ -z "$useStartStopDaemon" ] && useStartStopDaemon=true
+# Specify the name of the spring config and where to load it from
+# NOTE: Any config locations must end with a trailing slash
+export SPRING_CONFIG_NAME=application
+export SPRING_CONFIG_LOCATION="${APP_CONF_FOLDER}/"
 
 # Utility functions
 checkPermissions() {
@@ -69,7 +70,27 @@ await_file() {
   done
 }
 
-# Determine the script mode
+printEnv() {
+    echoGreen ""
+    echoGreen "Environment: "
+    echoGreen "=============================================="
+    echoGreen "BIN_FILE = ${BIN_FOLDER}/${BIN_FILE}"
+    echoGreen "ENV_FILE = ${ENV_FOLDER}/${ENV_FILENAME}"
+    echoGreen ""
+    echoGreen "APP_NAME = ${APP_NAME}"
+    echoGreen "APP_HOME = ${APP_HOME}"
+    echoGreen "APP_CONF_FOLDER = ${APP_CONF_FOLDER}"
+    echoGreen "APP_LIB_FOLDER = ${APP_LIB_FOLDER}"
+    echoGreen "APP_PID_FOLDER = ${APP_PID_FOLDER}"
+    echoGreen "APP_LOG_FOLDER = ${APP_LOG_FOLDER}"
+    echoGreen ""
+    echoGreen "JAVA = ${javaexe}"
+    echoGreen "JAVA_OPTS = ${JAVA_OPTS}"
+    echoGreen "=============================================="
+    echoGreen ""
+}
+
+# Set action to the first argument passed to this script
 action="$1"
 shift
 
@@ -100,6 +121,7 @@ arguments=(-Dsun.misc.URLClassPath.disableJarChecking=true $JAVA_OPTS -jar "$JAR
 
 # Action functions
 start() {
+  printEnv
   if [[ -f "$pid_file" ]]; then
     pid=$(cat "$pid_file")
     isRunning "$pid" && { echoYellow "Already running [$pid]"; return 0; }
@@ -124,7 +146,7 @@ do_start() {
   fi
   if [[ -n "$run_user" ]]; then
     checkPermissions || return $?
-    if [ $useStartStopDaemon = true ] && type start-stop-daemon > /dev/null 2>&1; then
+    if [ $USE_START_STOP_DAEMON = true ] && type start-stop-daemon > /dev/null 2>&1; then
       start-stop-daemon --start --quiet \
         --chuid "$run_user" \
         --name "${APP_NAME}" \
@@ -160,8 +182,9 @@ stop() {
 }
 
 do_stop() {
+  echoGreen "Stopping..."
   kill "$1" &> /dev/null || { echoRed "Unable to kill process $1"; return 1; }
-  for i in $(seq 1 $stopWaitTime); do
+  for i in $(seq 1 $STOP_WAIT_TIME); do
     isRunning "$1" || { echoGreen "Stopped [$1]"; rm -f "$2"; return 0; }
     [[ $i -eq STOP_WAIT_TIME/2 ]] && kill "$1" &> /dev/null
     sleep 1
