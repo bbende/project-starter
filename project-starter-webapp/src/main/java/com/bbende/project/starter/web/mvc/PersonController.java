@@ -1,4 +1,4 @@
-package com.bbende.project.starter.web.controller;
+package com.bbende.project.starter.web.mvc;
 
 import com.bbende.project.starter.dto.PersonDTO;
 import com.bbende.project.starter.service.PersonService;

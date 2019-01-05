@@ -24,6 +24,7 @@
 
         <!-- Dependency Versions -->
         <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
+        <jackson.version>2.9.7</jackson.version>
         <flyway.version>5.2.1</flyway.version>
         <flyway.tests.version>5.2.0</flyway.tests.version>
         <eclipse.link.version>2.7.2</eclipse.link.version>
@@ -93,6 +94,22 @@
                                         <exclude>config/*.properties</exclude>
                                     </excludes>
                                 </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-test-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/test-classes</outputDirectory>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                            <delimiters>
+                                <delimiter>#</delimiter>
+                            </delimiters>
+                            <resources>
                                 <resource>
                                     <directory>src/test/resources/</directory>
                                     <filtering>true</filtering>
