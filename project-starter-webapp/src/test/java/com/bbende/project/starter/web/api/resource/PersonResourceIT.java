@@ -3,19 +3,25 @@ package com.bbende.project.starter.web.api.resource;
 import com.bbende.project.starter.dto.ListDTO;
 import com.bbende.project.starter.dto.PersonDTO;
 import com.bbende.project.starter.web.api.RestIT;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class PersonResourceIT extends RestIT {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonResourceIT.class);
 
     private WebTarget peopleTarget;
 
@@ -94,5 +100,17 @@ public class PersonResourceIT extends RestIT {
         final ListDTO<PersonDTO> peopleAfterDelete = peopleTarget.request()
                 .get(new GenericType<ListDTO<PersonDTO>>() {});
         assertEquals(0, peopleAfterDelete.getElements().size());
+
+        // Verify we can't create an invalid person
+        final PersonDTO invalidPerson = new PersonDTO();
+
+        try {
+            peopleTarget.request()
+                    .post(Entity.entity(invalidPerson, MediaType.APPLICATION_JSON_TYPE),
+                            PersonDTO.class);
+            Assert.fail("Should have thrown exception");
+        } catch (BadRequestException e) {
+            //LOGGER.debug(e.getMessage(), e);
+        }
     }
 }
