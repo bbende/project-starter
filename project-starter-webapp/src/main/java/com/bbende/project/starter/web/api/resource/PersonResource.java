@@ -12,6 +12,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ * NOTE: JAX-RS resources must have an @Path annotation at the class level, otherwise they
+ * will not be linked to the Jersey configuration, even with explicit calls to register in ResourceConfig.
+ */
 @Component
 @Path("/people")
 public class PersonResource {

@@ -29,7 +29,7 @@
     <!-- Create the conf directory with the application.properties from project-starter-webapp -->
     <files>
         <file>
-            <source>../project-starter-webapp/src/main/resources/config/application.properties</source>
+            <source>../project-starter-webapp/target/classes/config/application.properties</source>
             <outputDirectory>conf</outputDirectory>
             <destName>project-starter.properties</destName>
             <fileMode>0644</fileMode>
