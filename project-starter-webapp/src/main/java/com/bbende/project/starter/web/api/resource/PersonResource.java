@@ -1,15 +1,23 @@
 package com.bbende.project.starter.web.api.resource;
 
+import com.bbende.project.starter.dto.ListDTO;
 import com.bbende.project.starter.dto.PersonDTO;
 import com.bbende.project.starter.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -18,7 +26,7 @@ import java.util.List;
  */
 @Component
 @Path("/people")
-public class PersonResource {
+public class PersonResource extends ApplicationResource {
 
     private final PersonService personService;
 
@@ -31,7 +39,54 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPeople() {
         final List<PersonDTO> people = personService.getAll();
-        return Response.ok(people).build();
+        final ListDTO<PersonDTO> list = new ListDTO<>(people);
+        return Response.ok(list).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPerson(@PathParam("id") final String id) {
+        final PersonDTO person = personService.get(id);
+        return Response.ok(person).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createPerson(@Valid final PersonDTO person) {
+        final PersonDTO createdPerson = personService.create(person);
+
+        final URI uri = getBaseUriBuilder()
+                .path(PersonResource.class, "getPerson")
+                .resolveTemplate("id", createdPerson.getId())
+                .build();
+
+        return Response.created(uri).entity(createdPerson).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updatePerson(@PathParam("id") final String id, final PersonDTO person) {
+        if (person.getId() == null) {
+            person.setId(id);
+        }
+
+        if (!person.getId().equals(id)) {
+            throw new IllegalStateException("Id in request body must match id in url path");
+        }
+
+        final PersonDTO updatedPerson = personService.update(person);
+        return Response.ok(updatedPerson).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deletePerson(@PathParam("id") final String id) {
+        personService.delete(id);
+        return Response.ok().build();
     }
 
 }

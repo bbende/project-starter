@@ -19,7 +19,7 @@ public class ModelMapper {
     public static Person map(final PersonDTO personDTO) {
         final Person person = new Person();
         person.setFirstName(personDTO.getFirstName());
-        person.setLastName(personDTO.getFirstName());
+        person.setLastName(personDTO.getLastName());
         person.setAge(personDTO.getAge());
         return person;
     }
