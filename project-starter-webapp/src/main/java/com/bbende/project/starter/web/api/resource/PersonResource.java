@@ -3,6 +3,8 @@ package com.bbende.project.starter.web.api.resource;
 import com.bbende.project.starter.dto.ListDTO;
 import com.bbende.project.starter.dto.PersonDTO;
 import com.bbende.project.starter.service.PersonService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +28,7 @@ import java.util.List;
  */
 @Component
 @Path("/people")
+@Api("people")
 public class PersonResource extends ApplicationResource {
 
     private final PersonService personService;
@@ -37,6 +40,7 @@ public class PersonResource extends ApplicationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get all people", response = ListDTO.class)
     public Response getPeople() {
         final List<PersonDTO> people = personService.getAll();
         final ListDTO<PersonDTO> list = new ListDTO<>(people);
@@ -46,6 +50,7 @@ public class PersonResource extends ApplicationResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get person", response = PersonDTO.class)
     public Response getPerson(@PathParam("id") final String id) {
         final PersonDTO person = personService.get(id);
         return Response.ok(person).build();
@@ -54,6 +59,7 @@ public class PersonResource extends ApplicationResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Create person", response = PersonDTO.class)
     public Response createPerson(@Valid final PersonDTO person) {
         final PersonDTO createdPerson = personService.create(person);
 
@@ -69,6 +75,7 @@ public class PersonResource extends ApplicationResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Update person", response = PersonDTO.class)
     public Response updatePerson(@PathParam("id") final String id, final PersonDTO person) {
         if (person.getId() == null) {
             person.setId(id);
@@ -84,9 +91,11 @@ public class PersonResource extends ApplicationResource {
 
     @DELETE
     @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Delete person", response = PersonDTO.class)
     public Response deletePerson(@PathParam("id") final String id) {
-        personService.delete(id);
-        return Response.ok().build();
+        final PersonDTO deleted = personService.delete(id);
+        return Response.ok(deleted).build();
     }
 
 }

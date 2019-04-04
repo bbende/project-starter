@@ -81,13 +81,14 @@ public class PersonService {
         return ModelMapper.map(updatedPerson);
     }
 
-    public void delete(final String id) {
+    public PersonDTO delete(final String id) {
         if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("Person id is required");
         }
 
         final Person person = getPersonOrThrow(id);
         personRepository.deleteById(person.getId());
+        return ModelMapper.map(person);
     }
 
     private Person getPersonOrThrow(final String id) {
