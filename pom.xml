@@ -17,14 +17,18 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.resources.plugin.version>3.0.1</maven.resources.plugin.version>
         <maven.failsafe.plugin.version>2.22.0</maven.failsafe.plugin.version>
+        <maven.checkstyle.plugin.version>3.0.0</maven.checkstyle.plugin.version>
+        <maven.checkstyle.puppycrawl.version>8.19</maven.checkstyle.puppycrawl.version>
+        <maven.javadoc.plugin.version>2.10.1</maven.javadoc.plugin.version>
+        <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <server.port>8080</server.port>
         <env.name>dist</env.name>
 
         <!-- Dependency Versions -->
-        <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
-        <jackson.version>2.9.7</jackson.version>
+        <spring.boot.version>2.1.3.RELEASE</spring.boot.version>
+        <jackson.version>2.9.8</jackson.version>
         <flyway.version>5.2.1</flyway.version>
         <flyway.tests.version>5.2.0</flyway.tests.version>
         <eclipse.link.version>2.7.2</eclipse.link.version>
@@ -58,98 +62,120 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <!--
-              Enables resource filtering for property files in src/main/resources/config and src/test/resources/config
-              using # as the delimiter. For example #project.version# would be replaced with the appropriate value.
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resources.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>default-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/classes</outputDirectory>
-                            <useDefaultDelimiters>false</useDefaultDelimiters>
-                            <delimiters>
-                                <delimiter>#</delimiter>
-                            </delimiters>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources/</directory>
-                                    <filtering>true</filtering>
-                                    <includes>
-                                        <include>config/*.properties</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>src/main/resources/</directory>
-                                    <filtering>false</filtering>
-                                    <excludes>
-                                        <exclude>config/*.properties</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default-test-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/test-classes</outputDirectory>
-                            <useDefaultDelimiters>false</useDefaultDelimiters>
-                            <delimiters>
-                                <delimiter>#</delimiter>
-                            </delimiters>
-                            <resources>
-                                <resource>
-                                    <directory>src/test/resources/</directory>
-                                    <filtering>true</filtering>
-                                    <includes>
-                                        <include>config/*.properties</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>src/test/resources/</directory>
-                                    <filtering>false</filtering>
-                                    <excludes>
-                                        <exclude>config/*.properties</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <profiles>
-        <!-- Dev & Dist profiles to control the env.name property, primarily used to pass in to Gulp from the
-             Maven frontend plugin so Gulp tasks can minify/uglify for dist, but leave readable for dev -->
+        <!-- Sets env.name=dev so frontend-maven-plugin can tell Gulp to disable minifiy/uglify -->
         <profile>
             <id>dev</id>
+            <activation>
+                <property>
+                    <name>dev</name>
+                </property>
+            </activation>
             <properties>
                 <env.name>dev</env.name>
             </properties>
         </profile>
+        <!-- Controls running the checkstyle plugin, use -DskipCheckstyle to skip -->
         <profile>
-            <id>dist</id>
-            <properties>
-                <env.name>dist</env.name>
-            </properties>
+            <id>checkstyle</id>
+            <activation>
+                <property>
+                    <name>!skipCheckstyle</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${maven.checkstyle.plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${maven.checkstyle.puppycrawl.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <configLocation>checkstyle.xml</configLocation>
+                            <violationSeverity>warning</violationSeverity>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>check-style</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
-        <!-- Controls running integration tests, they are enabled by default, specify -DskipITs to skip -->
+        <!-- Controls running the javadoc plugin, use -DskipJavaDoc to skip -->
+        <profile>
+            <id>javadoc</id>
+            <activation>
+                <property>
+                    <name>!skipJavaDoc</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven.javadoc.plugin.version}</version>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                            <quiet>true</quiet>
+                            <show>private</show>
+                            <encoding>UTF-8</encoding>
+                            <quiet>true</quiet>
+                            <javadocVersion>1.8</javadocVersion>
+                            <additionalJOption>-J-Xmx512m</additionalJOption>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+        <!-- Controls running the attach-sources plugin, use -DskipSources to skip  -->
+        <profile>
+            <id>attach-sources</id>
+            <activation>
+                <property>
+                    <name>!skipSources</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven.source.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- Controls running integration tests, specify -DskipITs to skip -->
         <profile>
             <id>integration-tests</id>
             <activation>

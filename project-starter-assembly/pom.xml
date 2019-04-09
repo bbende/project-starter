@@ -32,7 +32,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make shared resource</id>
+                        <id>make-shared-resource</id>
                         <goals>
                             <goal>single</goal>
                         </goals>
