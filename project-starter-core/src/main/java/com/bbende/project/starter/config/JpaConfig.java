@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
@@ -25,9 +24,8 @@ public class JpaConfig extends JpaBaseConfiguration {
             @Qualifier("dataSource")
             final DataSource dataSource,
             final JpaProperties jpaProperties,
-            final ObjectProvider<JtaTransactionManager> jtaTransactionManager,
-            final ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
-        super(dataSource, jpaProperties, jtaTransactionManager, transactionManagerCustomizers);
+            final ObjectProvider<JtaTransactionManager> jtaTransactionManager) {
+        super(dataSource, jpaProperties, jtaTransactionManager);
     }
 
     @Override
