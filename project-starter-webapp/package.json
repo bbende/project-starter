@@ -24,7 +24,7 @@
     "gulp-minify": "^2.1.0",
     "gulp-sass": "^4.0.1",
     "gulp-uglify": "^3.0.1",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "node-sass-tilde-importer": "^1.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
