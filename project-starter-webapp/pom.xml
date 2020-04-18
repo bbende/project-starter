@@ -17,7 +17,8 @@
         <webapp.src.dir>src/main/webapp</webapp.src.dir>
         <webapp.build.dir>${project.build.directory}/frontend</webapp.build.dir>
         <webapp.dist.dir>${project.build.directory}/classes/static</webapp.dist.dir>
-        <swagger.generated.dir>${project.build.directory}/swagger</swagger.generated.dir>
+        <swagger.config.file>${project.build.directory}/classes/swagger-config.json</swagger.config.file>
+        <swagger.specification.dir>${project.build.directory}/swagger-specification</swagger.specification.dir>
         <swagger.dist.dir>${project.build.directory}/classes/static/swagger</swagger.dist.dir>
     </properties>
 
@@ -168,47 +169,22 @@
             </plugin>
             <!-- Generates swagger.json -->
             <plugin>
-                <groupId>com.github.kongchen</groupId>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
-                <version>3.1.6</version>
+                <version>2.1.2</version>
+                <configuration>
+                    <configurationFilePath>${swagger.config.file}</configurationFilePath>
+                    <outputFileName>swagger</outputFileName>
+                    <outputFormat>JSON</outputFormat>
+                    <outputPath>${swagger.specification.dir}</outputPath>
+                    <prettyPrint>true</prettyPrint>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>compile</phase>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>resolve</goal>
                         </goals>
-                        <configuration>
-                            <apiSources>
-                                <apiSource>
-                                    <locations>
-                                        <location>com.bbende.project.starter.web.api</location>
-                                    </locations>
-                                    <schemes>
-                                        <scheme>http</scheme>
-                                        <scheme>https</scheme>
-                                    </schemes>
-                                    <basePath>/project-starter/api</basePath>
-                                    <info>
-                                        <title>Project Starter REST API</title>
-                                        <version>${project.version}</version>
-                                        <description>
-                                            The REST API for the project-starter application.
-                                        </description>
-                                        <contact>
-                                            <name>John Smith</name>
-                                            <email>jsmith@gmail.com</email>
-                                            <url>https://jsmith.org</url>
-                                        </contact>
-                                        <license>
-                                            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-                                            <name>Apache 2.0 License</name>
-                                        </license>
-                                        <termsOfService>As described in the license</termsOfService>
-                                    </info>
-                                    <swaggerDirectory>${swagger.generated.dir}</swaggerDirectory>
-                                </apiSource>
-                            </apiSources>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -266,7 +242,7 @@
                                     </replace>
                                     <echo>Copy swagger.json into static assets folder</echo>
                                     <copy todir="${swagger.dist.dir}">
-                                        <fileset dir="${swagger.generated.dir}">
+                                        <fileset dir="${swagger.specification.dir}">
                                             <include name="*.json" />
                                         </fileset>
                                     </copy>

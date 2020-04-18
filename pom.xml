@@ -135,7 +135,6 @@
                             <quiet>true</quiet>
                             <javadocVersion>1.8.0</javadocVersion>
                             <additionalJOption>-J-Xmx512m</additionalJOption>
-                            <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                         <executions>
                             <execution>

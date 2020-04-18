@@ -1,0 +1,27 @@
+{
+  "resourcePackages": [
+    "com.bbende.project.starter.web.api"
+  ],
+  "cacheTTL": 0,
+  "openAPI": {
+    "info": {
+      "version": "1.0",
+      "title": "Project Starter REST API",
+      "description": "The REST API for the project-starter application.",
+      "contact": {
+        "name": "John Smith",
+        "email": "jsmith@gmail.com"
+      },
+      "termsOfService": "As described in the license",
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      {
+        "url" : "/project-starter/api"
+      }
+    ]
+  }
+}
