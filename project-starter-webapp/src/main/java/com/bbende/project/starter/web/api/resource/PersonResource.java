@@ -3,8 +3,11 @@ package com.bbende.project.starter.web.api.resource;
 import com.bbende.project.starter.dto.ListDTO;
 import com.bbende.project.starter.dto.PersonDTO;
 import com.bbende.project.starter.service.PersonService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +31,6 @@ import java.util.List;
  */
 @Component
 @Path("/people")
-@Api("people")
 public class PersonResource extends ApplicationResource {
 
     private final PersonService personService;
@@ -40,7 +42,16 @@ public class PersonResource extends ApplicationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get all people", response = ListDTO.class)
+    @Operation(
+            summary = "Get People",
+            description = "Retrieves all the people",
+            tags = {"people"},
+            responses = {
+                @ApiResponse(description = "The list of people", content = @Content(
+                        schema = @Schema(implementation = ListDTO.class)
+                ))
+            }
+    )
     public Response getPeople() {
         final List<PersonDTO> people = personService.getAll();
         final ListDTO<PersonDTO> list = new ListDTO<>(people);
@@ -50,8 +61,22 @@ public class PersonResource extends ApplicationResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get person", response = PersonDTO.class)
-    public Response getPerson(@PathParam("id") final String id) {
+    @Operation(
+            summary = "Get Person",
+            description = "Retrieves a person by id",
+            tags = {"people"},
+            responses = {
+                    @ApiResponse(description = "The person with the given id", content = @Content(
+                            schema = @Schema(implementation = PersonDTO.class)
+                    )),
+                    @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+                    @ApiResponse(responseCode = "404", description = "Person not found")
+            }
+    )
+    public Response getPerson(
+            @PathParam("id")
+            @Parameter(description = "The id of the person to retrieve", required = true)
+            final String id) {
         final PersonDTO person = personService.get(id);
         return Response.ok(person).build();
     }
@@ -59,8 +84,22 @@ public class PersonResource extends ApplicationResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Create person", response = PersonDTO.class)
-    public Response createPerson(@Valid final PersonDTO person) {
+    @Operation(
+            summary = "Create person",
+            description = "Creates a new person",
+            tags = {"people"},
+            responses = {
+                    @ApiResponse(description = "The created person", content = @Content(
+                            schema = @Schema(implementation = PersonDTO.class)
+                    )),
+                    @ApiResponse(responseCode = "405", description = "Invalid input")
+            }
+    )
+    public Response createPerson(
+            @Valid
+            @Parameter(description = "The person to create", required = true,
+                    schema = @Schema(implementation = PersonDTO.class))
+            final PersonDTO person) {
         final PersonDTO createdPerson = personService.create(person);
 
         final URI uri = getBaseUriBuilder()
@@ -75,8 +114,27 @@ public class PersonResource extends ApplicationResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Update person", response = PersonDTO.class)
-    public Response updatePerson(@PathParam("id") final String id, final PersonDTO person) {
+    @Operation(
+            summary = "Update person",
+            description = "Updates a new person",
+            tags = {"people"},
+            responses = {
+                    @ApiResponse(description = "The updated person", content = @Content(
+                            schema = @Schema(implementation = PersonDTO.class)
+                    )),
+                    @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+                    @ApiResponse(responseCode = "404", description = "Person not found"),
+                    @ApiResponse(responseCode = "405", description = "Invalid input")
+            }
+    )
+    public Response updatePerson(
+            @PathParam("id")
+            @Parameter(description = "The id of the person to update", required = true)
+            final String id,
+            @Parameter(description = "The person to update", required = true,
+                    schema = @Schema(implementation = PersonDTO.class))
+            final PersonDTO person) {
+
         if (person.getId() == null) {
             person.setId(id);
         }
@@ -92,8 +150,22 @@ public class PersonResource extends ApplicationResource {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Delete person", response = PersonDTO.class)
-    public Response deletePerson(@PathParam("id") final String id) {
+    @Operation(
+        summary = "Delete Person",
+        description = "Delete a person by ID",
+        tags = {"people"},
+        responses = {
+            @ApiResponse(description = "The deleted person", content = @Content(
+                schema = @Schema(implementation = PersonDTO.class)
+            )),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Person not found")
+        }
+    )
+    public Response deletePerson(
+            @PathParam("id")
+            @Parameter(description = "The id of the person to delete", required = true)
+            final String id) {
         final PersonDTO deleted = personService.delete(id);
         return Response.ok(deleted).build();
     }

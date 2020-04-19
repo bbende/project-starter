@@ -1,13 +1,9 @@
 package com.bbende.project.starter.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@ApiModel
 public class PersonDTO {
 
     private String id;
@@ -26,7 +22,6 @@ public class PersonDTO {
 
     private Long updated;
 
-    @ApiModelProperty
     public String getId() {
         return id;
     }
@@ -35,7 +30,6 @@ public class PersonDTO {
         this.id = id;
     }
 
-    @ApiModelProperty
     public String getFirstName() {
         return firstName;
     }
@@ -44,7 +38,6 @@ public class PersonDTO {
         this.firstName = firstName;
     }
 
-    @ApiModelProperty
     public String getLastName() {
         return lastName;
     }
@@ -53,7 +46,6 @@ public class PersonDTO {
         this.lastName = lastName;
     }
 
-    @ApiModelProperty
     public Integer getAge() {
         return age;
     }
@@ -62,7 +54,6 @@ public class PersonDTO {
         this.age = age;
     }
 
-    @ApiModelProperty
     public Long getCreated() {
         return created;
     }
@@ -71,7 +62,6 @@ public class PersonDTO {
         this.created = created;
     }
 
-    @ApiModelProperty
     public Long getUpdated() {
         return updated;
     }

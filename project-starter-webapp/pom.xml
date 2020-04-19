@@ -65,6 +65,11 @@
             <version>${spring.boot.version}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
         <!-- Explicitly declare Jackson dependencies to ensure proper version -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -171,7 +176,7 @@
             <plugin>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
-                <version>2.1.2</version>
+                <version>${swagger.version}</version>
                 <configuration>
                     <configurationFilePath>${swagger.config.file}</configurationFilePath>
                     <outputFileName>swagger</outputFileName>
