@@ -7,34 +7,34 @@
     <title></title>
 </head>
 <body layout:fragment="content">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Age</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="person: ${people}">
-            <td th:text="${person.firstName}">First</td>
-            <td th:text="${person.lastName}">Last</td>
-            <td th:text="${person.age}">Age</td>
-            <td class="align-middle">
-                <form th:action="@{/people/{id}(id=${person.id})}" th:method="DELETE">
-                    <button type="submit" data-confirm="Are you sure?" class="btn btn-raised btn-danger btn-sm">Delete</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="fixed-bottom">
-        <a href="#" th:href="@{/people/new}" class="float-right p-2">
-            <button type="button" class="btn btn-primary bmd-btn-fab">
-                <i class="material-icons">add</i>
-            </button>
+    <div class="row justify-content-end">
+        <a href="#" th:href="@{/people/new}">
+            <button type="button" class="btn btn-outline-primary">Add Person</button>
         </a>
+    </div>
+    <div class="row mt-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Age</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person: ${people}">
+                <td th:text="${person.firstName}">First</td>
+                <td th:text="${person.lastName}">Last</td>
+                <td th:text="${person.age}">Age</td>
+                <td class="align-middle">
+                    <form th:action="@{/people/{id}(id=${person.id})}" th:method="DELETE">
+                        <button type="submit" data-confirm="Are you sure?" class="btn btn-raised btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

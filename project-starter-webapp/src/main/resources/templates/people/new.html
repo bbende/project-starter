@@ -6,28 +6,34 @@
     <title></title>
 </head>
 <body layout:fragment="content">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-4">
             <h3>New Person</h3>
             <hr/>
             <form action="#" th:action="@{/people}" th:object="${person}" method="post">
-                <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating" for="firstName">First Name</label>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
                     <input type="text" class="form-control" th:errorclass="is-invalid" id="firstName" th:field="*{firstName}">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                 </div>
-                <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating" for="lastName">Last Name</label>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
                     <input type="text" class="form-control" th:errorclass="is-invalid" id="lastName" th:field="*{lastName}">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                 </div>
-                <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating" for="age">Age</label>
+                <div class="form-group">
+                    <label for="age">Age</label>
                     <input type="text" class="form-control" th:errorclass="is-invalid" id="age" th:field="*{age}">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
                 </div>
-                <button type="submit" class="btn btn-outline-primary">Create</button>
-                <a href="#" th:href="@{/people}" class="btn btn-outline-danger" role="button">Cancel</a>
+                <div class="form-row justify-content-between">
+                    <div class="col-3">
+                        <a href="#" th:href="@{/people}" class="btn btn-outline-danger" role="button">Cancel</a>
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-outline-primary">Create</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

@@ -12,4 +12,4 @@ const application = Application.start();
 application.register("app", AppController);
 application.register("nav", NavController);
 
-import 'bootstrap-material-design'
+import 'bootstrap'
