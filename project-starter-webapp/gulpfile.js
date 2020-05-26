@@ -20,7 +20,8 @@ var minifyFlag = argv.envName === 'dist';
 gulp.task('copy-stylesheets', function () {
     return gulp.src([
             srcDir + '/stylesheets/**/*',
-            'node_modules/font-awesome/css/font-awesome.css'
+            'node_modules/font-awesome/css/font-awesome.css',
+            'node_modules/unpoly/dist/unpoly.css'
         ])
         .pipe(gulp.dest(buildDir + '/stylesheets'));
 });

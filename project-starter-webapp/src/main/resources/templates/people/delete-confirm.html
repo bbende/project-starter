@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+    <head>
+        <meta charset="utf-8" />
+        <title>Delete Person</title>
+    </head>
+    <body>
+        <div class="modal-confirm" layout:fragment="layout-content">
+            <div class="row justify-content-center">
+                <div class="col-8">
+                    <h3>Delete Person</h3>
+                    <hr/>
+                    <p>Are you sure? </p>
+                    <form th:action="@{/people/{id}(id=${person.id})}" th:method="DELETE" up-target=".layout-content">
+                        <button type="submit" class="btn btn-raised btn-danger btn-sm">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

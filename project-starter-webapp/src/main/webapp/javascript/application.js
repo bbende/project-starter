@@ -1,8 +1,5 @@
 import './load-jquery';
-import 'rails-ujs';
-
-import Turbolinks from "turbolinks";
-Turbolinks.start();
+import 'unpoly';
 
 import { Application } from "stimulus";
 import AppController from "./controllers/app_controller";

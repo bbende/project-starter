@@ -10,6 +10,7 @@ export default class extends Controller {
             $('#navbarSide').addClass('navbar-side-reveal');
             $('main').addClass('push-main');
         }
+        document.activeElement.blur();
     }
 
 }

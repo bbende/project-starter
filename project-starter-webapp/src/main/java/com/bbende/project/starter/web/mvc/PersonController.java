@@ -53,6 +53,13 @@ public class PersonController {
         }
     }
 
+    @GetMapping("/people/{id}/delete/confirm")
+    public ModelAndView deleteConfirm(@PathVariable final String id) {
+        final PersonDTO person = personService.get(id);
+        final ModelMap modelMap = new ModelMap("person", person);
+        return new ModelAndView("people/delete-confirm", modelMap);
+    }
+
     @DeleteMapping("/people/{id}")
     public ModelAndView delete(@PathVariable final String id) {
         personService.delete(id);

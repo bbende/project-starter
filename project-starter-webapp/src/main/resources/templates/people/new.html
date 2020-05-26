@@ -3,36 +3,38 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Create Person</title>
 </head>
-<body layout:fragment="content">
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <h3>New Person</h3>
-            <hr/>
-            <form action="#" th:action="@{/people}" th:object="${person}" method="post">
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" th:errorclass="is-invalid" id="firstName" th:field="*{firstName}">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" th:errorclass="is-invalid" id="lastName" th:field="*{lastName}">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-                </div>
-                <div class="form-group">
-                    <label for="age">Age</label>
-                    <input type="text" class="form-control" th:errorclass="is-invalid" id="age" th:field="*{age}">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
-                </div>
-                <a href="#" th:href="@{/people}" class="btn btn-danger" role="button">
-                    <i class="fa fa-ban" aria-hidden="true"></i><span>Cancel</span>
-                </a>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-floppy-o" aria-hidden="true"></i><span>Save</span>
-                </button>
-            </form>
+<body>
+    <div class="layout-content" layout:fragment="layout-content">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <h3>Create Person</h3>
+                <hr/>
+                <form action="#" th:action="@{/people}" th:object="${person}" method="post" up-target=".layout-content">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" th:errorclass="is-invalid" id="firstName" th:field="*{firstName}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" th:errorclass="is-invalid" id="lastName" th:field="*{lastName}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" class="form-control" th:errorclass="is-invalid" id="age" th:field="*{age}">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+                    </div>
+                    <a href="#" th:href="@{/people}" class="btn btn-danger" up-target=".layout-content" up-transition="cross-fade" role="button">
+                        <i class="fa fa-ban fa-pad-right" aria-hidden="true"></i><span>Cancel</span>
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-floppy-o fa-pad-right" aria-hidden="true"></i><span>Save</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </body>

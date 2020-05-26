@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" data-turbolinks-track="reload" />
-    <script th:src="@{/javascript/application.js}" data-turbolinks-track="reload"></script>
+    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" />
+    <script th:src="@{/javascript/application.js}"></script>
     <title>Project Starter</title>
 </head>
 <body>
@@ -31,10 +31,10 @@
 
             <ul class="navbar-side" id="navbarSide">
                 <li class="navbar-side-item">
-                    <a href="#" th:href="@{/}" class="side-link active">Home</a>
+                    <a href="#" th:href="@{/}" class="side-link active" up-target=".layout-content" up-transition="cross-fade">Home</a>
                 </li>
                 <li class="navbar-side-item">
-                    <a href="#" th:href="@{/people}" class="side-link">People</a>
+                    <a href="#" th:href="@{/people}" class="side-link" up-target=".layout-content" up-transition="cross-fade">People</a>
                 </li>
                 <li class="navbar-side-item">
                     <hr></hr>
@@ -49,7 +49,7 @@
         </nav>
     </div>
     <main role="main" class="container">
-        <div layout:fragment="content"></div>
+        <div class="layout-content" layout:fragment="layout-content"></div>
     </main>
 </body>
 </html>
