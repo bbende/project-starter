@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.mvc;
 
-import com.bbende.project.starter.dto.PersonDTO;
-import com.bbende.project.starter.service.PersonService;
+import com.bbende.project.starter.core.modules.person.PersonDto;
+import com.bbende.project.starter.core.modules.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,7 +33,7 @@ public class PersonController {
 
     @GetMapping("/people/new")
     public ModelAndView newPerson() {
-        final ModelMap modelMap = new ModelMap("person", new PersonDTO());
+        final ModelMap modelMap = new ModelMap("person", new PersonDto());
         return new ModelAndView("people/new", modelMap);
     }
 
@@ -41,7 +41,7 @@ public class PersonController {
     public ModelAndView createPerson(
             @Valid
             @ModelAttribute(name = "person")
-            final PersonDTO person,
+            final PersonDto person,
             final BindingResult bindingResult
     ) {
 
@@ -55,7 +55,7 @@ public class PersonController {
 
     @GetMapping("/people/{id}/delete/confirm")
     public ModelAndView deleteConfirm(@PathVariable final String id) {
-        final PersonDTO person = personService.get(id);
+        final PersonDto person = personService.get(id);
         final ModelMap modelMap = new ModelMap("person", person);
         return new ModelAndView("people/delete-confirm", modelMap);
     }

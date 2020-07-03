@@ -1,8 +1,8 @@
 package com.bbende.project.starter.web.api.resource;
 
-import com.bbende.project.starter.dto.ListDTO;
-import com.bbende.project.starter.dto.PersonDTO;
-import com.bbende.project.starter.service.PersonService;
+import com.bbende.project.starter.core.commons.dto.ListDto;
+import com.bbende.project.starter.core.modules.person.PersonDto;
+import com.bbende.project.starter.core.modules.person.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -48,13 +48,13 @@ public class PersonResource extends ApplicationResource {
             tags = {"people"},
             responses = {
                 @ApiResponse(description = "The list of people", content = @Content(
-                        schema = @Schema(implementation = ListDTO.class)
+                        schema = @Schema(implementation = ListDto.class)
                 ))
             }
     )
     public Response getPeople() {
-        final List<PersonDTO> people = personService.getAll();
-        final ListDTO<PersonDTO> list = new ListDTO<>(people);
+        final List<PersonDto> people = personService.getAll();
+        final ListDto<PersonDto> list = new ListDto<>(people);
         return Response.ok(list).build();
     }
 
@@ -67,7 +67,7 @@ public class PersonResource extends ApplicationResource {
             tags = {"people"},
             responses = {
                     @ApiResponse(description = "The person with the given id", content = @Content(
-                            schema = @Schema(implementation = PersonDTO.class)
+                            schema = @Schema(implementation = PersonDto.class)
                     )),
                     @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
                     @ApiResponse(responseCode = "404", description = "Person not found")
@@ -77,7 +77,7 @@ public class PersonResource extends ApplicationResource {
             @PathParam("id")
             @Parameter(description = "The id of the person to retrieve", required = true)
             final String id) {
-        final PersonDTO person = personService.get(id);
+        final PersonDto person = personService.get(id);
         return Response.ok(person).build();
     }
 
@@ -90,7 +90,7 @@ public class PersonResource extends ApplicationResource {
             tags = {"people"},
             responses = {
                     @ApiResponse(description = "The created person", content = @Content(
-                            schema = @Schema(implementation = PersonDTO.class)
+                            schema = @Schema(implementation = PersonDto.class)
                     )),
                     @ApiResponse(responseCode = "405", description = "Invalid input")
             }
@@ -98,9 +98,9 @@ public class PersonResource extends ApplicationResource {
     public Response createPerson(
             @Valid
             @Parameter(description = "The person to create", required = true,
-                    schema = @Schema(implementation = PersonDTO.class))
-            final PersonDTO person) {
-        final PersonDTO createdPerson = personService.create(person);
+                    schema = @Schema(implementation = PersonDto.class))
+            final PersonDto person) {
+        final PersonDto createdPerson = personService.create(person);
 
         final URI uri = getBaseUriBuilder()
                 .path(PersonResource.class, "getPerson")
@@ -120,7 +120,7 @@ public class PersonResource extends ApplicationResource {
             tags = {"people"},
             responses = {
                     @ApiResponse(description = "The updated person", content = @Content(
-                            schema = @Schema(implementation = PersonDTO.class)
+                            schema = @Schema(implementation = PersonDto.class)
                     )),
                     @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
                     @ApiResponse(responseCode = "404", description = "Person not found"),
@@ -132,8 +132,8 @@ public class PersonResource extends ApplicationResource {
             @Parameter(description = "The id of the person to update", required = true)
             final String id,
             @Parameter(description = "The person to update", required = true,
-                    schema = @Schema(implementation = PersonDTO.class))
-            final PersonDTO person) {
+                    schema = @Schema(implementation = PersonDto.class))
+            final PersonDto person) {
 
         if (person.getId() == null) {
             person.setId(id);
@@ -143,7 +143,7 @@ public class PersonResource extends ApplicationResource {
             throw new IllegalStateException("Id in request body must match id in url path");
         }
 
-        final PersonDTO updatedPerson = personService.update(person);
+        final PersonDto updatedPerson = personService.update(person);
         return Response.ok(updatedPerson).build();
     }
 
@@ -156,7 +156,7 @@ public class PersonResource extends ApplicationResource {
         tags = {"people"},
         responses = {
             @ApiResponse(description = "The deleted person", content = @Content(
-                schema = @Schema(implementation = PersonDTO.class)
+                schema = @Schema(implementation = PersonDto.class)
             )),
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Person not found")
@@ -166,7 +166,7 @@ public class PersonResource extends ApplicationResource {
             @PathParam("id")
             @Parameter(description = "The id of the person to delete", required = true)
             final String id) {
-        final PersonDTO deleted = personService.delete(id);
+        final PersonDto deleted = personService.delete(id);
         return Response.ok(deleted).build();
     }
 

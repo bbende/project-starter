@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.api.resource;
 
-import com.bbende.project.starter.dto.ListDTO;
-import com.bbende.project.starter.dto.PersonDTO;
+import com.bbende.project.starter.core.commons.dto.ListDto;
+import com.bbende.project.starter.core.modules.person.PersonDto;
 import com.bbende.project.starter.web.api.RestIT;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-
 public class PersonResourceIT extends RestIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonResourceIT.class);
@@ -33,22 +32,22 @@ public class PersonResourceIT extends RestIT {
 
     @Test
     public void testPersonResource() {
-        // Verify we start with 0 people
-        final ListDTO<PersonDTO> initialPeople = peopleTarget.request()
-                .get(new GenericType<ListDTO<PersonDTO>>() {});
+        // Verify we start with 2 people
+        final ListDto<PersonDto> initialPeople = peopleTarget.request()
+                .get(new GenericType<ListDto<PersonDto>>() {});
         assertNotNull(initialPeople);
         assertNotNull(initialPeople.getElements());
         assertEquals(0, initialPeople.getElements().size());
 
         // Create a person
-        final PersonDTO person = new PersonDTO();
+        final PersonDto person = new PersonDto();
         person.setFirstName("John");
         person.setLastName("Smith");
         person.setAge(21);
 
-        final PersonDTO createdPerson = peopleTarget.request()
+        final PersonDto createdPerson = peopleTarget.request()
                 .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE),
-                        PersonDTO.class);
+                        PersonDto.class);
 
         assertNotNull(createdPerson);
         assertNotNull(createdPerson.getId());
@@ -56,17 +55,17 @@ public class PersonResourceIT extends RestIT {
         assertEquals(person.getLastName(), createdPerson.getLastName());
         assertEquals(person.getAge(), createdPerson.getAge());
 
-        // Verify we have 1 person now
-        final ListDTO<PersonDTO> peopleAfterCreate = peopleTarget.request()
-                .get(new GenericType<ListDTO<PersonDTO>>() {});
+        // Verify we have 3 people now
+        final ListDto<PersonDto> peopleAfterCreate = peopleTarget.request()
+                .get(new GenericType<ListDto<PersonDto>>() {});
         assertEquals(1, peopleAfterCreate.getElements().size());
 
         // Verify we can retrieve by id
-        final PersonDTO retrievedPerson = peopleTarget
+        final PersonDto retrievedPerson = peopleTarget
                 .path("/{id}")
                 .resolveTemplate("id", createdPerson.getId())
                 .request()
-                .get(PersonDTO.class);
+                .get(PersonDto.class);
 
         assertNotNull(retrievedPerson);
         assertEquals(createdPerson.getId(), retrievedPerson.getId());
@@ -75,14 +74,14 @@ public class PersonResourceIT extends RestIT {
         assertEquals(createdPerson.getAge(), retrievedPerson.getAge());
 
         // Verify we can update the person
-        final PersonDTO partialUpdate = new PersonDTO();
+        final PersonDto partialUpdate = new PersonDto();
         partialUpdate.setFirstName("UPDATED");
 
-        final PersonDTO updatedPerson = peopleTarget
+        final PersonDto updatedPerson = peopleTarget
                 .path("/{id}")
                 .resolveTemplate("id", createdPerson.getId())
                 .request()
-                .put(Entity.entity(partialUpdate, MediaType.APPLICATION_JSON_TYPE), PersonDTO.class);
+                .put(Entity.entity(partialUpdate, MediaType.APPLICATION_JSON_TYPE), PersonDto.class);
 
         assertNotNull(updatedPerson);
         assertEquals(retrievedPerson.getId(), updatedPerson.getId());
@@ -96,18 +95,18 @@ public class PersonResourceIT extends RestIT {
                 .request()
                 .delete();
 
-        // Verify we have 0 people again
-        final ListDTO<PersonDTO> peopleAfterDelete = peopleTarget.request()
-                .get(new GenericType<ListDTO<PersonDTO>>() {});
+        // Verify we have 2 people again
+        final ListDto<PersonDto> peopleAfterDelete = peopleTarget.request()
+                .get(new GenericType<ListDto<PersonDto>>() {});
         assertEquals(0, peopleAfterDelete.getElements().size());
 
         // Verify we can't create an invalid person
-        final PersonDTO invalidPerson = new PersonDTO();
+        final PersonDto invalidPerson = new PersonDto();
 
         try {
             peopleTarget.request()
                     .post(Entity.entity(invalidPerson, MediaType.APPLICATION_JSON_TYPE),
-                            PersonDTO.class);
+                            PersonDto.class);
             Assert.fail("Should have thrown exception");
         } catch (BadRequestException e) {
             //LOGGER.debug(e.getMessage(), e);

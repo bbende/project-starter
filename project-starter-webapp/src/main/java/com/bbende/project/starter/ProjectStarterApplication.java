@@ -1,6 +1,6 @@
 package com.bbende.project.starter;
 
-import com.bbende.project.starter.config.ProjectStarterProperties;
+import com.bbende.project.starter.core.config.ProjectStarterProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

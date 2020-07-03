@@ -1,7 +1,10 @@
 package com.bbende.project.starter.web;
 
-import com.bbende.project.starter.ProjectStarterApplication;
+import com.bbende.project.starter.TestApplication;
 import org.apache.commons.lang3.StringUtils;
+import org.flywaydb.test.FlywayTestExecutionListener;
+import org.flywaydb.test.annotation.FlywayTest;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -9,7 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.boot.web.server.Ssl;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 /**
  * Base class for web-related IT tests.
@@ -21,9 +28,15 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(
-        classes = ProjectStarterApplication.class,
+        classes = TestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("dev")
+@TestExecutionListeners({
+        TransactionalTestExecutionListener.class,
+        DependencyInjectionTestExecutionListener.class,
+        FlywayTestExecutionListener.class,
+        SqlScriptsTestExecutionListener.class
+})
 public abstract class WebIT {
 
     @LocalServerPort
@@ -31,6 +44,14 @@ public abstract class WebIT {
 
     @Autowired
     protected ServerProperties serverProperties;
+
+    @Before
+    @FlywayTest
+    public void cleanDatabase() {
+        // ----- NOTE ------
+        // The @FlywayTest annotation will cause the DB to be reset and re-migrated before each test
+        // which ensures a consistent state even if we commit a test transaction to add/delete data
+    }
 
     protected String createBaseUrl() {
         final Ssl ssl = serverProperties.getSsl();

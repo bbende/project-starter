@@ -41,8 +41,6 @@
 
     <modules>
       <module>project-starter-webapp</module>
-      <module>project-starter-dto</module>
-      <module>project-starter-core</module>
       <module>project-starter-assembly</module>
     </modules>
 
