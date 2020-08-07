@@ -1,4 +1,4 @@
-# Spring-Boot Project Starter
+# Project Starter
 
 Shell application to quickly start a new spring-boot project.
 

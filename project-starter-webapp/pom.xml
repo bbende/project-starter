@@ -6,7 +6,7 @@
 	
     <parent>
       <groupId>com.bbende</groupId>
-      <artifactId>spring-boot-project-starter</artifactId>
+      <artifactId>project-starter</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </parent>
 
