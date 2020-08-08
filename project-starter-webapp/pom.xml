@@ -153,6 +153,7 @@
 
     <build>
         <plugins>
+
             <!-- Enables resource filtering for property files in src/main/resources/config using # as the
                 delimiter. For example #project.version# would be replaced with the appropriate value. -->
             <plugin>
@@ -192,6 +193,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Static weaver for EclipseLink -->
             <plugin>
                 <groupId>com.ethlo.persistence.tools</groupId>
@@ -213,6 +215,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
             <!-- Install frontend dependencies and run gulp to pack css & js -->
             <plugin>
                 <groupId>com.github.eirslett</groupId>
@@ -249,6 +252,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Generates swagger.json -->
             <plugin>
                 <groupId>io.swagger.core.v3</groupId>
@@ -270,6 +274,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Downloads swagger UI static assets during the build to be served by the web app.
                  To build without the swagger UI, activate the "no-swagger-ui" maven profile. -->
             <plugin>
@@ -290,6 +295,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Process the downloaded swagger-ui and place it in the static resources location -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -334,14 +340,17 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Package the application using the spring-boot plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
                 <configuration>
-                    <jvmArguments>-Dserver.port=${server.port}</jvmArguments>
                     <layout>ZIP</layout>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
                 </configuration>
                 <executions>
                     <execution>
@@ -352,6 +361,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 

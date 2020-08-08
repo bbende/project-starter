@@ -15,33 +15,38 @@
         <!-- Project/Plugin related properties -->
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
+        <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>2.22.2</maven.failsafe.plugin.version>
         <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
         <maven.checkstyle.puppycrawl.version>8.31</maven.checkstyle.puppycrawl.version>
         <maven.javadoc.plugin.version>3.2.0</maven.javadoc.plugin.version>
         <maven.source.plugin.version>3.2.0</maven.source.plugin.version>
+        <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
+        <dockerfile.maven.plugin.version>1.4.13</dockerfile.maven.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <server.port>8080</server.port>
-        <env.name>dist</env.name>
 
         <!-- Dependency Versions -->
-        <spring.boot.version>2.3.0.RELEASE</spring.boot.version>
+        <spring.boot.version>2.3.2.RELEASE</spring.boot.version>
         <jackson.version>2.11.0</jackson.version>
         <flyway.version>6.3.2</flyway.version>
         <flyway.tests.version>6.1.0</flyway.tests.version>
         <eclipse.link.version>2.7.6</eclipse.link.version>
-        <javax.validation.api.version>2.0.1.Final</javax.validation.api.version>
         <node.version>v10.14.1</node.version>
         <npm.version>6.4.1</npm.version>
         <swagger.ui.version>3.12.0</swagger.ui.version>
         <swagger.version>2.1.2</swagger.version>
+
+        <!-- Default env name (dist or dev)-->
+        <env.name>dist</env.name>
     </properties>
 
     <modules>
       <module>project-starter-webapp</module>
       <module>project-starter-assembly</module>
+      <module>project-starter-docker</module>
     </modules>
 
     <dependencies>
@@ -60,7 +65,40 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.plugin.version}</version>
+                    <configuration>
+                        <argLine>
+                            --illegal-access=permit
+                        </argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.plugin.version}</version>
+                    <configuration>
+                        <argLine>
+                            --illegal-access=permit
+                        </argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <profiles>
+
         <!-- Sets env.name=dev so frontend-maven-plugin can tell Gulp to disable minifiy/uglify -->
         <profile>
             <id>dev</id>
@@ -73,6 +111,7 @@
                 <env.name>dev</env.name>
             </properties>
         </profile>
+
         <!-- Controls running the checkstyle plugin, use -DskipCheckstyle to skip -->
         <profile>
             <id>checkstyle</id>
@@ -111,6 +150,7 @@
                 </plugins>
             </build>
         </profile>
+
         <!-- Controls running the javadoc plugin, use -DskipJavaDoc to skip -->
         <profile>
             <id>javadoc</id>
@@ -143,10 +183,10 @@
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
+
         <!-- Controls running the attach-sources plugin, use -DskipSources to skip  -->
         <profile>
             <id>attach-sources</id>
@@ -172,6 +212,7 @@
                 </plugins>
             </build>
         </profile>
+
         <!-- Controls running integration tests, specify -DskipITs to skip -->
         <profile>
             <id>integration-tests</id>
@@ -202,6 +243,7 @@
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 
 </project>
