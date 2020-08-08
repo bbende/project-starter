@@ -20,6 +20,7 @@ class StandardProjectDetailsService implements ProjectDetailsService {
     public ProjectDetailsDto getProjectDetails() {
         final ProjectDetailsDto projectDetails = new ProjectDetailsDto();
         projectDetails.setVersion("v" + properties.getProject().getVersion());
+        projectDetails.setLabel(properties.getProject().getLabel());
         return projectDetails;
     }
 }

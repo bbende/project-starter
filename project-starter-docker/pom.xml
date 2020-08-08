@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>project-starter</artifactId>
+        <groupId>com.bbende</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <packaging>pom</packaging>
+
+    <artifactId>project-starter-docker</artifactId>
+    <name>Project Starter Docker</name>
+
+    <!-- Depend on the webapp jar so it can be copied into the docker image -->
+    <dependencies>
+        <dependency>
+            <groupId>com.bbende</groupId>
+            <artifactId>project-starter-webapp</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>!skipDocker</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Copy application binary to target -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven.dependency.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/binary</outputDirectory>
+                                    <includeScope>compile</includeScope>
+                                    <excludeScope>test</excludeScope>
+                                    <excludeTransitive>true</excludeTransitive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Build docker image -->
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>${dockerfile.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repository>project-starter</repository>
+                            <tag>${project.version}</tag>
+                            <buildArgs>
+                                <USER>pstarter</USER>
+                                <PROJECT_STARTER_BASE_DIR>/opt/project-starter</PROJECT_STARTER_BASE_DIR>
+                                <PROJECT_STARTER_BINARY>target/binary/project-starter-webapp-${project.version}.jar</PROJECT_STARTER_BINARY>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
