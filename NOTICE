@@ -1,0 +1,5 @@
+Project Starter - 2020
+
+This includes derived works from the Apache NiFi Registry (ASLv2 licensed) project (https://git-wip-us.apache.org/repos/asf?p=nifi-registry.git):
+  Copyright 2015-2020 The Apache Software Foundation
+  This includes data source factories for use with spring boot integration tests

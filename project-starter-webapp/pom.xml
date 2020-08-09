@@ -36,7 +36,7 @@
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>2.4.1</version>
+            <version>${thymeleaf.dialect.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.thymeleaf</groupId>
@@ -98,12 +98,12 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.10</version>
+            <version>${commons.lang.version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -149,13 +149,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.bbende</groupId>
+            <artifactId>project-starter-testcontainers</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-
-            <!-- Enables resource filtering for property files in src/main/resources/config using # as the
-                delimiter. For example #project.version# would be replaced with the appropriate value. -->
+            <!-- Enables resource filtering for property files in src/main/resources/config using # as the delimiter.
+                 For example #project.version# would be replaced with the appropriate value. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -198,7 +203,7 @@
             <plugin>
                 <groupId>com.ethlo.persistence.tools</groupId>
                 <artifactId>eclipselink-maven-plugin</artifactId>
-                <version>2.7.1.1</version>
+                <version>${maven.eclipselink.plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>process-classes</phase>
@@ -220,7 +225,7 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.6</version>
+                <version>${maven.frontend.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>install-node-and-npm</id>
@@ -275,12 +280,11 @@
                 </executions>
             </plugin>
 
-            <!-- Downloads swagger UI static assets during the build to be served by the web app.
-                 To build without the swagger UI, activate the "no-swagger-ui" maven profile. -->
+            <!-- Downloads swagger UI static assets, can be deactivated using the "no-swagger-ui" profile -->
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>${maven.download.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>download-swagger-ui</id>
@@ -300,7 +304,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
+                <version>${maven.antrun.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>bundle-swagger-ui</id>
@@ -341,7 +345,7 @@
                 </executions>
             </plugin>
 
-            <!-- Package the application using the spring-boot plugin -->
+            <!-- Package the application using the spring-boot plugin, enable layers for building a docker image -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -366,8 +370,7 @@
     </build>
 
     <profiles>
-        <!-- Activate this profile with "-P no-swagger-ui" to disable the Swagger UI
-            static assets from being downloaded and bundled into the final application. -->
+        <!-- Disables the Swagger UI static assets from being downloaded and bundled into the final application. -->
         <profile>
             <id>no-swagger-ui</id>
             <build>
@@ -375,7 +378,7 @@
                     <plugin>
                         <groupId>com.googlecode.maven-download-plugin</groupId>
                         <artifactId>download-maven-plugin</artifactId>
-                        <version>1.2.1</version>
+                        <version>${maven.download.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>download-swagger-ui</id>
@@ -386,7 +389,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
+                        <version>${maven.antrun.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>bundle-swagger-ui</id>
@@ -397,6 +400,174 @@
                 </plugins>
             </build>
         </profile>
+
+        <!-- Profile to include the MySQL driver when building the application -->
+        <profile>
+            <id>mysql</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql.driver.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Profile to include the MySQL driver when building the application -->
+        <profile>
+            <id>mariadb</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.mariadb.jdbc</groupId>
+                    <artifactId>mariadb-java-client</artifactId>
+                    <version>${mariadb.driver.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Profile to include the Postgres driver when building the application -->
+        <profile>
+            <id>postgres</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgres.driver.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Runs integration tests against all databases -->
+        <profile>
+            <id>test-all-dbs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <executions>
+                            <!-- ###### MySQL test profiles ###### -->
+                            <execution>
+                                <id>mysql-5.6-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>mysql-56</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>mysql-5.7-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>mysql-57</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>mysql-8-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>mysql-8</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                            <!-- ###### MariaDB test profiles ###### -->
+                            <execution>
+                                <id>mariadb-10-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>mariadb-10</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>mariadb-10.2-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>mariadb-10-2</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>mariadb-10.3-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>mariadb-10-3</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                            <!-- ###### Postgres test profiles ###### -->
+                            <execution>
+                                <id>postgres-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>postgres</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>postgres10-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <spring.profiles.active>postgres-10</spring.profiles.active>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 
 </project>

@@ -24,7 +24,11 @@
         <maven.javadoc.plugin.version>3.2.0</maven.javadoc.plugin.version>
         <maven.source.plugin.version>3.2.0</maven.source.plugin.version>
         <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
-        <dockerfile.maven.plugin.version>1.4.13</dockerfile.maven.plugin.version>
+        <maven.antrun.plugin.version>1.8</maven.antrun.plugin.version>
+        <maven.download.plugin.version>1.2.1</maven.download.plugin.version>
+        <maven.frontend.plugin.version>1.6</maven.frontend.plugin.version>
+        <maven.eclipselink.plugin.version>2.7.1.1</maven.eclipselink.plugin.version>
+        <maven.dockerfile.plugin.version>1.4.13</maven.dockerfile.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -34,10 +38,17 @@
         <flyway.version>6.3.2</flyway.version>
         <flyway.tests.version>6.1.0</flyway.tests.version>
         <eclipse.link.version>2.7.6</eclipse.link.version>
+        <h2.version>1.4.200</h2.version>
+        <postgres.driver.version>42.2.5</postgres.driver.version>
+        <mysql.driver.version>8.0.15</mysql.driver.version>
+        <mariadb.driver.version>2.4.1</mariadb.driver.version>
+        <test.containers.version>1.14.3</test.containers.version>
         <node.version>v10.14.1</node.version>
         <npm.version>6.4.1</npm.version>
         <swagger.ui.version>3.12.0</swagger.ui.version>
         <swagger.version>2.1.2</swagger.version>
+        <commons.lang.version>3.10</commons.lang.version>
+        <thymeleaf.dialect.version>2.4.1</thymeleaf.dialect.version>
 
         <!-- Default env name (dist or dev)-->
         <env.name>dist</env.name>
@@ -47,23 +58,8 @@
       <module>project-starter-webapp</module>
       <module>project-starter-assembly</module>
       <module>project-starter-docker</module>
+      <module>project-starter-testcontainers</module>
     </modules>
-
-    <dependencies>
-        <!-- Common test dependencies -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.3.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <pluginManagement>
@@ -98,7 +94,6 @@
     </build>
 
     <profiles>
-
         <!-- Sets env.name=dev so frontend-maven-plugin can tell Gulp to disable minifiy/uglify -->
         <profile>
             <id>dev</id>
@@ -171,8 +166,8 @@
                             <show>private</show>
                             <encoding>UTF-8</encoding>
                             <quiet>true</quiet>
-                            <javadocVersion>1.8.0</javadocVersion>
                             <additionalJOption>-J-Xmx512m</additionalJOption>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                         </configuration>
                         <executions>
                             <execution>

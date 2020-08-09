@@ -27,9 +27,7 @@
         <profile>
             <id>docker</id>
             <activation>
-                <property>
-                    <name>!skipDocker</name>
-                </property>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>
@@ -57,7 +55,7 @@
                     <plugin>
                         <groupId>com.spotify</groupId>
                         <artifactId>dockerfile-maven-plugin</artifactId>
-                        <version>${dockerfile.maven.plugin.version}</version>
+                        <version>${maven.dockerfile.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>default</id>
