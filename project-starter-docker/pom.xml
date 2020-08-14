@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>com.bbende.project.starter</groupId>
         <artifactId>project-starter</artifactId>
-        <groupId>com.bbende</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <packaging>pom</packaging>
@@ -16,7 +16,7 @@
     <!-- Depend on the webapp jar so it can be copied into the docker image -->
     <dependencies>
         <dependency>
-            <groupId>com.bbende</groupId>
+            <groupId>com.bbende.project.starter</groupId>
             <artifactId>project-starter-webapp</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
@@ -26,16 +26,12 @@
     <profiles>
         <profile>
             <id>docker</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <!-- Copy application binary to target -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>${maven.dependency.plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>

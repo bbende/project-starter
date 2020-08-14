@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>com.bbende.project.starter</groupId>
         <artifactId>project-starter</artifactId>
-        <groupId>com.bbende</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <packaging>pom</packaging>
@@ -15,7 +15,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.bbende</groupId>
+            <groupId>com.bbende.project.starter</groupId>
             <artifactId>project-starter-webapp</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -24,8 +24,8 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
                 <configuration>
                     <finalName>project-starter-${project.version}</finalName>
                     <attach>false</attach>

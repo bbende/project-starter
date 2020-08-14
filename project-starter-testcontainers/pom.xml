@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>com.bbende.project.starter</groupId>
         <artifactId>project-starter</artifactId>
-        <groupId>com.bbende</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
@@ -61,7 +61,6 @@
             <artifactId>postgresql</artifactId>
             <version>${postgres.driver.version}</version>
         </dependency>
-
     </dependencies>
 
     <!-- Override the javadoc plugin config so it doesn't execute on this module -->
@@ -70,7 +69,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven.javadoc.plugin.version}</version>
                 <executions>
                     <execution>
                     </execution>

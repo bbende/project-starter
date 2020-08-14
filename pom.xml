@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bbende</groupId>
+    <groupId>com.bbende.project.starter</groupId>
     <artifactId>project-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -13,12 +13,14 @@
 
     <properties>
         <!-- Project/Plugin related properties -->
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>2.22.2</maven.failsafe.plugin.version>
+        <maven.assembly.plugin.version>3.0.0</maven.assembly.plugin.version>
         <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
         <maven.checkstyle.puppycrawl.version>8.31</maven.checkstyle.puppycrawl.version>
         <maven.javadoc.plugin.version>3.2.0</maven.javadoc.plugin.version>
@@ -52,6 +54,9 @@
 
         <!-- Default env name (dist or dev)-->
         <env.name>dist</env.name>
+
+        <!-- Passed to surefire and failsafe plugins to control skipping tests -->
+        <skip.tests>false</skip.tests>
     </properties>
 
     <modules>
@@ -64,181 +69,268 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!-- Maven compiler -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
                 </plugin>
+                <!-- Run unit tests -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.plugin.version}</version>
                     <configuration>
-                        <argLine>
-                            --illegal-access=permit
-                        </argLine>
+                        <argLine>--illegal-access=permit</argLine>
+                        <skipTests>${skip.tests}</skipTests>
                     </configuration>
                 </plugin>
+                <!-- Run integration tests -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.plugin.version}</version>
                     <configuration>
-                        <argLine>
-                            --illegal-access=permit
-                        </argLine>
+                        <argLine>--illegal-access=permit</argLine>
+                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                        <skipTests>${skip.tests}</skipTests>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <phase>verify</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Check code style/formatting -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${maven.checkstyle.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${maven.checkstyle.puppycrawl.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configLocation>checkstyle.xml</configLocation>
+                        <violationSeverity>warning</violationSeverity>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>check-style</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Generate javadocs -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.javadoc.plugin.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <failOnError>false</failOnError>
+                        <quiet>true</quiet>
+                        <show>private</show>
+                        <encoding>UTF-8</encoding>
+                        <quiet>true</quiet>
+                        <additionalJOption>-J-Xmx512m</additionalJOption>
+                        <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Attach sources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.source.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Process resources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.resources.plugin.version}</version>
+                </plugin>
+                <!-- Copy dependencies -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.plugin.version}</version>
+                </plugin>
+                <!-- Build zip and tar/gz assemblies -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven.assembly.plugin.version}</version>
+                </plugin>
+                <!-- Package spring-boot applications -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                    <configuration>
+                        <layout>ZIP</layout>
+                        <layers>
+                            <enabled>true</enabled>
+                        </layers>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Eclipse link static weaver -->
+                <plugin>
+                    <groupId>com.ethlo.persistence.tools</groupId>
+                    <artifactId>eclipselink-maven-plugin</artifactId>
+                    <version>${maven.eclipselink.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>weave</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.eclipse.persistence</groupId>
+                            <artifactId>org.eclipse.persistence.jpa</artifactId>
+                            <version>${eclipse.link.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <!-- Execute npm/gulp tasks -->
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>${maven.frontend.plugin.version}</version>
+                </plugin>
+                <!-- Generate swagger spec -->
+                <plugin>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>swagger-maven-plugin</artifactId>
+                    <version>${swagger.version}</version>
+                </plugin>
+                <!-- Download remote resources -->
+                <plugin>
+                    <groupId>com.googlecode.maven-download-plugin</groupId>
+                    <artifactId>download-maven-plugin</artifactId>
+                    <version>${maven.download.plugin.version}</version>
+                </plugin>
+                <!-- Execute ant tasks -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${maven.antrun.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <!-- Plugins for all modules -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
         <!-- Sets env.name=dev so frontend-maven-plugin can tell Gulp to disable minifiy/uglify -->
         <profile>
             <id>dev</id>
-            <activation>
-                <property>
-                    <name>dev</name>
-                </property>
-            </activation>
             <properties>
                 <env.name>dev</env.name>
             </properties>
         </profile>
-
-        <!-- Controls running the checkstyle plugin, use -DskipCheckstyle to skip -->
+        <!-- Skips checkstyle plugin -->
         <profile>
-            <id>checkstyle</id>
-            <activation>
-                <property>
-                    <name>!skipCheckstyle</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>${maven.checkstyle.plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.puppycrawl.tools</groupId>
-                                <artifactId>checkstyle</artifactId>
-                                <version>${maven.checkstyle.puppycrawl.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <configLocation>checkstyle.xml</configLocation>
-                            <violationSeverity>warning</violationSeverity>
-                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>check-style</id>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            <id>skip-checkstyle</id>
+            <properties>
+                <checkstyle.skip>true</checkstyle.skip>
+            </properties>
         </profile>
-
-        <!-- Controls running the javadoc plugin, use -DskipJavaDoc to skip -->
+        <!-- Skips javadoc plugin -->
         <profile>
-            <id>javadoc</id>
-            <activation>
-                <property>
-                    <name>!skipJavaDoc</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven.javadoc.plugin.version}</version>
-                        <configuration>
-                            <failOnError>false</failOnError>
-                            <quiet>true</quiet>
-                            <show>private</show>
-                            <encoding>UTF-8</encoding>
-                            <quiet>true</quiet>
-                            <additionalJOption>-J-Xmx512m</additionalJOption>
-                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            <id>skip-javadoc</id>
+            <properties>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+            </properties>
         </profile>
-
-        <!-- Controls running the attach-sources plugin, use -DskipSources to skip  -->
+        <!-- Skips attaching sources  -->
         <profile>
-            <id>attach-sources</id>
-            <activation>
-                <property>
-                    <name>!skipSources</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven.source.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            <id>skip-sources</id>
+            <properties>
+                <maven.source.skip>true</maven.source.skip>
+            </properties>
         </profile>
-
-        <!-- Controls running integration tests, specify -DskipITs to skip -->
+        <!-- Skips all tests -->
         <profile>
-            <id>integration-tests</id>
-            <activation>
-                <property>
-                    <name>!skipITs</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven.failsafe.plugin.version}</version>
-                        <configuration>
-                            <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <phase>verify</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            <id>skip-tests</id>
+            <properties>
+                <skip.tests>true</skip.tests>
+            </properties>
         </profile>
-
+        <!-- Skips checkstyle, javadoc, attach sources, and all tests -->
+        <profile>
+            <id>skip-all</id>
+            <properties>
+                <checkstyle.skip>true</checkstyle.skip>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+                <maven.source.skip>true</maven.source.skip>
+                <skip.tests>true</skip.tests>
+            </properties>
+        </profile>
     </profiles>
 
 </project>

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
     <parent>
-      <groupId>com.bbende</groupId>
+      <groupId>com.bbende.project.starter</groupId>
       <artifactId>project-starter</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -150,7 +150,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.bbende</groupId>
+            <groupId>com.bbende.project.starter</groupId>
             <artifactId>project-starter-testcontainers</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
@@ -164,7 +164,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resources.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>default-resources</id>
@@ -199,33 +198,22 @@
                 </executions>
             </plugin>
 
+            <!-- Package the application using the spring-boot plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
             <!-- Static weaver for EclipseLink -->
             <plugin>
                 <groupId>com.ethlo.persistence.tools</groupId>
                 <artifactId>eclipselink-maven-plugin</artifactId>
-                <version>${maven.eclipselink.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>weave</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.eclipse.persistence</groupId>
-                        <artifactId>org.eclipse.persistence.jpa</artifactId>
-                        <version>${eclipse.link.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!-- Install frontend dependencies and run gulp to pack css & js -->
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>${maven.frontend.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>install-node-and-npm</id>
@@ -262,7 +250,6 @@
             <plugin>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
-                <version>${swagger.version}</version>
                 <configuration>
                     <configurationFilePath>${swagger.config.file}</configurationFilePath>
                     <outputFileName>swagger</outputFileName>
@@ -280,11 +267,10 @@
                 </executions>
             </plugin>
 
-            <!-- Downloads swagger UI static assets, can be deactivated using the "no-swagger-ui" profile -->
+            <!-- Downloads swagger UI static assets, can be deactivated using the "skip-swagger-ui" profile -->
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>${maven.download.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>download-swagger-ui</id>
@@ -304,7 +290,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>${maven.antrun.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>bundle-swagger-ui</id>
@@ -345,40 +330,18 @@
                 </executions>
             </plugin>
 
-            <!-- Package the application using the spring-boot plugin, enable layers for building a docker image -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-                <configuration>
-                    <layout>ZIP</layout>
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
     <profiles>
         <!-- Disables the Swagger UI static assets from being downloaded and bundled into the final application. -->
         <profile>
-            <id>no-swagger-ui</id>
+            <id>skip-swagger-ui</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>com.googlecode.maven-download-plugin</groupId>
                         <artifactId>download-maven-plugin</artifactId>
-                        <version>${maven.download.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>download-swagger-ui</id>
@@ -389,7 +352,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>${maven.antrun.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>bundle-swagger-ui</id>
@@ -404,9 +366,6 @@
         <!-- Profile to include the MySQL driver when building the application -->
         <profile>
             <id>mysql</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <dependencies>
                 <dependency>
                     <groupId>mysql</groupId>
@@ -419,9 +378,6 @@
         <!-- Profile to include the MySQL driver when building the application -->
         <profile>
             <id>mariadb</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.mariadb.jdbc</groupId>
@@ -434,9 +390,6 @@
         <!-- Profile to include the Postgres driver when building the application -->
         <profile>
             <id>postgres</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.postgresql</groupId>

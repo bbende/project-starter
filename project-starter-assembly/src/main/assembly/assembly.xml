@@ -15,7 +15,7 @@
         <moduleSet>
             <useAllReactorProjects>true</useAllReactorProjects>
             <includes>
-                <include>com.bbende:project-starter-webapp:jar</include>
+                <include>com.bbende.project.starter:project-starter-webapp:jar</include>
             </includes>
             <binaries>
                 <outputDirectory>lib</outputDirectory>
