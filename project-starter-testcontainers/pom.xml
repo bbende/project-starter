@@ -63,18 +63,4 @@
         </dependency>
     </dependencies>
 
-    <!-- Override the javadoc plugin config so it doesn't execute on this module -->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

@@ -31,6 +31,8 @@
         <maven.frontend.plugin.version>1.6</maven.frontend.plugin.version>
         <maven.eclipselink.plugin.version>2.7.1.1</maven.eclipselink.plugin.version>
         <maven.dockerfile.plugin.version>1.4.13</maven.dockerfile.plugin.version>
+        <jib-maven-plugin.version>2.5.2</jib-maven-plugin.version>
+        <jib-spring-boot-extension-maven.version>0.1.0</jib-spring-boot-extension-maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -62,7 +64,6 @@
     <modules>
       <module>project-starter-webapp</module>
       <module>project-starter-assembly</module>
-      <module>project-starter-docker</module>
       <module>project-starter-testcontainers</module>
     </modules>
 
@@ -256,6 +257,28 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>${maven.antrun.plugin.version}</version>
+                </plugin>
+                <!-- Build/push docker images -->
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>${jib-maven-plugin.version}</version>
+                    <!-- Use the jib spring-boot extensions to exclude dev tools
+                         See: https://github.com/GoogleContainerTools/jib/issues/2336 -->
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.google.cloud.tools</groupId>
+                            <artifactId>jib-spring-boot-extension-maven</artifactId>
+                            <version>${jib-spring-boot-extension-maven.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <pluginExtensions>
+                            <pluginExtension>
+                                <implementation>com.google.cloud.tools.jib.maven.extension.springboot.JibSpringBootExtension</implementation>
+                            </pluginExtension>
+                        </pluginExtensions>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -14,12 +14,18 @@
     <name>Project Starter Webapp</name>
 
     <properties>
+        <!-- Properties for building frontend resources -->
         <webapp.src.dir>src/main/webapp</webapp.src.dir>
         <webapp.build.dir>${project.build.directory}/frontend</webapp.build.dir>
         <webapp.dist.dir>${project.build.directory}/classes/static</webapp.dist.dir>
+
+        <!-- Properties for generating swagger spec and swagger UI -->
         <swagger.config.file>${project.build.directory}/classes/swagger-config.json</swagger.config.file>
         <swagger.specification.dir>${project.build.directory}/swagger-specification</swagger.specification.dir>
         <swagger.dist.dir>${project.build.directory}/classes/static/swagger</swagger.dist.dir>
+
+        <!-- Properties for building docker image -->
+        <docker.image.path>bbende/project-starter</docker.image.path>
     </properties>
 
     <dependencies>
@@ -330,32 +336,73 @@
                 </executions>
             </plugin>
 
+            <!-- Build docker image using jib, not bound to any phase by default, see profiles below -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <from>
+                        <image>adoptopenjdk:11-jre-hotspot</image>
+                    </from>
+                    <to>
+                        <image>${docker.image.path}</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                        <environment>
+                            <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
+                            <PROJECT_STARTER_PROJECT_LABEL>DOCKER</PROJECT_STARTER_PROJECT_LABEL>
+                        </environment>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                    </container>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
-        <!-- Disables the Swagger UI static assets from being downloaded and bundled into the final application. -->
+        <!-- Build docker image using local docker daemon -->
         <profile>
-            <id>skip-swagger-ui</id>
+            <id>docker-local</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>com.googlecode.maven-download-plugin</groupId>
-                        <artifactId>download-maven-plugin</artifactId>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>download-swagger-ui</id>
-                                <phase>none</phase>
+                                <id>docker-local</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Build docker image and push to remote registry, must have credentials in ~/.m2/settings.xml -->
+        <profile>
+            <id>docker-remote</id>
+            <build>
+                <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>bundle-swagger-ui</id>
-                                <phase>none</phase>
+                                <id>docker-remote</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
@@ -514,6 +561,35 @@
                                         <spring.profiles.active>postgres-10</spring.profiles.active>
                                     </systemPropertyVariables>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Disables the Swagger UI static assets from being downloaded and bundled into the final application. -->
+        <profile>
+            <id>skip-swagger-ui</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.googlecode.maven-download-plugin</groupId>
+                        <artifactId>download-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>download-swagger-ui</id>
+                                <phase>none</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>bundle-swagger-ui</id>
+                                <phase>none</phase>
                             </execution>
                         </executions>
                     </plugin>
