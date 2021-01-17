@@ -3,9 +3,9 @@ package com.bbende.project.starter.web.api.resource;
 import com.bbende.project.starter.core.commons.dto.ListDto;
 import com.bbende.project.starter.core.modules.person.PersonDto;
 import com.bbende.project.starter.web.api.RestIT;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.eclipse.persistence.jpa.jpql.Assert;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +15,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PersonResourceIT extends RestIT {
 
@@ -24,7 +24,7 @@ public class PersonResourceIT extends RestIT {
 
     private WebTarget peopleTarget;
 
-    @Before
+    @BeforeEach
     public void setupPersonResourceIT() {
         final String peopleResourceUrl = createResourceUrl("/people");
         peopleTarget = client.target(peopleResourceUrl);

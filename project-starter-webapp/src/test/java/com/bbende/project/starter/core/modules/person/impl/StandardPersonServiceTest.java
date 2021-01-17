@@ -2,8 +2,8 @@ package com.bbende.project.starter.core.modules.person.impl;
 
 import com.bbende.project.starter.core.modules.person.PersonDto;
 import com.bbende.project.starter.core.modules.person.PersonService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class StandardPersonServiceTest {
@@ -19,7 +19,7 @@ public class StandardPersonServiceTest {
     private PersonRepository personRepository;
     private PersonService personService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         personRepository = Mockito.mock(PersonRepository.class);
         personService = new StandardPersonService(personRepository);

@@ -4,8 +4,8 @@ import com.bbende.project.starter.web.WebIT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jersey.JerseyProperties;
 
@@ -30,7 +30,7 @@ public abstract class RestIT extends WebIT {
     protected Client client;
     protected String apiContextPath;
 
-    @Before
+    @BeforeEach
     public void setupRestIT() {
         final JacksonJaxbJsonProvider jacksonJaxbJsonProvider = new JacksonJaxbJsonProvider();
         jacksonJaxbJsonProvider.setMapper(objectMapper);
@@ -44,7 +44,7 @@ public abstract class RestIT extends WebIT {
         apiContextPath = jerseyProperties.getApplicationPath();
     }
 
-    @After
+    @AfterEach
     public void cleanup() {
         if (client != null) {
             try {
