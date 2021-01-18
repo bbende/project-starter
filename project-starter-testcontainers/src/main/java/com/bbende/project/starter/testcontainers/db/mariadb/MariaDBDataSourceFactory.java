@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bbende.project.starter.testcontainers.db;
+package com.bbende.project.starter.testcontainers.db.mariadb;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
-import org.testcontainers.containers.MySQLContainer;
+import com.bbende.project.starter.testcontainers.db.TestDataSourceFactory;
+import org.mariadb.jdbc.MariaDbDataSource;
+import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.delegate.DatabaseDelegate;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 
@@ -26,24 +27,28 @@ import javax.script.ScriptException;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-public abstract class MySqlDataSourceFactory extends TestDataSourceFactory {
+public abstract class MariaDBDataSourceFactory extends TestDataSourceFactory {
 
-    protected abstract MySQLContainer mysqlContainer();
+    protected abstract MariaDBContainer mariaDBContainer();
 
     @Override
     protected DataSource createDataSource() {
-        final MySQLContainer container = mysqlContainer();
-        final MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl(container.getJdbcUrl());
-        dataSource.setUser(container.getUsername());
-        dataSource.setPassword(container.getPassword());
-        dataSource.setDatabaseName(container.getDatabaseName());
-        return dataSource;
+        try {
+            final MariaDBContainer container = mariaDBContainer();
+            final MariaDbDataSource dataSource = new MariaDbDataSource();
+            dataSource.setUrl(container.getJdbcUrl());
+            dataSource.setUser(container.getUsername());
+            dataSource.setPassword(container.getPassword());
+            dataSource.setDatabaseName(container.getDatabaseName());
+            return dataSource;
+        } catch (SQLException e) {
+            throw new RuntimeException("Unable to create MariaDB DataSource", e);
+        }
     }
 
     @PostConstruct
     public void initDatabase() throws SQLException, ScriptException {
-        DatabaseDelegate databaseDelegate = new JdbcDatabaseDelegate(mysqlContainer(), "");
+        DatabaseDelegate databaseDelegate = new JdbcDatabaseDelegate(mariaDBContainer(), "");
         databaseDelegate.execute("DROP DATABASE test; CREATE DATABASE test;", "", 0, false, true);
     }
 }

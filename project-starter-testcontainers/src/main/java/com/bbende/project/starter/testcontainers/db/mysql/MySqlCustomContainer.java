@@ -14,24 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bbende.project.starter.testcontainers.db;
+package com.bbende.project.starter.testcontainers.db.mysql;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.testcontainers.containers.MySQLContainer;
 
-@Configuration
-@Profile({"mysql", "mysql-57"})
-public class MySql7DataSourceFactory extends MySqlDataSourceFactory {
+/**
+ * Custom container to override the JDBC URL and add additional query parameters.
+ *
+ * NOTE: At the time of implementing this, testcontainers could not start a container for MySQL 8, see this issue:
+ *
+ * https://github.com/testcontainers/testcontainers-java/issues/736
+ *
+ * The work around is to add the allowPublicKeyRetrieval=true to the URL.
+ */
+public class MySqlCustomContainer extends MySQLContainer {
 
-    private static final MySQLContainer MYSQL_CONTAINER = new MySqlCustomContainer("mysql:5.7");
-
-    static {
-        MYSQL_CONTAINER.start();
+    public MySqlCustomContainer(String dockerImageName) {
+        super(dockerImageName);
     }
 
     @Override
-    protected MySQLContainer mysqlContainer() {
-        return MYSQL_CONTAINER;
+    public String getJdbcUrl() {
+        return super.getJdbcUrl() + "?useSSL=false&allowPublicKeyRetrieval=true";
     }
 }

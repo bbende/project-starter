@@ -108,6 +108,12 @@
                                 <goal>verify</goal>
                             </goals>
                             <phase>verify</phase>
+                            <configuration>
+                                <systemProperties>
+                                    <!-- Sets the default Spring profile for integration tests -->
+                                    <spring.profiles.active>dev</spring.profiles.active>
+                                </systemProperties>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>

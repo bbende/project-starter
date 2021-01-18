@@ -14,24 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bbende.project.starter.testcontainers.db;
+package com.bbende.project.starter.testcontainers.db.mariadb;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.MariaDBContainer;
 
 @Configuration
-@Profile({"mysql", "mysql-8"})
-public class MySql8DataSourceFactory extends MySqlDataSourceFactory {
+@Profile("mariadb-10-5")
+public class MariaDB10_5DataSourceFactory extends MariaDBDataSourceFactory {
 
-    private static final MySQLContainer MYSQL_CONTAINER = new MySqlCustomContainer("mysql:8.0");
+    private static final MariaDBContainer MARIA_DB_CONTAINER = new MariaDBCustomContainer("mariadb:10.5");
 
     static {
-        MYSQL_CONTAINER.start();
+        MARIA_DB_CONTAINER.start();
     }
 
     @Override
-    protected MySQLContainer mysqlContainer() {
-        return MYSQL_CONTAINER;
+    protected MariaDBContainer mariaDBContainer() {
+        return MARIA_DB_CONTAINER;
     }
 }

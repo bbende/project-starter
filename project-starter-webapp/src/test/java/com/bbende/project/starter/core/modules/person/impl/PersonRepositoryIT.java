@@ -1,10 +1,9 @@
 package com.bbende.project.starter.core.modules.person.impl;
 
-import com.bbende.project.starter.core.CoreDatabaseIT;
+import com.bbende.project.starter.core.DatabaseIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.transaction.TestTransaction;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,9 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // Insert test data into DB tables, see super class for how DB is reset
-@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-        scripts = {"classpath:db/insertPersonData.sql"})
-public class PersonRepositoryIT extends CoreDatabaseIT {
+@Sql(scripts = {"classpath:db/insertPersonData.sql"})
+public class PersonRepositoryIT extends DatabaseIT {
 
     @Autowired
     private PersonRepository repository;
@@ -32,8 +30,6 @@ public class PersonRepositoryIT extends CoreDatabaseIT {
         person.setAge(21);
 
         repository.save(person);
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
 
         final Optional<Person> retrievePerson = repository.findById(person.getId());
         assertTrue(retrievePerson.isPresent());
@@ -96,8 +92,6 @@ public class PersonRepositoryIT extends CoreDatabaseIT {
         assertTrue(retrievePerson.isPresent());
 
         repository.delete(retrievePerson.get());
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
 
         final Optional<Person> deletedPerson = repository.findById("P1");
         assertFalse(deletedPerson.isPresent());

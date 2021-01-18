@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bbende.project.starter.testcontainers.db;
+package com.bbende.project.starter.testcontainers.db.mysql;
 
-import org.postgresql.ds.PGSimpleDataSource;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.testcontainers.containers.PostgreSQLContainer;
+import com.bbende.project.starter.testcontainers.db.TestDataSourceFactory;
+import com.mysql.cj.jdbc.MysqlDataSource;
+import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.delegate.DatabaseDelegate;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 
@@ -28,28 +27,24 @@ import javax.script.ScriptException;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-@Configuration
-@Profile("postgres-10")
-public class Postgres10DataSourceFactory extends TestDataSourceFactory {
+public abstract class MySqlDataSourceFactory extends TestDataSourceFactory {
 
-    private static final PostgreSQLContainer POSTGRESQL_CONTAINER = new PostgreSQLContainer("postgres:10");
-
-    static {
-        POSTGRESQL_CONTAINER.start();
-    }
+    protected abstract MySQLContainer mysqlContainer();
 
     @Override
     protected DataSource createDataSource() {
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl(POSTGRESQL_CONTAINER.getJdbcUrl());
-        dataSource.setUser(POSTGRESQL_CONTAINER.getUsername());
-        dataSource.setPassword(POSTGRESQL_CONTAINER.getPassword());
+        final MySQLContainer container = mysqlContainer();
+        final MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setUrl(container.getJdbcUrl());
+        dataSource.setUser(container.getUsername());
+        dataSource.setPassword(container.getPassword());
+        dataSource.setDatabaseName(container.getDatabaseName());
         return dataSource;
     }
 
     @PostConstruct
     public void initDatabase() throws SQLException, ScriptException {
-        DatabaseDelegate databaseDelegate = new JdbcDatabaseDelegate(POSTGRESQL_CONTAINER, "");
+        DatabaseDelegate databaseDelegate = new JdbcDatabaseDelegate(mysqlContainer(), "");
         databaseDelegate.execute("DROP DATABASE test; CREATE DATABASE test;", "", 0, false, true);
     }
 }

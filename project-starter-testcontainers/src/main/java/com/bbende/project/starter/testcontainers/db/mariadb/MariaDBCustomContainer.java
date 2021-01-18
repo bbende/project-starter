@@ -14,24 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bbende.project.starter.testcontainers.db;
+package com.bbende.project.starter.testcontainers.db.mariadb;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.testcontainers.containers.MariaDBContainer;
 
-@Configuration
-@Profile("mariadb-10-2")
-public class MariaDB10_2DataSourceFactory extends MariaDBDataSourceFactory {
+/**
+ * Custom container to override the JDBC URL and add additional query parameters.
+ *
+ * NOTE: At the time of implementing this, Flyway does not support some versions of MariaDB because the driver returns an unexpected DB name:
+ *
+ * https://github.com/flyway/flyway/issues/2339
+ *
+ * The work around is to add the useMysqlMetadata=true to the URL.
+ */
+public class MariaDBCustomContainer extends MariaDBContainer {
 
-    private static final MariaDBContainer MARIA_DB_CONTAINER = new MariaDBCustomContainer("mariadb:10.2");
-
-    static {
-        MARIA_DB_CONTAINER.start();
+    public MariaDBCustomContainer(String dockerImageName) {
+        super(dockerImageName);
     }
 
     @Override
-    protected MariaDBContainer mariaDBContainer() {
-        return MARIA_DB_CONTAINER;
+    public String getJdbcUrl() {
+        return super.getJdbcUrl() + "?useMysqlMetadata=true";
     }
 }
