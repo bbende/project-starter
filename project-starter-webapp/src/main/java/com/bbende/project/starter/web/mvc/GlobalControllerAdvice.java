@@ -1,6 +1,6 @@
 package com.bbende.project.starter.web.mvc;
 
-import com.bbende.project.starter.core.modules.details.ProjectDetailsService;
+import com.bbende.project.starter.component.details.ProjectDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.mvc;
 
-import com.bbende.project.starter.core.modules.person.PersonDto;
-import com.bbende.project.starter.core.modules.person.PersonService;
+import com.bbende.project.starter.component.person.PersonDto;
+import com.bbende.project.starter.component.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

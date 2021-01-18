@@ -1,6 +1,6 @@
 package com.bbende.project.starter;
 
-import com.bbende.project.starter.core.config.ProjectStarterProperties;
+import com.bbende.project.starter.config.ProjectStarterProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

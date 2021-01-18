@@ -1,6 +1,6 @@
 package com.bbende.project.starter.web.api.mapper;
 
-import com.bbende.project.starter.core.commons.exception.ResourceNotFoundException;
+import com.bbende.project.starter.exception.ResourceNotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
