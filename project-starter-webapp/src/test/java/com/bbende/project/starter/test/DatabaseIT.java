@@ -1,6 +1,6 @@
 package com.bbende.project.starter.test;
 
-import com.bbende.project.starter.config.JpaConfig;
+import com.bbende.project.starter.persistence.EclipseLinkJpaConfig;
 import com.bbende.project.starter.testcontainers.db.TestDataSourceFactory;
 import org.flywaydb.test.FlywayTestExecutionListener;
 import org.flywaydb.test.annotation.FlywayTest;
@@ -33,7 +33,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
                 value = TestDataSourceFactory.class)
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
-@Import(JpaConfig.class)
+@Import(EclipseLinkJpaConfig.class)
 @TestExecutionListeners({
         TransactionalTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,

@@ -1,4 +1,4 @@
-package com.bbende.project.starter.config;
+package com.bbende.project.starter.persistence;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.beans.factory.ObjectProvider;
@@ -17,10 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class JpaConfig extends JpaBaseConfiguration {
+public class EclipseLinkJpaConfig extends JpaBaseConfiguration {
 
     @Autowired
-    public JpaConfig(
+    public EclipseLinkJpaConfig(
             @Qualifier("dataSource")
             final DataSource dataSource,
             final JpaProperties jpaProperties,

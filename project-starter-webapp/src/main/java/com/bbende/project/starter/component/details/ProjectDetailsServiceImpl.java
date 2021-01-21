@@ -1,6 +1,6 @@
 package com.bbende.project.starter.component.details;
 
-import com.bbende.project.starter.config.ProjectStarterProperties;
+import com.bbende.project.starter.ProjectStarterProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

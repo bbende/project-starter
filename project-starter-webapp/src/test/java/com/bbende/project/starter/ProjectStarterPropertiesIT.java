@@ -1,4 +1,4 @@
-package com.bbende.project.starter.config;
+package com.bbende.project.starter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

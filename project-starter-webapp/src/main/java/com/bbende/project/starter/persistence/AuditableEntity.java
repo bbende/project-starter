@@ -1,4 +1,4 @@
-package com.bbende.project.starter.entity;
+package com.bbende.project.starter.persistence;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;

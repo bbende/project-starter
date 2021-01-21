@@ -1,4 +1,4 @@
-package com.bbende.project.starter.config;
+package com.bbende.project.starter;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;

@@ -1,14 +1,13 @@
 package com.bbende.project.starter.component.person;
 
-import com.bbende.project.starter.exception.ResourceNotFoundException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,19 +30,15 @@ class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDto get(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new IllegalArgumentException("Person id is required");
-        }
-
-        final Person existingPerson = getPersonOrThrow(id);
-        return PersonDtoMapper.map(existingPerson);
+        Validate.notBlank(id, "Person id is required");
+        final Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+        return PersonDtoMapper.map(person);
     }
 
     @Override
     public PersonDto create(final PersonDto personDTO) {
-        if (personDTO == null) {
-            throw new IllegalArgumentException("PersonDTO cannot be null");
-        }
+        Validate.notNull(personDTO, "PersonDTO cannot be null");
 
         final Person person = PersonDtoMapper.map(personDTO);
         person.setId(UUID.randomUUID().toString());
@@ -54,15 +49,13 @@ class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDto update(final PersonDto personDTO) {
-        if (personDTO == null) {
-            throw new IllegalArgumentException("PersonDTO cannot be null");
-        }
+        Validate.notNull(personDTO, "PersonDTO cannot be null");
 
-        if (StringUtils.isBlank(personDTO.getId())) {
-            throw new IllegalArgumentException("PersonDTO id is required");
-        }
+        final String personId = personDTO.getId();
+        Validate.notBlank(personId, "PersonDTO id is required");
 
-        final Person existingPerson = getPersonOrThrow(personDTO.getId());
+        final Person existingPerson = personRepository.findById(personId)
+                .orElseThrow(() -> new PersonNotFoundException(personId));
 
         if (!StringUtils.isBlank(personDTO.getFirstName())) {
             existingPerson.setFirstName(personDTO.getFirstName());
@@ -82,20 +75,11 @@ class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDto delete(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new IllegalArgumentException("Person id is required");
-        }
-
-        final Person person = getPersonOrThrow(id);
+        Validate.notBlank(id, "Person id is required");
+        final Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
         personRepository.deleteById(person.getId());
         return PersonDtoMapper.map(person);
     }
 
-    private Person getPersonOrThrow(final String id) {
-        final Optional<Person> person = personRepository.findById(id);
-        if (!person.isPresent()) {
-            throw new ResourceNotFoundException("A person with the specified id does not exist");
-        }
-        return person.get();
-    }
 }

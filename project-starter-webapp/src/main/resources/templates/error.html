@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" />
+    <script th:src="@{/javascript/application.js}"></script>
+    <title>Project Starter Error</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <span th:text="${status}">status code</span>
+        </h1>
+        <p th:if="${message}">
+            <span th:text="${message}">message</span>
+        </p>
+        <a href="/project-starter">Back To Home</a>
+    </div>
+</body>
+</html>

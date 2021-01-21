@@ -1,6 +1,6 @@
 package com.bbende.project.starter.component.details;
 
-import com.bbende.project.starter.config.ProjectStarterProperties;
+import com.bbende.project.starter.ProjectStarterProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

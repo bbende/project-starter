@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class PersonController {
@@ -26,8 +27,9 @@ public class PersonController {
     }
 
     @GetMapping("/people")
-    public ModelAndView listPeople() {
-        final ModelMap modelMap = new ModelMap("people", personService.getAll());
+    public ModelAndView getPeople() {
+        final List<PersonDto> people = personService.getAll();
+        final ModelMap modelMap = new ModelMap("people", people);
         return new ModelAndView("people/list", modelMap);
     }
 
