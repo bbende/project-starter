@@ -1,7 +1,7 @@
 import './load-jquery';
 import 'unpoly';
 
-import { Application } from "stimulus";
+import { Application } from "@hotwired/stimulus";
 import AppController from "./controllers/app_controller";
 import NavController from "./controllers/nav_controller";
 

@@ -60,9 +60,16 @@ gulp.task('bundle-css', gulp.series('compile-sass' , function () {
 }));
 
 // Creates a bundle for application.js and conditionally calls minify based on dev or prod
+// Note - https://stackoverflow.com/questions/39321384/how-should-i-transform-es6-node-modules-with-browserify-and-babelify
+// Required for running babel on Stimilus 3
 gulp.task('bundle-javascript', gulp.series('copy-javascript', function() {
     return browserify({debug: true, entries: [buildDir + '/javascript/application.js']})
-        .transform(babelify, { presets: ['env'] })
+        .transform(babelify, {
+            global: true,
+            only: /^(?:.*\/node_modules\/(?:@hotwired)\/|(?!.*\/node_modules\/)).*$/,
+            presets: [ ['env', {'useBuiltIns' : 'usage'}] ],
+            plugins: ["transform-runtime"]
+        })
         .bundle()
         .on('error', function(e) { console.log(e) })
         .pipe(source('application.js'))
