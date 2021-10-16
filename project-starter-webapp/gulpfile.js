@@ -21,7 +21,7 @@ gulp.task('copy-stylesheets', function () {
     return gulp.src([
             srcDir + '/stylesheets/**/*',
             'node_modules/font-awesome/css/font-awesome.css',
-            'node_modules/unpoly/dist/unpoly.css'
+            'node_modules/unpoly/unpoly.css'
         ])
         .pipe(gulp.dest(buildDir + '/stylesheets'));
 });
@@ -61,7 +61,7 @@ gulp.task('bundle-css', gulp.series('compile-sass' , function () {
 
 // Creates a bundle for application.js and conditionally calls minify based on dev or prod
 // Note - https://stackoverflow.com/questions/39321384/how-should-i-transform-es6-node-modules-with-browserify-and-babelify
-// Required for running babel on Stimilus 3
+// Required for upgrading to Stimulus 3
 gulp.task('bundle-javascript', gulp.series('copy-javascript', function() {
     return browserify({debug: true, entries: [buildDir + '/javascript/application.js']})
         .transform(babelify, {

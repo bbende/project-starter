@@ -1,5 +1,7 @@
 import './load-jquery';
-import 'unpoly';
+
+import 'unpoly/unpoly.es5';
+up.log.enable()
 
 import { Application } from "@hotwired/stimulus";
 import AppController from "./controllers/app_controller";
