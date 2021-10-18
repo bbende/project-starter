@@ -1,6 +1,7 @@
 import './load-jquery';
 
 import 'unpoly/unpoly.es5';
+import 'unpoly/unpoly-migrate';
 up.log.enable()
 
 import { Application } from "@hotwired/stimulus";

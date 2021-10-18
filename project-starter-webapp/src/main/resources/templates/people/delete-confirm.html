@@ -13,7 +13,7 @@
                         <h5>Confirm</h5>
                         <hr/>
                         <p>Are you sure you want to delete this person?</p>
-                        <form th:action="@{/people/{id}(id=${person.id})}" th:method="DELETE" up-target=".layout-content">
+                        <form th:action="@{/people/{id}(id=${person.id})}" th:method="DELETE" up-layer="parent">
                             <button type="submit" class="btn btn-raised btn-danger btn-sm">Delete</button>
                         </form>
                     </div>
