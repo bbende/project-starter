@@ -11,7 +11,7 @@
             <div class="col-8">
                 <h3>Create Person</h3>
                 <hr/>
-                <form action="#" th:action="@{/people}" th:object="${person}" method="post" up-target=".layout-content">
+                <form action="#" th:action="@{/people}" th:object="${person}" method="post" up-submit>
                     <div class="form-group">
                         <label for="firstName">First Name</label>
                         <input type="text" class="form-control" th:errorclass="is-invalid" id="firstName" th:field="*{firstName}">
@@ -27,7 +27,8 @@
                         <input type="text" class="form-control" th:errorclass="is-invalid" id="age" th:field="*{age}">
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
                     </div>
-                    <a href="#" th:href="@{/people}" class="btn btn-danger" up-target=".layout-content" up-transition="cross-fade" role="button">
+                    <a href="#" th:href="@{/people}" class="btn btn-danger"
+                       up-follow up-transition="cross-fade" role="button">
                         <i class="fa fa-ban fa-pad-right" aria-hidden="true"></i><span>Cancel</span>
                     </a>
                     <button type="submit" class="btn btn-primary">
