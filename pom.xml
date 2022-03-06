@@ -29,7 +29,7 @@
         <maven.antrun.plugin.version>1.8</maven.antrun.plugin.version>
         <maven.download.plugin.version>1.2.1</maven.download.plugin.version>
         <maven.frontend.plugin.version>1.6</maven.frontend.plugin.version>
-        <maven.eclipselink.plugin.version>2.7.1.1</maven.eclipselink.plugin.version>
+        <maven.eclipselink.plugin.version>2.7.9.1</maven.eclipselink.plugin.version>
         <maven.dockerfile.plugin.version>1.4.13</maven.dockerfile.plugin.version>
         <jib-maven-plugin.version>2.5.2</jib-maven-plugin.version>
         <jib-spring-boot-extension-maven.version>0.1.0</jib-spring-boot-extension-maven.version>
@@ -37,22 +37,22 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Dependency Versions -->
-        <spring.boot.version>2.5.5</spring.boot.version>
-        <jackson.version>2.13.0</jackson.version>
-        <flyway.version>7.5.0</flyway.version>
-        <flyway.tests.version>7.0.0</flyway.tests.version>
-        <eclipse.link.version>2.7.8</eclipse.link.version>
-        <h2.version>1.4.200</h2.version>
-        <postgres.driver.version>42.2.5</postgres.driver.version>
-        <mysql.driver.version>8.0.15</mysql.driver.version>
-        <mariadb.driver.version>2.4.1</mariadb.driver.version>
-        <test.containers.version>1.15.1</test.containers.version>
+        <spring.boot.version>2.6.4</spring.boot.version>
+        <jackson.version>2.13.1</jackson.version>
+        <liquibase.version>4.6.1</liquibase.version>
+        <eclipse.link.version>2.7.10</eclipse.link.version>
+        <h2.version>2.1.210</h2.version>
+        <postgres.driver.version>42.3.3</postgres.driver.version>
+        <mysql.driver.version>8.0.28</mysql.driver.version>
+        <!-- Current bug in mariadb driver 3.0.3 causes issue with liquibase -->
+        <mariadb.driver.version>2.7.5</mariadb.driver.version>
+        <test.containers.version>1.16.3</test.containers.version>
         <node.version>v10.14.1</node.version>
         <npm.version>6.4.1</npm.version>
         <swagger.ui.version>3.12.0</swagger.ui.version>
-        <swagger.version>2.1.2</swagger.version>
-        <commons.lang.version>3.10</commons.lang.version>
-        <thymeleaf.dialect.version>2.4.1</thymeleaf.dialect.version>
+        <swagger.version>2.1.12</swagger.version>
+        <commons.lang.version>3.12.0</commons.lang.version>
+        <thymeleaf.dialect.version>3.0.0</thymeleaf.dialect.version>
 
         <!-- Default env name (dist or dev)-->
         <env.name>dist</env.name>
@@ -64,8 +64,108 @@
     <modules>
       <module>project-starter-webapp</module>
       <module>project-starter-assembly</module>
-      <module>project-starter-testcontainers</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.jpa</artifactId>
+                <version>${eclipse.link.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- Test Dependencies -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${test.containers.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>mysql</artifactId>
+                <version>${test.containers.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>mariadb</artifactId>
+                <version>${test.containers.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${test.containers.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.driver.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>${mariadb.driver.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgres.driver.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>

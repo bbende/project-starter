@@ -1,8 +1,6 @@
 package com.bbende.project.starter.test;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flywaydb.test.FlywayTestExecutionListener;
-import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -26,7 +24,6 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 @TestExecutionListeners({
         TransactionalTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
-        FlywayTestExecutionListener.class,
         SqlScriptsTestExecutionListener.class
 })
 public abstract class WebIT {
@@ -36,14 +33,6 @@ public abstract class WebIT {
 
     @Autowired
     protected ServerProperties serverProperties;
-
-    @BeforeEach
-    @FlywayTest
-    public void cleanDatabase() {
-        // ----- NOTE ------
-        // The @FlywayTest annotation will cause the DB to be reset and re-migrated before each test
-        // which ensures a consistent state even if we commit a test transaction to add/delete data
-    }
 
     protected String createBaseUrl() {
         final Ssl ssl = serverProperties.getSsl();
