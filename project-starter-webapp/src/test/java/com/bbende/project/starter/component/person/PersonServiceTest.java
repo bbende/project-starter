@@ -15,12 +15,14 @@ import static org.mockito.Mockito.when;
 public class PersonServiceTest {
 
     private PersonRepository personRepository;
+    private PersonDtoMapper dtoMapper;
     private PersonService personService;
 
     @BeforeEach
     public void setup() {
         personRepository = mock(PersonRepository.class);
-        personService = new PersonServiceImpl(personRepository);
+        dtoMapper = new PersonDtoMapper();
+        personService = new PersonServiceImpl(personRepository, dtoMapper);
     }
 
     @Test

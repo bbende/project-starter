@@ -1,9 +1,8 @@
 package com.bbende.project.starter.component.person;
 
-import com.bbende.project.starter.common.persistence.AbstractEntity;
+import com.bbende.project.starter.common.persistence.Entity;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,9 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Entity
+@javax.persistence.Entity
 @Table(name = "event")
-public class Event extends AbstractEntity<String> {
+public class Event extends Entity<String> {
 
     @NotBlank
     @Column(name = "title")

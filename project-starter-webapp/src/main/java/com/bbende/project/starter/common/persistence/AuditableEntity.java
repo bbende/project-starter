@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class AuditableEntity<T> extends AbstractEntity<T> {
+public abstract class AuditableEntity<T> extends Entity<T> {
 
     @NotNull
     @Column(name = "created")

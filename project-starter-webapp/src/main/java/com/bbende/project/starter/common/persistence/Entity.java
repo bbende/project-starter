@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @MappedSuperclass
-public abstract class AbstractEntity<T> {
+public abstract class Entity<T> {
 
     @Id
     @NotNull
@@ -38,11 +38,11 @@ public abstract class AbstractEntity<T> {
             return false;
         }
 
-        if (!(obj instanceof AbstractEntity)) {
+        if (!(obj instanceof Entity)) {
             return false;
         }
 
-        final AbstractEntity other = (AbstractEntity) obj;
+        final Entity other = (Entity) obj;
         return Objects.equals(id, other.id);
     }
 }

@@ -15,16 +15,19 @@ import java.util.UUID;
 class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
+    private final PersonDtoMapper dtoMapper;
 
     @Autowired
-    public PersonServiceImpl(final PersonRepository personRepository) {
+    public PersonServiceImpl(final PersonRepository personRepository,
+                             final PersonDtoMapper dtoMapper) {
         this.personRepository = personRepository;
+        this.dtoMapper = dtoMapper;
     }
 
     @Override
     public List<PersonDto> getAll() {
         final List<PersonDto> people = new ArrayList<>();
-        personRepository.findAll().forEach(p -> people.add(PersonDtoMapper.map(p)));
+        personRepository.findAll().forEach(p -> people.add(dtoMapper.toDto(p)));
         return people;
     }
 
@@ -33,18 +36,18 @@ class PersonServiceImpl implements PersonService {
         Validate.notBlank(id, "Person id is required");
         final Person person = personRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
-        return PersonDtoMapper.map(person);
+        return dtoMapper.toDto(person);
     }
 
     @Override
     public PersonDto create(final PersonDto personDTO) {
         Validate.notNull(personDTO, "PersonDTO cannot be null");
 
-        final Person person = PersonDtoMapper.map(personDTO);
+        final Person person = dtoMapper.toEntity(personDTO);
         person.setId(UUID.randomUUID().toString());
 
         final Person createdPerson = personRepository.save(person);
-        return PersonDtoMapper.map(createdPerson);
+        return dtoMapper.toDto(createdPerson);
     }
 
     @Override
@@ -70,7 +73,7 @@ class PersonServiceImpl implements PersonService {
         }
 
         final Person updatedPerson = personRepository.save(existingPerson);
-        return PersonDtoMapper.map(updatedPerson);
+        return dtoMapper.toDto(updatedPerson);
     }
 
     @Override
@@ -79,7 +82,7 @@ class PersonServiceImpl implements PersonService {
         final Person person = personRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
         personRepository.deleteById(person.getId());
-        return PersonDtoMapper.map(person);
+        return dtoMapper.toDto(person);
     }
 
 }
