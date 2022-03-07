@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "person")
-class Person extends AuditableEntity<String> {
+public class Person extends AuditableEntity<String> {
 
     @NotBlank
     @Column(name = "first_name")

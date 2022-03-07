@@ -38,11 +38,7 @@ public class EclipseLinkJpaConfig extends JpaBaseConfiguration {
         // Start the properties with everything from "spring.jpa.properties.*"
         final JpaProperties jpaProperties = getProperties();
         final Map<String, Object> vendorProperties = new HashMap<>(jpaProperties.getProperties());
-
-        // Explicitly set the weaving mode based on whether instrumentation is available
-        final String weavingMode = InstrumentationLoadTimeWeaver.isInstrumentationAvailable() ? "true" : "static";
-        vendorProperties.put(PersistenceUnitProperties.WEAVING, weavingMode);
-
+        vendorProperties.put(PersistenceUnitProperties.WEAVING, "static");
         return vendorProperties;
     }
 }

@@ -75,10 +75,18 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- Exclude org.eclipse.persistence:jakarta.persistence since spring-boot-starter-data-jpa include
+     jakarta.persistence:jakarta.persistence-api which has the same javax.persistence classes -->
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.jpa</artifactId>
                 <version>${eclipse.link.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>jakarta.persistence</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.liquibase</groupId>
@@ -330,13 +338,30 @@
                             <goals>
                                 <goal>weave</goal>
                             </goals>
+                            <configuration>
+                                <logLevel>INFO</logLevel>
+                                <basePackage>com.bbende.project.starter</basePackage>
+                            </configuration>
                         </execution>
                     </executions>
                     <dependencies>
+                        <!-- Exclude org.eclipse.persistence:jakarta.persistence since spring-boot-starter-data-jpa include
+                             jakarta.persistence:jakarta.persistence-api which has the same javax.persistence classes -->
                         <dependency>
                             <groupId>org.eclipse.persistence</groupId>
                             <artifactId>org.eclipse.persistence.jpa</artifactId>
                             <version>${eclipse.link.version}</version>
+                            <exclusions>
+                                <exclusion>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>jakarta.persistence</artifactId>
+                                </exclusion>
+                            </exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>jakarta.persistence</groupId>
+                            <artifactId>jakarta.persistence-api</artifactId>
+                            <version>2.2.3</version>
                         </dependency>
                     </dependencies>
                 </plugin>

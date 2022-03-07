@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "event")
-class Event extends AbstractEntity<String> {
+public class Event extends AbstractEntity<String> {
 
     @NotBlank
     @Column(name = "title")
