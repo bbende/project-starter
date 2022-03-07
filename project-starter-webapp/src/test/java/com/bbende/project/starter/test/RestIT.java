@@ -1,9 +1,5 @@
 package com.bbende.project.starter.test;
 
-import com.bbende.project.starter.test.WebIT;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +20,12 @@ public abstract class RestIT extends WebIT {
     @Autowired
     protected JerseyProperties jerseyProperties;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
-
     protected Client client;
     protected String apiContextPath;
 
     @BeforeEach
     public void setupRestIT() {
-        final JacksonJaxbJsonProvider jacksonJaxbJsonProvider = new JacksonJaxbJsonProvider();
-        jacksonJaxbJsonProvider.setMapper(objectMapper);
-
-        final ClientConfig clientConfig = new ClientConfig();
-        clientConfig.register(jacksonJaxbJsonProvider);
-
-        final ClientBuilder clientBuilder = ClientBuilder.newBuilder().withConfig(clientConfig);
-        client = clientBuilder.build();
-
+        client = ClientBuilder.newBuilder().build();
         apiContextPath = jerseyProperties.getApplicationPath();
     }
 

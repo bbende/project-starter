@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.api.resource;
 
-import com.bbende.project.starter.dto.ListDto;
 import com.bbende.project.starter.component.person.PersonDto;
+import com.bbende.project.starter.dto.ListDto;
 import com.bbende.project.starter.test.RestIT;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.jupiter.api.BeforeEach;

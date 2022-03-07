@@ -1,7 +1,5 @@
 package com.bbende.project.starter.component.person;
 
-import com.bbende.project.starter.component.person.Person;
-import com.bbende.project.starter.component.person.PersonRepository;
 import com.bbende.project.starter.test.DatabaseIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
