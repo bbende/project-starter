@@ -1,6 +1,6 @@
 package com.bbende.project.starter.component.person;
 
-import com.bbende.project.starter.exception.EntityNotFoundException;
+import com.bbende.project.starter.common.exception.EntityNotFoundException;
 
 public class PersonNotFoundException extends EntityNotFoundException {
 

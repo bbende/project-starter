@@ -1,4 +1,4 @@
-package com.bbende.project.starter.persistence;
+package com.bbende.project.starter.common.persistence;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

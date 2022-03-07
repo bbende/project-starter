@@ -1,6 +1,6 @@
 package com.bbende.project.starter.component.person;
 
-import com.bbende.project.starter.persistence.AbstractEntity;
+import com.bbende.project.starter.common.persistence.AbstractEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

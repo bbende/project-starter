@@ -1,6 +1,6 @@
 package com.bbende.project.starter.web.api.mapper;
 
-import com.bbende.project.starter.exception.EntityNotFoundException;
+import com.bbende.project.starter.common.exception.EntityNotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

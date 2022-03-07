@@ -2,7 +2,7 @@ package com.bbende.project.starter.web.api.resource;
 
 import com.bbende.project.starter.component.person.PersonDto;
 import com.bbende.project.starter.component.person.PersonService;
-import com.bbende.project.starter.dto.ListDto;
+import com.bbende.project.starter.common.dto.ListDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

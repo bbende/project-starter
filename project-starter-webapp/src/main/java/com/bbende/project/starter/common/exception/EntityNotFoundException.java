@@ -1,4 +1,4 @@
-package com.bbende.project.starter.exception;
+package com.bbende.project.starter.common.exception;
 
 /**
  * An exception that is thrown when an entity is not found.

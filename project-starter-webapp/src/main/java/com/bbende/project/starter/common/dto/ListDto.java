@@ -1,4 +1,4 @@
-package com.bbende.project.starter.dto;
+package com.bbende.project.starter.common.dto;
 
 import java.util.List;
 

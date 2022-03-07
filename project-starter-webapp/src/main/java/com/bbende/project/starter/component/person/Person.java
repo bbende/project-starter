@@ -1,6 +1,6 @@
 package com.bbende.project.starter.component.person;
 
-import com.bbende.project.starter.persistence.AuditableEntity;
+import com.bbende.project.starter.common.persistence.AuditableEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

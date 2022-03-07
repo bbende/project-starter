@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.mvc;
 
 import com.bbende.project.starter.component.details.ProjectDetailsService;
-import com.bbende.project.starter.exception.EntityNotFoundException;
+import com.bbende.project.starter.common.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
