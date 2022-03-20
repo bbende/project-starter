@@ -62,6 +62,7 @@
     </properties>
 
     <modules>
+      <module>project-starter-bootstrap-theme</module>
       <module>project-starter-webapp</module>
       <module>project-starter-assembly</module>
     </modules>

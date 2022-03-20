@@ -9,11 +9,13 @@
     <body>
         <div layout:fragment="layout-content">
             <div class="row justify-content-end">
-                <a href="#" th:href="@{/people/new}" class="btn btn-outline-primary" role="button"
-                   up-follow up-transition="cross-fade">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <span>Add Person</span>
-                </a>
+                <div class="col-2 text-end">
+                    <a href="#" th:href="@{/people/new}" class="btn btn-outline-primary" role="button"
+                       up-follow up-transition="cross-fade">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <span>Add Person</span>
+                    </a>
+                </div>
             </div>
             <div class="row mt-3">
                 <table class="table table-striped">
@@ -30,7 +32,7 @@
                             <td th:text="${person.firstName}">First</td>
                             <td th:text="${person.lastName}">Last</td>
                             <td th:text="${person.age}">Age</td>
-                            <td class="align-right">
+                            <td class="text-end">
                                 <a href="#" th:href="@{/people/{id}/delete/confirm(id=${person.id})}"
                                    class="btn btn-raised btn-danger btn-sm" role="button"
                                    up-layer="new" up-target=".modal-confirm" up-animation="fade-in">

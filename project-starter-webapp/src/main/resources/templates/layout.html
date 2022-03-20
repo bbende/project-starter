@@ -3,13 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" />
-    <script th:src="@{/javascript/application.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/components-font-awesome/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/unpoly/unpoly.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap-custom.css}"/>
+    <link rel="stylesheet" th:href="@{/css/application.css}" />
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/webjars/unpoly/unpoly.min.js}"></script>
     <title>Project Starter</title>
 </head>
 <body>
-    <div data-controller="app"/>
-    <div data-controller="nav">
+    <div>
         <nav class="navbar navbar-dark bg-primary fixed-top" role="navigation">
             <div class="navbar-brand">
                 <button data-action="click->nav#toggle" class="navbar-toggler" id="navbarSideButton" type="button">

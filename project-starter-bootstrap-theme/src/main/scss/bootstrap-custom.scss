@@ -1,15 +1,26 @@
-// Customizations
-
-$indigo: #3f51b5;
-$primary-blue: #2d3e44;
+//$primary: #25408f;
+$primary: #2d3e44;
+$secondary: #8f5325;
+$success: #3e8d63;
+$info: #13101c;
+$warning: #945707;
+$danger: #d62518;
+$light: #f8f9fa;
+$dark: #343a40;
 
 $theme-colors: (
-        primary: $primary-blue
+  primary: $primary,
+  secondary: $secondary,
+  success: $success,
+  info: $info,
+  warning: $warning,
+  danger: $danger,
+  light: $light,
+  dark: $dark,
 );
 
 // Bootstrap and its default variables
-@import "bootstrap/scss/bootstrap";
-
+@import "../../../node_modules/bootstrap/scss/bootstrap";
 
 body {
   min-height: 75rem;
@@ -23,6 +34,10 @@ body {
 
 .navbar-brand-label {
   padding-left: .5rem;
+}
+
+.navbar-nav {
+  padding-right: 1rem;
 }
 
 /* Make the toggle icon white instead of gray */
@@ -85,25 +100,4 @@ body {
   @include media-breakpoint-up(xs) { margin-left: 0%; } // Small
   @include media-breakpoint-up(sm) { margin-left: 40%; } // Medium
   @include media-breakpoint-up(md) { margin-left: 20%; } // Large
-}
-
-main {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-.layout-content {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.fa-pad-right {
-  padding-right: 5px;
-}
-
-.modal-confirm-content {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 20px;
-  margin-right: 20px;
 }
