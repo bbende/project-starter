@@ -13,15 +13,16 @@
     <title>Project Starter</title>
 </head>
 <body>
-    <div>
+    <div class="container-fluid">
+        <!-- Top Nav Bar -->
         <nav class="navbar navbar-dark bg-primary fixed-top" role="navigation">
             <div class="navbar-brand">
-                <button data-action="click->nav#toggle" class="navbar-toggler" id="navbarSideButton" type="button">
+                <button class="navbar-toggler text-decoration-none" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#sidebar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand navbar-brand-label" href="#">Project Starter</a>
             </div>
-
             <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
                 <li class="nav-item">
                     <span class="navbar-text small" th:text="${projectDetails.version}"></span>
@@ -32,34 +33,44 @@
                 <li class="nav-item">
                     <span class="navbar-text small" th:text="${projectDetails.label}"></span>
                 </li>
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sign Out</a>
-                </li>
-                -->
-            </ul>
-
-            <ul class="navbar-side" id="navbarSide">
-                <li class="navbar-side-item">
-                    <a href="#" th:href="@{/}" class="side-link active" up-follow up-transition="cross-fade">Home</a>
-                </li>
-                <li class="navbar-side-item">
-                    <a href="#" th:href="@{/people}" class="side-link" up-follow up-transition="cross-fade">People</a>
-                </li>
-                <li class="navbar-side-item">
-                    <hr></hr>
-                </li>
-                <li class="navbar-side-item">
-                    <a href="swagger/ui.html" target="_blank" rel="noopener noreferrer">Swapper UI</a>
-                </li>
-                <li class="navbar-side-item">
-                    <a href="swagger/swagger.json" target="_blank" rel="noopener noreferrer">Swapper Specification</a>
-                </li>
             </ul>
         </nav>
+        <!-- Side Nav + Main Content -->
+        <div class="row flex-nowrap">
+            <div class="col-auto px-0">
+                <div id="sidebar" class="collapse collapse-horizontal show border-end">
+                    <div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start min-vh-100">
+                        <a href="#" th:href="@{/}"
+                           class="list-group-item border-end-0 d-inline-block text-truncate"
+                           data-bs-parent="#sidebar" up-follow up-transition="cross-fade">
+                            <span>Home</span>
+                        </a>
+                        <a href="#" th:href="@{/people}"
+                           class="list-group-item border-end-0 d-inline-block text-truncate"
+                           data-bs-parent="#sidebar" up-follow up-transition="cross-fade">
+                            <span>People</span>
+                        </a>
+                        <a href="swagger/ui.html" target="_blank" rel="noopener noreferrer"
+                           class="list-group-item border-end-0 d-inline-block text-truncate"
+                           data-bs-parent="#sidebar">
+                            <span>Swapper UI</span>
+                        </a>
+                        <a href="swagger/swagger.json" target="_blank" rel="noopener noreferrer"
+                           class="list-group-item border-end-0 d-inline-block text-truncate"
+                           data-bs-parent="#sidebar">
+                            <span>Swapper Specification</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <main class="col ps-md-2 pt-2">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="layout-content" layout:fragment="layout-content" up-main="root" />
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
-    <main role="main" class="container">
-        <div class="layout-content" layout:fragment="layout-content" up-main="root"></div>
-    </main>
 </body>
 </html>

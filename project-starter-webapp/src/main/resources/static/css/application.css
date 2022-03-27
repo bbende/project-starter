@@ -1,12 +1,33 @@
+body {
+    min-height: 75rem;
+    padding-top: 3.5rem;
+}
 
-main {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+.navbar {
+    height: 3.5rem;
+    padding-top: .1rem;
+}
+
+.navbar-brand {
+    padding-left: .5rem;
+}
+
+.navbar-brand-label {
+    padding-left: .5rem;
+}
+
+.navbar-nav {
+    padding-right: 1rem;
+}
+
+/* Make the toggle icon white instead of gray */
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.9)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 .layout-content {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .fa-pad-right {
