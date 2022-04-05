@@ -13,8 +13,66 @@
     <artifactId>project-starter-bootstrap-theme</artifactId>
     <name>Project Starter Bootstrap Theme</name>
 
+    <properties>
+        <bootstrap.unpack.dir>${project.build.directory}/bootstrap</bootstrap.unpack.dir>
+        <bootstrap.src.dir>${bootstrap.unpack.dir}/META-INF/resources/webjars/bootstrap/${bootstrap.version}</bootstrap.src.dir>
+        <project.starter.dest.dir>${project.build.directory}/classes/META-INF/resources/project-starter</project.starter.dest.dir>
+        <bootstrap.dest.dir>${project.starter.dest.dir}/bootstrap</bootstrap.dest.dir>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>extract-bootstrap</id>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <includeArtifactIds>bootstrap</includeArtifactIds>
+                            <outputDirectory>${bootstrap.unpack.dir}</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                            <silent>true</silent>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-bootstrap</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <sequential>
+                                    <echo>Copy Bootstrap</echo>
+                                    <copy todir="${bootstrap.dest.dir}">
+                                        <fileset dir="${bootstrap.src.dir}">
+                                            <include name="**" />
+                                        </fileset>
+                                    </copy>
+                                </sequential>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>

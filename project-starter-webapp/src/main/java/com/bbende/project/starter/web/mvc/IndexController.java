@@ -12,4 +12,9 @@ public class IndexController {
         return new ModelAndView("index");
     }
 
+    @GetMapping("/resources")
+    public ModelAndView resources() {
+        return new ModelAndView("resources");
+    }
+
 }

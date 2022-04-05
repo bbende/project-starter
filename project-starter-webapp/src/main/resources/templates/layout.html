@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="stylesheet" th:href="@{/webjars/components-font-awesome/css/font-awesome.min.css}" />
     <link rel="stylesheet" th:href="@{/webjars/unpoly/unpoly.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/bootstrap-custom.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/components-font-awesome/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/project-starter/theme/bootstrap-theme.css}"/>
     <link rel="stylesheet" th:href="@{/css/application.css}" />
-    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/webjars/unpoly/unpoly.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/project-starter/bootstrap/js/bootstrap.min.js}"></script>
     <title>Project Starter</title>
 </head>
 <body>
@@ -38,27 +38,23 @@
         <!-- Side Nav + Main Content -->
         <div class="row flex-nowrap">
             <div class="col-auto px-0">
-                <div id="sidebar" class="collapse collapse-horizontal show border-end">
-                    <div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start min-vh-100">
+                <div id="sidebar" class="collapse collapse-horizontal show min-vh-100">
+                    <div id="sidebar-nav" class="list-group">
+                        <br/>
                         <a href="#" th:href="@{/}"
-                           class="list-group-item border-end-0 d-inline-block text-truncate"
-                           data-bs-parent="#sidebar" up-follow up-transition="cross-fade">
+                           class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                           up-follow up-transition="cross-fade">
                             <span>Home</span>
                         </a>
                         <a href="#" th:href="@{/people}"
-                           class="list-group-item border-end-0 d-inline-block text-truncate"
-                           data-bs-parent="#sidebar" up-follow up-transition="cross-fade">
+                           class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                           up-follow up-transition="cross-fade">
                             <span>People</span>
                         </a>
-                        <a href="swagger/ui.html" target="_blank" rel="noopener noreferrer"
-                           class="list-group-item border-end-0 d-inline-block text-truncate"
-                           data-bs-parent="#sidebar">
-                            <span>Swapper UI</span>
-                        </a>
-                        <a href="swagger/swagger.json" target="_blank" rel="noopener noreferrer"
-                           class="list-group-item border-end-0 d-inline-block text-truncate"
-                           data-bs-parent="#sidebar">
-                            <span>Swapper Specification</span>
+                        <a href="#" th:href="@{/resources}"
+                           class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                           up-follow up-transition="cross-fade">
+                            <span>Resources</span>
                         </a>
                     </div>
                 </div>

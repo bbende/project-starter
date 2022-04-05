@@ -1,11 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "scss-compile": "sass src/main/scss:target/classes/META-INF/resources/css --style compressed"
-  },
-  "dependencies": {
-    "bootstrap": "^5.1.3",
-    "@popperjs/core": "^2.11.4"
+    "scss-compile": "sass src/main/scss:target/classes/META-INF/resources/project-starter/theme --style compressed"
   },
   "devDependencies": {
     "sass": "1.49.9"
