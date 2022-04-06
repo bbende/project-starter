@@ -1,12 +1,12 @@
 {
   "private": true,
   "dependencies": {
-    "bootstrap": "4.6.0",
+    "bootstrap": "5.1.3",
+    "@popperjs/core": "2.11.4",
     "font-awesome": "4.7.0",
     "jquery": "3.6.0",
-    "popper.js": "1.16.1",
     "@hotwired/stimulus": "3.0.1",
-    "unpoly": "2.4.1"
+    "unpoly": "2.5.2"
   },
   "devDependencies": {
     "acorn": "6.4.1",

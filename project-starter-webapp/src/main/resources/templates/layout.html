@@ -1,61 +1,67 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link th:href="@{/stylesheets/application.css}" rel="stylesheet" />
-    <script th:src="@{/javascript/application.js}"></script>
-    <title>Project Starter</title>
-</head>
-<body>
-    <div data-controller="app"/>
-    <div data-controller="nav">
-        <nav class="navbar navbar-dark bg-primary fixed-top" role="navigation">
-            <div class="navbar-brand">
-                <button data-action="click->nav#toggle" class="navbar-toggler" id="navbarSideButton" type="button">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand navbar-brand-label" href="#">Project Starter</a>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link th:href="@{/stylesheets/application.css}" rel="stylesheet" />
+        <script th:src="@{/javascript/application.js}"></script>
+        <title>Project Starter</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <!-- Top Nav Bar -->
+            <nav class="navbar navbar-dark bg-primary fixed-top" role="navigation">
+                <div class="navbar-brand">
+                    <button class="navbar-toggler text-decoration-none" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#sidebar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a class="navbar-brand navbar-brand-label" href="#">Project Starter</a>
+                </div>
+                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                    <li class="nav-item">
+                        <span class="navbar-text small" th:text="${projectDetails.version}"></span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="navbar-text small">&nbsp; - &nbsp;</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="navbar-text small" th:text="${projectDetails.label}"></span>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Side Nav + Main Content -->
+            <div class="row flex-nowrap">
+                <div class="col-auto px-0">
+                    <div id="sidebar" class="collapse collapse-horizontal show min-vh-100">
+                        <div id="sidebar-nav" class="list-group">
+                            <br/>
+                            <a href="#" th:href="@{/}"
+                               class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                               up-follow up-transition="cross-fade">
+                                <span>Home</span>
+                            </a>
+                            <a href="#" th:href="@{/people}"
+                               class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                               up-follow up-transition="cross-fade">
+                                <span>People</span>
+                            </a>
+                            <a href="#" th:href="@{/resources}"
+                               class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                               up-follow up-transition="cross-fade">
+                                <span>Resources</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <main class="col ps-md-2 pt-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="layout-content" layout:fragment="layout-content" up-main="root" />
+                        </div>
+                    </div>
+                </main>
             </div>
-
-            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-                <li class="nav-item">
-                    <span class="navbar-text small" th:text="${projectDetails.version}"></span>
-                </li>
-                <li class="nav-item">
-                    <span class="navbar-text small">&nbsp; - &nbsp;</span>
-                </li>
-                <li class="nav-item">
-                    <span class="navbar-text small" th:text="${projectDetails.label}"></span>
-                </li>
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sign Out</a>
-                </li>
-                -->
-            </ul>
-
-            <ul class="navbar-side" id="navbarSide">
-                <li class="navbar-side-item">
-                    <a href="#" th:href="@{/}" class="side-link active" up-follow up-transition="cross-fade">Home</a>
-                </li>
-                <li class="navbar-side-item">
-                    <a href="#" th:href="@{/people}" class="side-link" up-follow up-transition="cross-fade">People</a>
-                </li>
-                <li class="navbar-side-item">
-                    <hr></hr>
-                </li>
-                <li class="navbar-side-item">
-                    <a href="swagger/ui.html" target="_blank" rel="noopener noreferrer">Swapper UI</a>
-                </li>
-                <li class="navbar-side-item">
-                    <a href="swagger/swagger.json" target="_blank" rel="noopener noreferrer">Swapper Specification</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    <main role="main" class="container">
-        <div class="layout-content" layout:fragment="layout-content" up-main="root"></div>
-    </main>
-</body>
+        </div>
+    </body>
 </html>

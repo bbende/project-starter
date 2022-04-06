@@ -1,28 +1,50 @@
-// Customizations
+// Customize Bootstrap Colors
 
-$indigo: #3f51b5;
-$primary-blue: #2d3e44;
+//$primary: #25408f;
+$primary: #2d3e44;
+$secondary: #8f5325;
+$success: #3e8d63;
+$info: #13101c;
+$warning: #945707;
+$danger: #d62518;
+$light: #f8f9fa;
+$dark: #343a40;
 
 $theme-colors: (
-        primary: $primary-blue
+        primary: $primary,
+        secondary: $secondary,
+        success: $success,
+        info: $info,
+        warning: $warning,
+        danger: $danger,
+        light: $light,
+        dark: $dark,
 );
 
 // Bootstrap and its default variables
 @import "bootstrap/scss/bootstrap";
 
-
+// Application Styles
 body {
   min-height: 75rem;
-  padding-top: 4.5rem;
+  padding-top: 3.5rem;
 }
 
 .navbar {
   height: 3.5rem;
-  padding-top: 0;
+  padding-top: .1rem;
+}
+
+.navbar-brand {
+  padding-left: .5rem;
 }
 
 .navbar-brand-label {
   padding-left: .5rem;
+}
+
+.navbar-nav {
+  padding-right: 1rem;
 }
 
 /* Make the toggle icon white instead of gray */
@@ -30,71 +52,18 @@ body {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.9)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-.navbar-side {
-  height: 100%;
-  width: 20%;
-  position: fixed;
-  top: 3.6rem;
-  left: 0;
-  padding: 0;
-  list-style: none;
-  border-right: 2px solid #ccc;
-  background-color: #f7f7f9;
-  overflow-y: scroll;
-  display: block;
-  z-index: 1000;
-  -webkit-transform: translateX(-100%);
-  -ms-transform: translateX(-100%);
-  transform: translateX(-100%);
-  -webkit-transition: 300ms ease;
-  transition: 300ms ease;
-  @include media-breakpoint-up(xs) { width: 60%; } // Small
-  @include media-breakpoint-up(sm) { width: 40%; } // Medium
-  @include media-breakpoint-up(md) { width: 20%; } // Large
+#sidebar {
+  border-right: 1px solid #ccc;
 }
 
-.navbar-side-item {
-  padding: 1rem;
-  margin: 0;
-  height: 2.5rem;
-}
-
-.navbar-side-link {
-  padding-left: 2rem;
-  color: #333;
-}
-
-.navbar-side-link:hover {
-  color: inherit;
-}
-
-.navbar-side-link.active {
-  color: #007bff;
-}
-
-.navbar-side-reveal {
-  -webkit-transform: translateX(0%);
-  -ms-transform: translateX(0%);
-  transform: translateX(0%);
-  -webkit-transition: 300ms ease;
-  transition: 300ms ease;
-}
-
-/* Make the left margin of main equal to the width of the side nav, add this class when reveal is added to side nav */
-.push-main {
-  @include media-breakpoint-up(xs) { margin-left: 0%; } // Small
-  @include media-breakpoint-up(sm) { margin-left: 40%; } // Medium
-  @include media-breakpoint-up(md) { margin-left: 20%; } // Large
-}
-
-main {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+.sidebar-nav-item {
+  width: 200px;
+  border: none
 }
 
 .layout-content {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .fa-pad-right {
@@ -106,4 +75,8 @@ main {
   margin-bottom: 5px;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+up-modal[size=medium] up-modal-box {
+  height: 200px;
 }

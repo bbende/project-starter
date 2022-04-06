@@ -1,5 +1,3 @@
-// Exposes jQuery and Popper to other libraries like bootstrap-material
+// Exposes jQuery and to other libraries
 // Must be first import in application.js, see - https://stackoverflow.com/a/51271892
-
 window.$ = window.jQuery = require('jquery');
-window.Popper = require('popper.js');
