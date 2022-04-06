@@ -38,7 +38,7 @@
 
         <!-- Dependency Versions -->
         <spring.boot.version>2.6.4</spring.boot.version>
-        <jackson.version>2.13.1</jackson.version>
+        <jackson.version>2.13.2.1</jackson.version>
         <liquibase.version>4.8.0</liquibase.version>
         <eclipse.link.version>2.7.10</eclipse.link.version>
         <h2.version>2.1.210</h2.version>
