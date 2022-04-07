@@ -37,8 +37,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Dependency Versions -->
-        <spring.boot.version>2.6.4</spring.boot.version>
-        <jackson.version>2.13.1</jackson.version>
+        <spring.boot.version>2.6.6</spring.boot.version>
+        <jackson.version>2.13.2.1</jackson.version>
         <liquibase.version>4.8.0</liquibase.version>
         <eclipse.link.version>2.7.10</eclipse.link.version>
         <h2.version>2.1.210</h2.version>
@@ -47,8 +47,8 @@
         <!-- Current bug in mariadb driver 3.0.3 causes issue with liquibase -->
         <mariadb.driver.version>2.7.5</mariadb.driver.version>
         <test.containers.version>1.16.3</test.containers.version>
-        <node.version>v10.14.1</node.version>
-        <npm.version>6.4.1</npm.version>
+        <node.version>v14.19.1</node.version>
+        <npm.version>8.6.0</npm.version>
         <swagger.ui.version>3.12.0</swagger.ui.version>
         <swagger.version>2.1.12</swagger.version>
         <commons.lang.version>3.12.0</commons.lang.version>
@@ -75,8 +75,15 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Exclude org.eclipse.persistence:jakarta.persistence since spring-boot-starter-data-jpa include
-     jakarta.persistence:jakarta.persistence-api which has the same javax.persistence classes -->
+            jakarta.persistence:jakarta.persistence-api which has the same javax.persistence classes -->
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.jpa</artifactId>
@@ -107,21 +114,6 @@
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
             </dependency>
             <!-- Test Dependencies -->
             <dependency>
