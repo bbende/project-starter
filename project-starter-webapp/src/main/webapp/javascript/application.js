@@ -11,4 +11,6 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 
 // Unpoly
 import 'unpoly/unpoly.es5';
+import 'unpoly/unpoly-bootstrap5'
 up.log.enable()
+

@@ -21,7 +21,8 @@ gulp.task('copy-stylesheets', function () {
     return gulp.src([
             srcDir + '/stylesheets/**/*',
             'node_modules/font-awesome/css/font-awesome.css',
-            'node_modules/unpoly/unpoly.css'
+            'node_modules/unpoly/unpoly.css',
+            'node_modules/unpoly/unpoly-bootstrap5.css'
         ])
         .pipe(gulp.dest(buildDir + '/stylesheets'));
 });

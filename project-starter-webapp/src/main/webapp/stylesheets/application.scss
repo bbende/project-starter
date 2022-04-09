@@ -11,14 +11,14 @@ $light: #f8f9fa;
 $dark: #343a40;
 
 $theme-colors: (
-        primary: $primary,
-        secondary: $secondary,
-        success: $success,
-        info: $info,
-        warning: $warning,
-        danger: $danger,
-        light: $light,
-        dark: $dark,
+  primary: $primary,
+  secondary: $secondary,
+  success: $success,
+  info: $info,
+  warning: $warning,
+  danger: $danger,
+  light: $light,
+  dark: $dark,
 );
 
 // Bootstrap and its default variables
@@ -54,6 +54,10 @@ body {
 
 #sidebar {
   border-right: 1px solid #ccc;
+}
+
+#sidebar-nav {
+  padding: .75rem
 }
 
 .sidebar-nav-item {

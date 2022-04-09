@@ -34,20 +34,20 @@
             <div class="row flex-nowrap">
                 <div class="col-auto px-0">
                     <div id="sidebar" class="collapse collapse-horizontal show min-vh-100">
-                        <div id="sidebar-nav" class="list-group">
+                        <div id="sidebar-nav" class="list-group" up-nav>
                             <br/>
                             <a href="#" th:href="@{/}"
-                               class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                               class="list-group-item list-group-item-action sidebar-nav-item d-inline-block text-truncate"
                                up-follow up-transition="cross-fade">
                                 <span>Home</span>
                             </a>
                             <a href="#" th:href="@{/people}"
-                               class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
-                               up-follow up-transition="cross-fade">
+                               class="list-group-item list-group-item-action sidebar-nav-item d-inline-block text-truncate"
+                               up-follow up-transition="cross-fade" up-alias="/people/new">
                                 <span>People</span>
                             </a>
                             <a href="#" th:href="@{/resources}"
-                               class="list-group-item list-group-item-action sidebar-nav-item link-dark d-inline-block text-truncate"
+                               class="list-group-item list-group-item-action sidebar-nav-item d-inline-block text-truncate"
                                up-follow up-transition="cross-fade">
                                 <span>Resources</span>
                             </a>
