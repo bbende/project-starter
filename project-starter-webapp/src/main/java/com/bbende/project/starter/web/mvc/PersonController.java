@@ -16,10 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.bbende.project.starter.web.mvc.Unpoly.UNPOLY;
+
 @Controller
 public class PersonController {
 
-    private PersonService personService;
+    private final PersonService personService;
 
     @Autowired
     public PersonController(final PersonService personService) {
@@ -27,45 +29,58 @@ public class PersonController {
     }
 
     @GetMapping("/people")
-    public ModelAndView getPeople() {
+    public ModelAndView getPeople(@ModelAttribute(UNPOLY) final Unpoly unpoly) {
         final List<PersonDto> people = personService.getAll();
         final ModelMap modelMap = new ModelMap("people", people);
-        return new ModelAndView("people/list", modelMap);
+        return new ModelAndView(unpoly.getView("people/list"), modelMap);
     }
 
     @GetMapping("/people/new")
-    public ModelAndView newPerson() {
+    public ModelAndView newPerson(@ModelAttribute(UNPOLY) final Unpoly unpoly) {
         final ModelMap modelMap = new ModelMap("person", new PersonDto());
-        return new ModelAndView("people/new", modelMap);
+        return new ModelAndView(unpoly.getView("people/new"), modelMap);
     }
 
     @PostMapping("/people")
     public ModelAndView createPerson(
-            @Valid
-            @ModelAttribute(name = "person")
-            final PersonDto person,
-            final BindingResult bindingResult
-    ) {
-
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("people/new");
+            @ModelAttribute(UNPOLY) final Unpoly unpoly,
+            @Valid @ModelAttribute("person") final PersonDto person,
+            final BindingResult personBinding) {
+        if (personBinding.hasErrors()) {
+            return new ModelAndView(unpoly.getView("people/new"));
         } else {
             personService.create(person);
-            return new ModelAndView("redirect:/people");
+            if (unpoly.isXUpTarget()) {
+                return getPeople(unpoly);
+            } else {
+                return new ModelAndView("redirect:/people");
+            }
         }
     }
 
     @GetMapping("/people/{id}/delete/confirm")
-    public ModelAndView deleteConfirm(@PathVariable final String id) {
+    public ModelAndView deleteConfirm(
+            @PathVariable final String id,
+            @ModelAttribute(UNPOLY) final Unpoly unpoly) {
         final PersonDto person = personService.get(id);
         final ModelMap modelMap = new ModelMap("person", person);
-        return new ModelAndView("people/delete-confirm", modelMap);
+        if (unpoly.isXUpTarget()) {
+            return new ModelAndView(unpoly.getView("people/delete-confirm"), modelMap);
+        } else {
+            return new ModelAndView("people/delete-confirm", modelMap);
+        }
     }
 
     @DeleteMapping("/people/{id}")
-    public ModelAndView delete(@PathVariable final String id) {
+    public ModelAndView delete(
+            @PathVariable final String id,
+            @ModelAttribute(UNPOLY) final Unpoly unpoly) {
         personService.delete(id);
-        return new ModelAndView("redirect:/people");
+        if (unpoly.isXUpTarget()) {
+            return getPeople(unpoly);
+        } else {
+            return new ModelAndView("redirect:/people");
+        }
     }
 
 }

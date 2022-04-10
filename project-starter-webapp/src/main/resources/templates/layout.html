@@ -43,7 +43,7 @@
                             </a>
                             <a href="#" th:href="@{/people}"
                                class="list-group-item list-group-item-action sidebar-nav-item d-inline-block text-truncate"
-                               up-follow up-transition="cross-fade" up-alias="/people/new">
+                               up-follow up-target="#content" up-transition="cross-fade" up-alias="/people/new">
                                 <span>People</span>
                             </a>
                             <a href="#" th:href="@{/resources}"
@@ -57,7 +57,7 @@
                 <main class="col ps-md-2 pt-2">
                     <div class="row">
                         <div class="col-12">
-                            <div class="layout-content" layout:fragment="layout-content" up-main="root" />
+                            <div id="content" class="layout-content" layout:fragment="layout-content" up-main="root" />
                         </div>
                     </div>
                 </main>

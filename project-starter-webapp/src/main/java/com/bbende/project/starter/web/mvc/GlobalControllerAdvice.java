@@ -1,15 +1,17 @@
 package com.bbende.project.starter.web.mvc;
 
-import com.bbende.project.starter.component.details.ProjectDetailsService;
 import com.bbende.project.starter.common.exception.EntityNotFoundException;
+import com.bbende.project.starter.component.details.ProjectDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +38,11 @@ public class GlobalControllerAdvice {
     @ModelAttribute
     public void addProjectDetails(final Model model) {
         model.addAttribute("projectDetails", projectDetailsService.getProjectDetails());
+    }
+
+    @ModelAttribute(Unpoly.UNPOLY)
+    public Unpoly getUnpoly(@RequestHeader final HttpHeaders headers) {
+        return Unpoly.fromHeaders(headers);
     }
 
     // -- Exception handlers for all controllers

@@ -7,11 +7,11 @@
         <title></title>
     </head>
     <body>
-        <div layout:fragment="layout-content">
+        <div id="content" class="layout-content" layout:fragment="layout-content">
             <div class="row justify-content-end">
                 <div class="col-lg-2 col-md-3 text-end">
                     <a href="#" th:href="@{/people/new}" class="btn btn-outline-primary" role="button"
-                       up-follow up-transition="cross-fade">
+                       up-follow up-target="#content" up-transition="cross-fade">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         <span>Person</span>
                     </a>

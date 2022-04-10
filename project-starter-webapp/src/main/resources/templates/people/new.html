@@ -6,29 +6,33 @@
     <title>Create Person</title>
 </head>
 <body>
-    <div class="layout-content" layout:fragment="layout-content">
+    <div id="content" class="layout-content" layout:fragment="layout-content">
         <div class="row justify-content-center">
             <div class="col-8">
                 <h3>Create Person</h3>
                 <hr/>
-                <form action="#" th:action="@{/people}" th:object="${person}" method="post" up-submit>
+                <form action="#" th:action="@{/people}" th:object="${person}" method="post"
+                      up-submit up-target="#content">
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" th:errorclass="is-invalid" id="firstName" th:field="*{firstName}">
+                        <input type="text" id="firstName" class="form-control"
+                               th:errorclass="is-invalid" th:field="*{firstName}" />
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                     </div>
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" th:errorclass="is-invalid" id="lastName" th:field="*{lastName}">
+                        <input type="text" id="lastName" class="form-control"
+                               th:errorclass="is-invalid" th:field="*{lastName}" />
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                     </div>
                     <div class="mb-3">
                         <label for="age" class="form-label">Age</label>
-                        <input type="text" class="form-control" th:errorclass="is-invalid" id="age" th:field="*{age}">
+                        <input type="text" id="age" class="form-control"
+                               th:errorclass="is-invalid" th:field="*{age}" />
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
                     </div>
                     <a href="#" th:href="@{/people}" class="btn btn-danger" role="button"
-                       up-follow up-transition="cross-fade">
+                       up-follow up-target="#content" up-transition="cross-fade">
                         <i class="fa fa-ban fa-pad-right" aria-hidden="true"></i><span>Cancel</span>
                     </a>
                     <button type="submit" class="btn btn-primary">
