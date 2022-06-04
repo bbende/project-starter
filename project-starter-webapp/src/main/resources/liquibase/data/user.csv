@@ -1,0 +1,3 @@
+id;username;password_hash;email;first_name;last_name;activated
+1;admin;$2a$10$4KtnFGniUw3mFr0pdGtDiedVtD9QTz956kJbsUoBNK9oHrUWCs6b6;admin@localhost;Admin;Admin;true
+2;user;$2a$10$zaf3rT9TuBCk2HEV1ssLMOEV8JPSNfh7B9wQLiB.fjfef3NExVS5u;user@localhost;User;User;true
