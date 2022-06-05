@@ -5,10 +5,11 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class AuditableEntity<T> extends Entity<T> {
+public abstract class AuditableEntity<T extends Serializable> extends Entity<T> {
 
     @NotNull
     @Column(name = "created")

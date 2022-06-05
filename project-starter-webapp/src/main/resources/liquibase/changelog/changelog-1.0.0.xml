@@ -10,14 +10,15 @@
     </changeSet>
 
     <changeSet id="2" author="bbende">
-        <createTable tableName="user">
+        <!-- Use a project specific prefix because 'user' is a reserved word in many databases -->
+        <createTable tableName="ps_user">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="username" type="varchar(50)">
                 <constraints nullable="false"
                              unique="true"
-                             uniqueConstraintName="uk_user__username"/>
+                             uniqueConstraintName="uk_ps_user__username"/>
             </column>
             <column name="password_hash" type="varchar(60)">
                 <constraints nullable="false" />
@@ -25,7 +26,7 @@
             <column name="email" type="varchar(191)">
                 <constraints nullable="false"
                              unique="true"
-                             uniqueConstraintName="uk_user__email"/>
+                             uniqueConstraintName="uk_ps_user__email"/>
             </column>
             <column name="first_name" type="varchar(50)">
                 <constraints nullable="false" />
@@ -44,48 +45,48 @@
             </column>
         </createTable>
 
-        <createTable tableName="authority">
+        <createTable tableName="ps_authority">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(50)">
                 <constraints nullable="false"
                              unique="true"
-                             uniqueConstraintName="uk_authority__name"/>
+                             uniqueConstraintName="uk_ps_authority__name"/>
             </column>
         </createTable>
 
-        <createTable tableName="user_authority">
+        <createTable tableName="ps_user_authority">
             <column name="user_id" type="bigint">
                 <constraints nullable="false"
-                             foreignKeyName="fk_user_authority__user_id"
+                             foreignKeyName="fk_ps_user_authority__user_id"
                              referencedColumnNames="id"
-                             referencedTableName="user"
+                             referencedTableName="ps_user"
                              deleteCascade="true" />
             </column>
-            <column name="authority_id" type="varchar(50)">
+            <column name="authority_id" type="bigint">
                 <constraints nullable="false"
-                             foreignKeyName="fk_user_authority__authority_id"
+                             foreignKeyName="fk_ps_user_authority__authority_id"
                              referencedColumnNames="id"
-                             referencedTableName="authority"
+                             referencedTableName="ps_authority"
                              deleteCascade="true" />
             </column>
         </createTable>
 
-        <addPrimaryKey tableName="user_authority" columnNames="user_id, authority_id" />
+        <addPrimaryKey tableName="ps_user_authority" columnNames="user_id, authority_id" />
 
-        <loadData tableName="user" file="liquibase/data/user.csv" separator=";">
+        <loadData tableName="ps_user" file="liquibase/data/user.csv" separator=";">
             <column name="id" type="numeric"/>
             <column name="activated" type="boolean"/>
             <column name="created_date" type="timestamp"/>
         </loadData>
 
-        <loadData tableName="authority" file="liquibase/data/authority.csv" separator=";">
+        <loadData tableName="ps_authority" file="liquibase/data/authority.csv" separator=";">
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
         </loadData>
 
-        <loadData tableName="user_authority" file="liquibase/data/user_authority.csv" separator=";">
+        <loadData tableName="ps_user_authority" file="liquibase/data/user_authority.csv" separator=";">
             <column name="user_id" type="numeric"/>
         </loadData>
     </changeSet>

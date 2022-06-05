@@ -4,15 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
 @MappedSuperclass
-public abstract class Entity<T> {
+public abstract class Entity<T extends Serializable> {
 
     @Id
     @NotNull
     @Column(name = "id")
-    private T id;
+    protected T id;
 
     public T getId() {
         return id;
@@ -27,22 +28,4 @@ public abstract class Entity<T> {
         return getClass().getSimpleName() + " { id = " + getId() + " }";
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (!(obj instanceof Entity)) {
-            return false;
-        }
-
-        final Entity other = (Entity) obj;
-        return Objects.equals(id, other.id);
-    }
 }

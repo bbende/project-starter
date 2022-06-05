@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -18,7 +19,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
  * quick testing of only this slice of the application, without having to wire up services and controllers.
  *
  * @DataJpaTest defaults to replacing the DataSource with an embedded H2. In order to leverage the Testcontainer
- * DataSources, @AutoConfigureTestDatabase is used to specify that only auto-configured DataSources shoudl be replaced
+ * DataSources, @AutoConfigureTestDatabase is used to specify that only auto-configured DataSources should be replaced
  * (i.e. don't replace the Testcontainer DataSources).
  */
 @DataJpaTest
