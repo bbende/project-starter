@@ -46,13 +46,10 @@
         </createTable>
 
         <createTable tableName="ps_authority">
-            <column name="id" type="bigint">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
             <column name="name" type="varchar(50)">
                 <constraints nullable="false"
-                             unique="true"
-                             uniqueConstraintName="uk_ps_authority__name"/>
+                             primaryKey="true"
+                             primaryKeyName="pk_ps_authority__name" />
             </column>
         </createTable>
 
@@ -64,16 +61,16 @@
                              referencedTableName="ps_user"
                              deleteCascade="true" />
             </column>
-            <column name="authority_id" type="bigint">
+            <column name="authority_name" type="varchar(50)">
                 <constraints nullable="false"
-                             foreignKeyName="fk_ps_user_authority__authority_id"
-                             referencedColumnNames="id"
+                             foreignKeyName="fk_ps_user_authority__authority_name"
+                             referencedColumnNames="name"
                              referencedTableName="ps_authority"
                              deleteCascade="true" />
             </column>
         </createTable>
 
-        <addPrimaryKey tableName="ps_user_authority" columnNames="user_id, authority_id" />
+        <addPrimaryKey tableName="ps_user_authority" columnNames="user_id, authority_name" />
 
         <loadData tableName="ps_user" file="liquibase/data/user.csv" separator=";">
             <column name="id" type="numeric"/>

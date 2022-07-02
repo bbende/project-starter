@@ -1,6 +1,6 @@
 package com.bbende.project.starter.web.mvc;
 
-import com.bbende.project.starter.common.exception.EntityNotFoundException;
+import com.bbende.project.starter.component.common.exception.EntityNotFoundException;
 import com.bbende.project.starter.component.details.ProjectDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

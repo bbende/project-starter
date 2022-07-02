@@ -1,4 +1,4 @@
-package com.bbende.project.starter.component.user;
+package com.bbende.project.starter.component.user.impl;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 

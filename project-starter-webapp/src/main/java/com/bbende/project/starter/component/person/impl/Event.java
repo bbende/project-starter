@@ -1,6 +1,6 @@
-package com.bbende.project.starter.component.person;
+package com.bbende.project.starter.component.person.impl;
 
-import com.bbende.project.starter.common.persistence.Entity;
+import com.bbende.project.starter.component.common.persistence.AbstractEntity;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -13,7 +13,7 @@ import java.util.Date;
 
 @javax.persistence.Entity
 @Table(name = "event")
-public class Event extends Entity<String> {
+public class Event extends AbstractEntity<String> {
 
     @NotBlank
     @Column(name = "title")

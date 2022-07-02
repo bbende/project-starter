@@ -1,6 +1,7 @@
-package com.bbende.project.starter.component.person;
+package com.bbende.project.starter.component.person.impl;
 
-import com.bbende.project.starter.common.dto.DtoMapper;
+import com.bbende.project.starter.component.common.dto.DtoMapper;
+import com.bbende.project.starter.component.person.PersonDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,15 +17,6 @@ class PersonDtoMapper implements DtoMapper<PersonDto, Person> {
         dto.setCreated(entity.getCreated().getTime());
         dto.setUpdated(entity.getUpdated().getTime());
         return dto;
-    }
-
-    @Override
-    public Person toEntity(final PersonDto dto) {
-        final Person entity = new Person();
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setAge(dto.getAge());
-        return entity;
     }
 
 }

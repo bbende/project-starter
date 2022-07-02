@@ -1,4 +1,4 @@
-package com.bbende.project.starter.common.persistence;
+package com.bbende.project.starter.component.common.persistence;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class AuditableEntity<T extends Serializable> extends Entity<T> {
+public abstract class AuditableEntity<T extends Serializable> extends AbstractEntity<T> {
 
     @NotNull
     @Column(name = "created")

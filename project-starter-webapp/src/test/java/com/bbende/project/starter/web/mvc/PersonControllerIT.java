@@ -5,6 +5,7 @@ import com.bbende.project.starter.component.details.ProjectDetailsService;
 import com.bbende.project.starter.component.person.PersonDto;
 import com.bbende.project.starter.component.person.PersonNotFoundException;
 import com.bbende.project.starter.component.person.PersonService;
+import com.bbende.project.starter.component.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.verification.Times;
@@ -40,6 +41,9 @@ public class PersonControllerIT {
 
     @MockBean
     private ProjectDetailsService projectDetailsService;
+
+    @MockBean
+    private UserService userService;
 
     @BeforeEach
     public void beforeEach() {

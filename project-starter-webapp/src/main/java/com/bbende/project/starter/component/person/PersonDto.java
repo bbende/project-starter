@@ -1,12 +1,10 @@
 package com.bbende.project.starter.component.person;
 
-import com.bbende.project.starter.common.dto.Dto;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class PersonDto extends Dto {
+public class PersonDto {
 
     private String id;
 

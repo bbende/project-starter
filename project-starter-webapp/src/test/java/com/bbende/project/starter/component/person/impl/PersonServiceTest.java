@@ -1,5 +1,7 @@
-package com.bbende.project.starter.component.person;
+package com.bbende.project.starter.component.person.impl;
 
+import com.bbende.project.starter.component.person.PersonDto;
+import com.bbende.project.starter.component.person.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

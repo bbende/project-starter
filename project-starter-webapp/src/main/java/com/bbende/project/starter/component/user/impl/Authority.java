@@ -1,17 +1,20 @@
-package com.bbende.project.starter.component.user;
+package com.bbende.project.starter.component.user.impl;
 
-import com.bbende.project.starter.common.persistence.Entity;
+import com.bbende.project.starter.component.user.AuthorityName;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "ps_authority")
-public class Authority extends Entity<Long> {
+public class Authority {
 
+    @Id
     @Column(name = "name")
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
@@ -25,20 +28,21 @@ public class Authority extends Entity<Long> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         final Authority authority = (Authority) o;
-        return Objects.equals(id, authority.id);
+        return name == authority.name;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(name);
     }
-
 }

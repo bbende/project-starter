@@ -1,5 +1,8 @@
-package com.bbende.project.starter.component.person;
+package com.bbende.project.starter.component.person.impl;
 
+import com.bbende.project.starter.component.person.PersonDto;
+import com.bbende.project.starter.component.person.PersonNotFoundException;
+import com.bbende.project.starter.component.person.PersonService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +46,11 @@ class PersonServiceImpl implements PersonService {
     public PersonDto create(final PersonDto personDTO) {
         Validate.notNull(personDTO, "PersonDTO cannot be null");
 
-        final Person person = dtoMapper.toEntity(personDTO);
+        final Person person = new Person();
         person.setId(UUID.randomUUID().toString());
+        person.setFirstName(personDTO.getFirstName());
+        person.setLastName(personDTO.getLastName());
+        person.setAge(personDTO.getAge());
 
         final Person createdPerson = personRepository.save(person);
         return dtoMapper.toDto(createdPerson);

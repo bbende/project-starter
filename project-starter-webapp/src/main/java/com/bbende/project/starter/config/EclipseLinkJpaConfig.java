@@ -1,4 +1,4 @@
-package com.bbende.project.starter.common.persistence;
+package com.bbende.project.starter.config;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.beans.factory.ObjectProvider;

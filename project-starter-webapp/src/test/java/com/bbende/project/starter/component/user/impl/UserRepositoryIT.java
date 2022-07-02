@@ -1,5 +1,6 @@
-package com.bbende.project.starter.component.user;
+package com.bbende.project.starter.component.user.impl;
 
+import com.bbende.project.starter.component.user.AuthorityName;
 import com.bbende.project.starter.test.DatabaseIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

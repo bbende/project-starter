@@ -23,18 +23,21 @@ import java.net.UnknownHostException;
  * is created, and therefore ServerProperties is not created.
  */
 @Component
-public class ProjectStarterEventListener {
+public class ProjectStarterReadyListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectStarterEventListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectStarterReadyListener.class);
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
+    private final ServerProperties serverProperties;
+    private final JerseyProperties jerseyProperties;
 
-    @Autowired
-    private ServerProperties serverProperties;
-
-    @Autowired
-    private JerseyProperties jerseyProperties;
+    public ProjectStarterReadyListener(final Environment env,
+                                       final ServerProperties serverProperties,
+                                       final JerseyProperties jerseyProperties) {
+        this.env = env;
+        this.serverProperties = serverProperties;
+        this.jerseyProperties = jerseyProperties;
+    }
 
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {

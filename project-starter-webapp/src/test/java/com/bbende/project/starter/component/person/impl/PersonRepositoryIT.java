@@ -1,4 +1,4 @@
-package com.bbende.project.starter.component.person;
+package com.bbende.project.starter.component.person.impl;
 
 import com.bbende.project.starter.test.DatabaseIT;
 import org.junit.jupiter.api.Test;
