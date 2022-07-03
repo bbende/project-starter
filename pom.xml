@@ -53,6 +53,7 @@
         <swagger.version>2.1.12</swagger.version>
         <commons.lang.version>3.12.0</commons.lang.version>
         <thymeleaf.dialect.version>3.0.0</thymeleaf.dialect.version>
+        <thymeleaf.spring.security.version>3.0.4.RELEASE</thymeleaf.spring.security.version>
         <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
 
         <!-- Default env name (dist or dev)-->
