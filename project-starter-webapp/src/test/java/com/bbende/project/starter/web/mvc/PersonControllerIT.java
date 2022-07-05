@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.mvc;
 
-import com.bbende.project.starter.component.details.ProjectDetailsDto;
-import com.bbende.project.starter.component.details.ProjectDetailsService;
+import com.bbende.project.starter.component.about.AboutInfoDto;
+import com.bbende.project.starter.component.about.AboutService;
 import com.bbende.project.starter.component.person.PersonDto;
 import com.bbende.project.starter.component.person.PersonNotFoundException;
 import com.bbende.project.starter.component.person.PersonService;
@@ -40,17 +40,17 @@ public class PersonControllerIT {
     private PersonService personService;
 
     @MockBean
-    private ProjectDetailsService projectDetailsService;
+    private AboutService aboutService;
 
     @MockBean
     private UserService userService;
 
     @BeforeEach
     public void beforeEach() {
-        final ProjectDetailsDto projectDetailsDto = new ProjectDetailsDto();
-        projectDetailsDto.setLabel("WebMvcTest");
-        projectDetailsDto.setVersion("test-version");
-        when(projectDetailsService.getProjectDetails()).thenReturn(projectDetailsDto);
+        final AboutInfoDto aboutInfoDto = new AboutInfoDto();
+        aboutInfoDto.setLabel("WebMvcTest");
+        aboutInfoDto.setVersion("test-version");
+        when(aboutService.getAboutInfo()).thenReturn(aboutInfoDto);
     }
 
     @Test

@@ -1,6 +1,6 @@
-package com.bbende.project.starter.component.details;
+package com.bbende.project.starter.component.about;
 
-public class ProjectDetailsDto {
+public class AboutInfoDto {
 
     private String version;
 

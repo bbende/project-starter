@@ -1,22 +1,22 @@
-package com.bbende.project.starter.component.details;
+package com.bbende.project.starter.component.about;
 
 import com.bbende.project.starter.ProjectStarterProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-class ProjectDetailsServiceImpl implements ProjectDetailsService {
+class AboutServiceImpl implements AboutService {
 
     private final ProjectStarterProperties properties;
 
     @Autowired
-    public ProjectDetailsServiceImpl(final ProjectStarterProperties properties) {
+    public AboutServiceImpl(final ProjectStarterProperties properties) {
         this.properties = properties;
     }
 
     @Override
-    public ProjectDetailsDto getProjectDetails() {
-        final ProjectDetailsDto projectDetails = new ProjectDetailsDto();
+    public AboutInfoDto getAboutInfo() {
+        final AboutInfoDto projectDetails = new AboutInfoDto();
         projectDetails.setVersion("v" + properties.getProject().getVersion());
         projectDetails.setLabel(properties.getProject().getLabel());
         return projectDetails;

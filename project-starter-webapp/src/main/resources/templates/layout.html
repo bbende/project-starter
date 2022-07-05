@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -20,13 +21,7 @@
                 </div>
                 <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
                     <li class="nav-item">
-                        <span class="navbar-text small" th:text="${projectDetails.version}"></span>
-                    </li>
-                    <li class="nav-item">
-                        <span class="navbar-text small">&nbsp; - &nbsp;</span>
-                    </li>
-                    <li class="nav-item">
-                        <span class="navbar-text small" th:text="${projectDetails.label}"></span>
+                        <span sec:authentication="name" class="navbar-text small fw-bold"></span>
                     </li>
                 </ul>
             </nav>
@@ -46,11 +41,22 @@
                                up-follow up-target="#content" up-transition="cross-fade" up-alias="/people/new">
                                 <span>People</span>
                             </a>
+                            <hr/>
+                            <a href="#" th:href="@{/about}"
+                               class="list-group-item list-group-item-action sidebar-nav-item d-inline-block text-truncate"
+                               up-follow up-transition="cross-fade">
+                                <span>About</span>
+                            </a>
                             <a href="#" th:href="@{/resources}"
                                class="list-group-item list-group-item-action sidebar-nav-item d-inline-block text-truncate"
                                up-follow up-transition="cross-fade">
                                 <span>Resources</span>
                             </a>
+                            <div class="list-group-item list-group-item-action sidebar-nav-item d-inline-block text-truncate">
+                                <form th:action="@{/logout}" method="post" class="form-inline">
+                                    <button class="btn ps-0 pt-0" type="submit">Logout</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

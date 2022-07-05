@@ -1,4 +1,4 @@
-package com.bbende.project.starter.component.details;
+package com.bbende.project.starter.component.about;
 
 import com.bbende.project.starter.ProjectStarterProperties;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,19 +8,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ProjectDetailsServiceTest {
+public class AboutServiceTest {
 
     private ProjectStarterProperties properties;
     private ProjectStarterProperties.Project project;
 
-    private ProjectDetailsService projectDetailsService;
+    private AboutService aboutService;
 
     @BeforeEach
     public void setup() {
         properties = mock(ProjectStarterProperties.class);
         project = mock(ProjectStarterProperties.Project.class);
         when(properties.getProject()).thenReturn(project);
-        projectDetailsService = new ProjectDetailsServiceImpl(properties);
+        aboutService = new AboutServiceImpl(properties);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ProjectDetailsServiceTest {
         when(project.getVersion()).thenReturn("test-version");
         when(project.getLabel()).thenReturn("test-label");
 
-        final ProjectDetailsDto details = projectDetailsService.getProjectDetails();
+        final AboutInfoDto details = aboutService.getAboutInfo();
         assertEquals("vtest-version", details.getVersion());
         assertEquals("test-label", details.getLabel());
     }
