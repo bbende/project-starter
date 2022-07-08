@@ -1,4 +1,4 @@
-package com.bbende.project.starter.web.api;
+package com.bbende.project.starter.config;
 
 
 import com.bbende.project.starter.web.api.resource.ApplicationResource;
@@ -14,10 +14,10 @@ import java.util.Collection;
 
 @Configuration
 @ApplicationPath("/api")
-public class ProjectStarterResourceConfig extends ResourceConfig {
+public class JerseyConfig extends ResourceConfig {
 
     @Autowired
-    public ProjectStarterResourceConfig(
+    public JerseyConfig(
             final Collection<ApplicationResource> resources,
             final Collection<ExceptionMapper> exceptionMappers) {
 

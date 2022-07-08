@@ -1,7 +1,7 @@
 package com.bbende.project.starter.web.api.resource;
 
-import com.bbende.project.starter.component.person.PersonDto;
 import com.bbende.project.starter.component.common.dto.ListDto;
+import com.bbende.project.starter.component.person.PersonDto;
 import com.bbende.project.starter.test.RestIT;
 import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +15,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
+import static com.bbende.project.starter.security.SecurityConstants.AUTHORIZATION_HEADER;
+import static com.bbende.project.starter.security.SecurityConstants.BEARER_PREFIX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -23,17 +25,20 @@ public class PersonResourceIT extends RestIT {
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonResourceIT.class);
 
     private WebTarget peopleTarget;
+    private String token;
 
     @BeforeEach
     public void setupPersonResourceIT() {
         final String peopleResourceUrl = createResourceUrl("/people");
         peopleTarget = client.target(peopleResourceUrl);
+        token = getToken("user", "user");
     }
 
     @Test
     public void testPersonResource() {
         // Verify we start with 2 people
         final ListDto<PersonDto> initialPeople = peopleTarget.request()
+                .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
                 .get(new GenericType<ListDto<PersonDto>>() {});
         assertNotNull(initialPeople);
         assertNotNull(initialPeople.getElements());
@@ -46,8 +51,8 @@ public class PersonResourceIT extends RestIT {
         person.setAge(21);
 
         final PersonDto createdPerson = peopleTarget.request()
-                .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE),
-                        PersonDto.class);
+                .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
+                .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE), PersonDto.class);
 
         assertNotNull(createdPerson);
         assertNotNull(createdPerson.getId());
@@ -57,6 +62,7 @@ public class PersonResourceIT extends RestIT {
 
         // Verify we have 3 people now
         final ListDto<PersonDto> peopleAfterCreate = peopleTarget.request()
+                .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
                 .get(new GenericType<ListDto<PersonDto>>() {});
         assertEquals(1, peopleAfterCreate.getElements().size());
 
@@ -65,6 +71,7 @@ public class PersonResourceIT extends RestIT {
                 .path("/{id}")
                 .resolveTemplate("id", createdPerson.getId())
                 .request()
+                .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
                 .get(PersonDto.class);
 
         assertNotNull(retrievedPerson);
@@ -81,6 +88,7 @@ public class PersonResourceIT extends RestIT {
                 .path("/{id}")
                 .resolveTemplate("id", createdPerson.getId())
                 .request()
+                .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
                 .put(Entity.entity(partialUpdate, MediaType.APPLICATION_JSON_TYPE), PersonDto.class);
 
         assertNotNull(updatedPerson);
@@ -93,10 +101,12 @@ public class PersonResourceIT extends RestIT {
         peopleTarget.path("/{id}")
                 .resolveTemplate("id", createdPerson.getId())
                 .request()
+                .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
                 .delete();
 
         // Verify we have 2 people again
         final ListDto<PersonDto> peopleAfterDelete = peopleTarget.request()
+                .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
                 .get(new GenericType<ListDto<PersonDto>>() {});
         assertEquals(0, peopleAfterDelete.getElements().size());
 
@@ -105,8 +115,8 @@ public class PersonResourceIT extends RestIT {
 
         try {
             peopleTarget.request()
-                    .post(Entity.entity(invalidPerson, MediaType.APPLICATION_JSON_TYPE),
-                            PersonDto.class);
+                    .header(AUTHORIZATION_HEADER, BEARER_PREFIX + token)
+                    .post(Entity.entity(invalidPerson, MediaType.APPLICATION_JSON_TYPE), PersonDto.class);
             Assert.fail("Should have thrown exception");
         } catch (BadRequestException e) {
             //LOGGER.debug(e.getMessage(), e);

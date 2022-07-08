@@ -11,13 +11,19 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 public class ProjectStarterProperties {
 
     private final Project project;
+    private final Security security;
 
-    public ProjectStarterProperties(final Project project) {
+    public ProjectStarterProperties(final Project project, final Security security) {
         this.project = project;
+        this.security = security;
     }
 
     public Project getProject() {
         return project;
+    }
+
+    public Security getSecurity() {
+        return security;
     }
 
     public static class Project {
@@ -39,5 +45,45 @@ public class ProjectStarterProperties {
             return label;
         }
 
+    }
+
+    public static class Security {
+
+        private final Token token;
+
+        public Security(final Token token) {
+            this.token = token;
+        }
+
+        public Token getToken() {
+            return token;
+        }
+    }
+
+    public static class Token {
+        private final String base64Secret;
+        private final int validityInSeconds;
+        private final int validityInSecondsForRememberMe;
+
+        public Token(
+                final String base64Secret,
+                final int validityInSeconds,
+                final int validityInSecondsForRememberMe) {
+            this.base64Secret = base64Secret;
+            this.validityInSeconds = validityInSeconds;
+            this.validityInSecondsForRememberMe = validityInSecondsForRememberMe;
+        }
+
+        public String getBase64Secret() {
+            return base64Secret;
+        }
+
+        public int getValidityInSeconds() {
+            return validityInSeconds;
+        }
+
+        public int getValidityInSecondsForRememberMe() {
+            return validityInSecondsForRememberMe;
+        }
     }
 }

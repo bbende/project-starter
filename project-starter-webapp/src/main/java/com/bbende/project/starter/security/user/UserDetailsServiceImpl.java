@@ -1,4 +1,4 @@
-package com.bbende.project.starter.security;
+package com.bbende.project.starter.security.user;
 
 import com.bbende.project.starter.component.user.AuthorityDto;
 import com.bbende.project.starter.component.user.AuthorityName;
@@ -19,9 +19,11 @@ import java.util.stream.Collectors;
  * Implementation of Spring Security's {@link UserDetailsService} which delegates to
  * the provided {@link UserService} and converts a {@link UserDto} to a Spring
  * {@link org.springframework.security.core.userdetails.User}.
+ *
+ * Note: This bean is specifically named so that it will act as the primary UserDetailsService.
  */
-@Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+@Service("userDetailsService")
+class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserService userService;
 

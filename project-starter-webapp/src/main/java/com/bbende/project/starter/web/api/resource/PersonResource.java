@@ -89,9 +89,10 @@ public class PersonResource extends ApplicationResource {
             description = "Creates a new person",
             tags = {"people"},
             responses = {
-                    @ApiResponse(description = "The created person", content = @Content(
-                            schema = @Schema(implementation = PersonDto.class)
-                    )),
+                    @ApiResponse(
+                            description = "The created person",
+                            content = @Content(schema = @Schema(implementation = PersonDto.class))
+                    ),
                     @ApiResponse(responseCode = "405", description = "Invalid input")
             }
     )

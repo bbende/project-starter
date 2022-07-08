@@ -3,7 +3,8 @@ package com.bbende.project.starter.web.mvc;
 import com.bbende.project.starter.component.person.PersonDto;
 import com.bbende.project.starter.component.person.PersonNotFoundException;
 import com.bbende.project.starter.component.person.PersonService;
-import com.bbende.project.starter.component.user.UserService;
+import com.bbende.project.starter.security.cookie.CookieService;
+import com.bbende.project.starter.security.token.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.verification.Times;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,25 +38,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(PersonController.class)
 public class PersonControllerIT {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext context;
+    // Web-app context required to create MockMvc
+    @Autowired private WebApplicationContext context;
 
-    // Not directly used, but required by WebSecurityConfig to load web app context
-    @MockBean
-    private UserService userService;
+    // Not used directly, but required to load SecurityConfig
+    @MockBean private TokenService tokenService;
+    @MockBean private CookieService cookieService;
+    @MockBean private UserDetailsService userDetailsService;
 
-    @MockBean
-    private PersonService personService;
+    // Dependency of the controller
+    @MockBean private PersonService personService;
 
     @BeforeEach
     public void beforeEach() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(springSecurity())
-                .build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     }
 
     @Test

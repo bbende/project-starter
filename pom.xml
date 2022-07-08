@@ -54,7 +54,7 @@
         <commons.lang.version>3.12.0</commons.lang.version>
         <thymeleaf.dialect.version>3.0.0</thymeleaf.dialect.version>
         <thymeleaf.spring.security.version>3.0.4.RELEASE</thymeleaf.spring.security.version>
-        <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
+        <io.jsonwebtoken.version>0.11.5</io.jsonwebtoken.version>
 
         <!-- Default env name (dist or dev)-->
         <env.name>dist</env.name>
@@ -119,7 +119,17 @@
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${io.jsonwebtoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${io.jsonwebtoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
                 <version>${io.jsonwebtoken.version}</version>
             </dependency>
             <!-- Test Dependencies -->

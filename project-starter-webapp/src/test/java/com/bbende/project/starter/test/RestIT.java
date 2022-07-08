@@ -1,5 +1,6 @@
 package com.bbende.project.starter.test;
 
+import com.bbende.project.starter.web.api.request.TokenRequest;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -13,6 +14,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
@@ -67,20 +69,18 @@ public abstract class RestIT extends WebIT {
         return baseUriBuilder.toString();
     }
 
-    protected Response doFormLogin(final String username, final String password) {
-        final String loginUrl = createBaseUrl() + "/login";
-        final WebTarget loginTarget = client.target(loginUrl);
+    protected String getToken(final String username, final String password) {
+        final String tokenUrl = createResourceUrl("/token");
+        final WebTarget tokenTarget = client.target(tokenUrl);
 
-        final FormDataMultiPart multipart = new FormDataMultiPart();
-        multipart.field("username", username);
-        multipart.field("password", password);
+        final TokenRequest tokenRequest = new TokenRequest();
+        tokenRequest.setUsername(username);
+        tokenRequest.setPassword(password);
 
-        final Response response = loginTarget.request()
-                .post(Entity.entity(multipart, multipart.getMediaType()));
-
-        final Map<String, NewCookie> cookies = response.getCookies();
-        final MultivaluedMap<String, Object> headers = response.getHeaders();
-
-        return response;
+        return tokenTarget.request()
+                .post(
+                        Entity.entity(tokenRequest, MediaType.APPLICATION_JSON),
+                        String.class
+                );
     }
 }
