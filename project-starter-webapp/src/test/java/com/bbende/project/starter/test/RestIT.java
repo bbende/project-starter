@@ -1,24 +1,18 @@
 package com.bbende.project.starter.test;
 
 import com.bbende.project.starter.web.api.request.TokenRequest;
-import io.jsonwebtoken.impl.crypto.MacProvider;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import com.bbende.project.starter.web.api.response.TokenResponse;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jersey.JerseyProperties;
-import org.springframework.util.MultiValueMap;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
-import java.util.Map;
 
 /**
  * Base class for REST API tests.
@@ -77,10 +71,12 @@ public abstract class RestIT extends WebIT {
         tokenRequest.setUsername(username);
         tokenRequest.setPassword(password);
 
-        return tokenTarget.request()
+        final TokenResponse tokenResponse = tokenTarget.request()
                 .post(
                         Entity.entity(tokenRequest, MediaType.APPLICATION_JSON),
-                        String.class
+                        TokenResponse.class
                 );
+
+        return tokenResponse.getToken();
     }
 }

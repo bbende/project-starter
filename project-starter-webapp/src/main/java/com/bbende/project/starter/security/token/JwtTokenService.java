@@ -54,9 +54,9 @@ class JwtTokenService implements TokenService {
         jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
 
         tokenValidityInMilliseconds =
-                1000 * properties.getSecurity().getToken().getValidityInSeconds();
+                1000L * properties.getSecurity().getToken().getValidityInSeconds();
         tokenValidityInMillisecondsForRememberMe =
-                1000 * properties.getSecurity().getToken().getValidityInSecondsForRememberMe();
+                1000L * properties.getSecurity().getToken().getValidityInSecondsForRememberMe();
     }
 
     @Override

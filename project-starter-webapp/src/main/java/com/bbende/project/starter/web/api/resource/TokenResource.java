@@ -2,6 +2,7 @@ package com.bbende.project.starter.web.api.resource;
 
 import com.bbende.project.starter.security.token.TokenService;
 import com.bbende.project.starter.web.api.request.TokenRequest;
+import com.bbende.project.starter.web.api.response.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -44,7 +45,7 @@ public class TokenResource extends ApplicationResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(
             summary = "Get token",
             description = "Authenticate via username and password and obtain a token",
@@ -53,8 +54,8 @@ public class TokenResource extends ApplicationResource {
                     @ApiResponse(
                             description = "The bearer token",
                             content = @Content(
-                                    mediaType = MediaType.TEXT_PLAIN,
-                                    schema = @Schema(implementation = String.class)
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = TokenResponse.class)
                             )
                     ),
                     @ApiResponse(responseCode = "400", description = "Invalid input")
@@ -76,6 +77,7 @@ public class TokenResource extends ApplicationResource {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final String token = tokenService.createToken(authentication, false);
-        return Response.ok(token).header(AUTHORIZATION_HEADER, BEARER_PREFIX + token).build();
+        final TokenResponse tokenResponse = new TokenResponse(token);
+        return Response.ok(tokenResponse).header(AUTHORIZATION_HEADER, BEARER_PREFIX + token).build();
     }
 }

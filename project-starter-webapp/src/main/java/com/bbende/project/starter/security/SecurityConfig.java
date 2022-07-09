@@ -24,6 +24,25 @@ import static com.bbende.project.starter.security.SecurityConstants.AUTHORIZATIO
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] UNAUTHENTICATED_URL_PATTERNS = {
+            "/login",
+            "/api/token",
+            "/fonts/**",
+            "/javascript/**",
+            "/stylesheets/**"
+    };
+
+    private static final String[] CSRF_EXCLUDE_PATTERNS = {
+            "/logout",
+            "/api/**"
+    };
+
+    private static final String LOGIN_URL = "/login";
+    private static final String LOGIN_FAILURE_URL = "/login?error";
+    private static final String LOGIN_SUCCESS_URL = "/";
+    private static final String LOGOUT_URL = "/logout";
+    private static final String LOGOUT_SUCCESS_URL = LOGIN_URL + "?logout";
+
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final TokenAuthenticationSuccessHandler tokenAuthenticationSuccessHandler;
@@ -34,8 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                           final UserDetailsService userDetailsService) {
         this.passwordEncoder = new BCryptPasswordEncoder();
         this.userDetailsService = userDetailsService;
-        this.tokenAuthenticationSuccessHandler
-                = new TokenAuthenticationSuccessHandler(tokenService, cookieService);
+        this.tokenAuthenticationSuccessHandler = new TokenAuthenticationSuccessHandler(tokenService, cookieService);
         this.tokenAuthenticationFilter = new TokenAuthenticationFilter(tokenService);
     }
 
@@ -57,29 +75,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/api/token", "/fonts/**", "/javascript/**", "/stylesheets/**").permitAll()
+                .antMatchers(UNAUTHENTICATED_URL_PATTERNS).permitAll()
                 .antMatchers("/**").authenticated()
             .and()
                 .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?error")
-                .defaultSuccessUrl("/")
-                .successHandler(tokenAuthenticationSuccessHandler)
+                    .loginPage(LOGIN_URL)
+                    .failureUrl(LOGIN_FAILURE_URL)
+                    .defaultSuccessUrl(LOGIN_SUCCESS_URL)
+                    .successHandler(tokenAuthenticationSuccessHandler)
             .and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies(AUTHORIZATION_BEARER_COOKIE)
-                .permitAll()
+                    .logoutUrl(LOGOUT_URL)
+                    .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies(AUTHORIZATION_BEARER_COOKIE)
+                    .permitAll()
             .and()
                 .csrf()
-                .ignoringAntMatchers("/logout", "/api/**")
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .ignoringAntMatchers(CSRF_EXCLUDE_PATTERNS)
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
