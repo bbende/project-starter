@@ -3,6 +3,7 @@ package com.bbende.project.starter.security.token;
 import com.bbende.project.starter.security.cookie.CookieService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import static com.bbende.project.starter.security.SecurityConstants.AUTHORIZATIO
  * Handler for a successful form-login which will create a token and add it to the response
  * in a Cookie which will be submitted back on future requests.
  */
+@Component
 public class TokenAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private final TokenService tokenService;

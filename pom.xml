@@ -37,7 +37,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Dependency Versions -->
-        <spring.boot.version>2.6.6</spring.boot.version>
+        <spring.boot.version>2.7.1</spring.boot.version>
         <jackson.version>2.13.2.1</jackson.version>
         <liquibase.version>4.8.0</liquibase.version>
         <eclipse.link.version>2.7.10</eclipse.link.version>

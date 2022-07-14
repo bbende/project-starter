@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.WebUtils;
@@ -20,6 +21,7 @@ import static com.bbende.project.starter.security.SecurityConstants.AUTHORIZATIO
 import static com.bbende.project.starter.security.SecurityConstants.AUTHORIZATION_HEADER;
 import static com.bbende.project.starter.security.SecurityConstants.BEARER_PREFIX;
 
+@Component
 public class TokenAuthenticationFilter extends GenericFilterBean {
 
     private final Logger LOGGER = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
